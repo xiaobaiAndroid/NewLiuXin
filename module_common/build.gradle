@@ -1,0 +1,109 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id "kotlin-parcelize"
+}
+
+android {
+    namespace 'module.common'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+    }
+
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        viewBinding true
+    }
+}
+
+
+dependencies {
+
+    api libs.coreKtx
+    api libs.appcompat
+    api libs.material
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
+
+    api libs.baseRecyclerviewAdapterHelper
+    api libs.recyclerview
+    api libs.recyclerviewSelection
+    api libs.eventbus
+
+    // Room components
+    def room_version = "2.5.0"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+
+    api libs.arouter
+    kapt libs.arouterCompiler
+
+    implementation libs.okhttp
+    implementation libs.rxhttp
+    kapt libs.rxhttpCompiler
+
+    api libs.kotlinStdlib
+    api libs.kotlinxCoroutines
+    api libs.kotlinxCoroutinesAndroid
+
+    api libs.lifecycleViewmodelKtx
+    api libs.lifecycleViewmodelCompose
+    api libs.lifecycleLivedataKtx
+    api libs.lifecycleRuntimeKtx
+    api libs.lifecycleViewmodelSavedstate
+    kapt libs.lifecycleCompiler
+    api libs.lifecycleCommonJava8
+    api libs.lifecycleService
+    api libs.lifecycleProcess
+
+    api libs.immersionbar
+    api libs.immersionbarKtx
+
+    api libs.fragmentKtx
+    api libs.activityKtx
+
+    api libs.glide
+    annotationProcessor libs.glideCompiler
+    api libs.glideTransformations
+
+    api libs.xpopup
+
+    api libs.pictureselector
+    api libs.pictureselectorUcrop
+    api libs.gson
+}

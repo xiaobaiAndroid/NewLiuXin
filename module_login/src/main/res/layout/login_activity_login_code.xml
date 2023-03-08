@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".code.LoginCodeActivity">
+
+    <ImageView
+        android:id="@+id/closeIV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="@dimen/dp_12"
+        android:src="@drawable/ic_back"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/pswLoginTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        android:paddingRight="@dimen/dp_12"
+        style="@style/tv_14_313131"
+        android:gravity="center"
+        android:text="@string/login_psw_login"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingLeft="@dimen/dp_12"
+        />
+
+    <include
+        android:id="@+id/layoutInputPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/login_layout_input_phone"
+        app:layout_constraintTop_toBottomOf="@id/closeIV"
+        />
+
+    <View
+        android:id="@+id/line1V"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutInputPhone"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/cl_f0eff4"
+        />
+
+    <EditText
+        android:id="@+id/codeET"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/getCodeTV"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        app:layout_constraintTop_toBottomOf="@id/line1V"
+        android:background="@null"
+        android:layout_marginTop="@dimen/dp_8"
+        android:inputType="number"
+        android:lines="1"
+        android:maxLength="6"
+        style="@style/tv_14_313131"
+        android:textColorHint="@color/cl_707070"
+        android:hint="@string/login_input_verification_code"
+        />
+
+    <TextView
+        android:id="@+id/getCodeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingLeft="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:textColor="@color/cl_13b5b1"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center"
+        android:text="@string/login_get_verification_code"
+        app:layout_constraintTop_toTopOf="@id/codeET"
+        app:layout_constraintBottom_toBottomOf="@id/codeET"
+        />
+
+    <View
+        android:id="@+id/line3V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/codeET"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/cl_f0eff4"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        />
+
+
+    <TextView
+        android:id="@+id/protocolLeftTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/cl_707070"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line3V"
+        android:text="@string/login_login_register_agree"
+        android:layout_marginTop="@dimen/dp_50"
+        />
+
+    <TextView
+        android:id="@+id/userProtocolTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@id/protocolLeftTV"
+        app:layout_constraintLeft_toRightOf="@id/protocolLeftTV"
+        android:textColor="@color/cl_13b5b1"
+        android:textSize="@dimen/sp_12"
+        android:text="@string/login_user_protocol"
+        android:clickable="true"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        />
+
+    <TextView
+        android:id="@+id/privacyPolicyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@id/protocolLeftTV"
+        app:layout_constraintLeft_toRightOf="@id/userProtocolTV"
+        android:textColor="@color/cl_13b5b1"
+        android:textSize="@dimen/sp_12"
+        android:text="@string/login_privacy_policy"
+        android:clickable="true"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        />
+
+    <TextView
+        android:id="@+id/loginTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_48"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userProtocolTV"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/cl_ffffff"
+        android:gravity="center"
+        android:text="@string/login_agree_login"
+        android:background="@drawable/login_bg_login"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

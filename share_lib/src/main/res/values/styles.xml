@@ -1,0 +1,15 @@
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <style name="share_tv_15_313131" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/cl_313131</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+    <style name="share_tv_14_313131">
+        <item name="android:textColor">@color/cl_313131</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
+
+</resources>

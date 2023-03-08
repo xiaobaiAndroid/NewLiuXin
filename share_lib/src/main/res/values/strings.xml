@@ -1,0 +1,6 @@
+<resources>
+    <string name="share_share_to">分享到</string>
+    <string name="share_chat">会话</string>
+    <string name="share_friend">朋友圈</string>
+    <string name="share_fail">分享失败</string>
+</resources>

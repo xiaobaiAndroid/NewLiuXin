@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/phoneTagTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="@dimen/dp_12"
+        android:gravity="center"
+        android:text="+86"
+        android:paddingEnd="@dimen/dp_12"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <View
+        android:id="@+id/lineV"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="@dimen/dp_24"
+        android:background="@color/cl_f0eff4"
+        app:layout_constraintLeft_toRightOf="@id/phoneTagTV"
+        app:layout_constraintTop_toTopOf="@id/phoneTagTV"
+        app:layout_constraintBottom_toBottomOf="@id/phoneTagTV"
+        />
+
+    <EditText
+        android:id="@+id/phoneET"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingRight="@dimen/dp_60"
+        app:layout_constraintLeft_toRightOf="@id/lineV"
+        android:paddingLeft="@dimen/dp_12"
+        app:layout_constraintTop_toTopOf="@id/phoneTagTV"
+        app:layout_constraintBottom_toBottomOf="@id/phoneTagTV"
+        android:inputType="phone"
+        android:maxLength="11"
+        android:background="@null"
+        style="@style/tv_14_313131"
+        android:textColorHint="@color/cl_707070"
+        android:hint="@string/login_input_phone"
+        />
+
+    <ImageView
+        android:id="@+id/clearPhoneIV"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintRight_toRightOf="@id/phoneET"
+        app:layout_constraintTop_toTopOf="@id/phoneET"
+        app:layout_constraintBottom_toBottomOf="@id/phoneET"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:visibility="gone"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,75 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id "kotlin-parcelize"
+}
+
+android {
+    namespace 'module.login'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    resourcePrefix "login_"
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':module_common')
+
+    implementation libs.xpopup
+
+    implementation libs.kotlinStdlib
+    implementation libs.kotlinxCoroutines
+    implementation libs.kotlinxCoroutinesAndroid
+
+    implementation libs.lifecycleViewmodelKtx
+    implementation libs.lifecycleViewmodelCompose
+    implementation libs.lifecycleLivedataKtx
+    implementation libs.lifecycleRuntimeKtx
+    implementation libs.lifecycleViewmodelSavedstate
+    kapt libs.lifecycleCompiler
+    implementation libs.lifecycleCommonJava8
+    implementation libs.lifecycleService
+    implementation libs.lifecycleProcess
+
+    implementation libs.immersionbar
+    implementation libs.immersionbarKtx
+
+    implementation libs.fragmentKtx
+    implementation libs.activityKtx
+
+    implementation libs.arouter
+    kapt libs.arouterCompiler
+}

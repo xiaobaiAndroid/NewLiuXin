@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_app_home">
+        <item>浏信</item>
+        <item>生活圈</item>
+        <item>商城</item>
+        <item>附近小店</item>
+        <item>我的</item>
+    </string-array>
+</resources>

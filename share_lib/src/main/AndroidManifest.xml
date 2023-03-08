@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    指定微信包名, 适配android 11-->
+<!--    https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html#jump2-->
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
+</manifest>

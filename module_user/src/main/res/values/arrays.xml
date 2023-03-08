@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="user_clique_tabs">
+        <item>发布</item>
+        <item>评论</item>
+        <item>点赞</item>
+        <item>打赏</item>
+    </string-array>
+
+    <string-array name="user_collect_tabs">
+        <item>朋友圈</item>
+        <item>IN视频</item>
+        <item>商品</item>
+        <item>店铺</item>
+    </string-array>
+    <string-array name="user_educations" >
+        <item>大专以下</item>
+        <item>大专</item>
+        <item>本科</item>
+        <item>硕士</item>
+        <item>博士</item>
+        <item>博士后</item>
+    </string-array>
+</resources>

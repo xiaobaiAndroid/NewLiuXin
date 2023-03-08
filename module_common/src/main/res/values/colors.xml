@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">#ffcc99</color>
+    <color name="cl_000000">#000000</color>
+    <color name="cl_13b5b1">#13B5B1</color>
+    <color name="cl_f0eff4">#f0eff4</color>
+    <color name="cl_eeeeee">#eeeeee</color>
+    <color name="cl_f1f1f1">#f1f1f1</color>
+    <color name="cl_535353">#535353</color>
+    <color name="transparency_25">#40000000</color>
+    <color name="transparency_50">#80000000</color>
+    <color name="cl_e5004f">#E5004F</color>
+    <color name="cl_de40ad">#DE40AD</color>
+    <color name="cl_ffcc99">#ffcc99</color>
+
+    <color name="cl_313131">#313131</color>
+    <color name="cl_707070">#707070</color>
+    <color name="cl_ffffff">#ffffff</color>
+    <color name="cl_e53935">#E53935</color>
+    <color name="cl_fdd835">#FDD835</color>
+    <color name="cl_9C27B0">#9C27B0</color>
+    <color name="cl_ff5722">#FF5722</color>
+    <color name="cl_999999_50">#80999999</color>
+    <color name="cl_99000000">#99000000</color>
+    <color name="cl_f3f3f3">#f3f3f3</color>
+    <color name="cl_e5e5e5">#e5e5e5</color>
+    <color name="cl_3381cd">#3381CD</color>
+    <color name="cl_666666">#666666</color>
+    <color name="cl_999999">#999999</color>
+    <color name="cl_333333">#333333</color>
+    <color name="cl_fe5502">#fe5502</color>
+    <color name="cl_f5f5f5">#f5f5f5</color>
+    <color name="cl_e8e8e8">#e8e8e8</color>
+    <color name="cl_f0f0f0">#f0f0f0</color>
+    <color name="cl_3f96ff">#3f96ff</color>
+    <color name="cl_868686">#868686</color>
+    <color name="cl_cccccc">#cccccc</color>
+    <color name="cl_eb2962">#eb2962</color>
+    <color name="cl_f8f8f8">#f8f8f8</color>
+
+</resources>
