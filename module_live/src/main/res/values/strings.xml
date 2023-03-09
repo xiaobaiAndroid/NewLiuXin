@@ -1,0 +1,35 @@
+<resources>
+    <string name="live_error_format">不支持的格式</string>
+    <string name="live_filter">滤镜</string>
+    <string name="live_beauty">美颜</string>
+    <string name="live_adjust">调整</string>
+    <string name="live_music">音乐</string>
+    <string name="live_luminance">亮度</string>
+    <string name="live_contrast">对比度</string>
+    <string name="live_saturation">饱和度</string>
+    <string name="live_acutance">锐度</string>
+    <string name="live_color_temp">色温</string>
+    <string name="live_confirm">确定</string>
+    <string name="live_cancel">取消</string>
+    <string name="live_publish">发布</string>
+    <string name="live_input_title">请输入标题</string>
+    <string name="live_input_describe">请添加描述</string>
+    <string name="live_add_location">添加定位</string>
+    <string name="live_select_category">选择分类</string>
+    <string name="live_who_look">谁可以看</string>
+    <string name="live_uploading_fail">上传失败</string>
+    <string name="live_publishing">发布中</string>
+    <string name="live_common_permission">公开</string>
+    <string name="live_fail">发布失败</string>
+    <string name="live_success">发布成功</string>
+    <string name="live_uploading">上传中</string>
+
+    <string name="live_user_live_clause">《用户发布规则和条款》</string>
+    <string name="live_protocol_left">进入当前页即代表同意</string>
+    <string name="live_video">发视频</string>
+    <string name="live_imgtxt">发图文</string>
+    <string name="live_upload_statement">上传声明</string>
+    <string name="live_warm_hint">温馨提示</string>
+    <string name="live_need_certification">你还未实名认证，是否前去实名认证？</string>
+    <string name="live_to_certification">去认证</string>
+</resources>

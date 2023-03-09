@@ -4,13 +4,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import module.common.utils.ARouterHelper
+import module.live.LiveHomeFragment
 
 class MainAdapter(fm: FragmentManager?, private val size: Int) : FragmentPagerAdapter(
     fm!!
 ) {
     override fun getItem(position: Int): Fragment {
         val fragment: Fragment = when (position) {
-            1 -> ARouterHelper.getFragment(ARouterHelper.FRA_MY)
+            1 -> LiveHomeFragment()
             2 -> ARouterHelper.getFragment(ARouterHelper.FRA_MY)
             3 -> ARouterHelper.getFragment(ARouterHelper.FRA_MY)
             4 -> ARouterHelper.getFragment(ARouterHelper.FRA_MY)

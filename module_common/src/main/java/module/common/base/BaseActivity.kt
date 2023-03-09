@@ -26,13 +26,13 @@ abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity()
         super.onCreate(savedInstanceState)
         binding = getBindingView()
         setContentView(binding.root)
+        viewModel = createViewModel()
+
         initStatusBar()
         initView(savedInstanceState)
         if (needEventBus()) {
             EventBus.getDefault().register(this)
         }
-
-        viewModel = createViewModel()
         initData(savedInstanceState)
     }
 

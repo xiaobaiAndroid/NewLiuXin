@@ -5,13 +5,11 @@ import module.common.data.DataResult
 import module.common.data.api.BaseResp
 import module.common.data.api.URLHelper
 import module.common.data.api.URLHelper.Companion.instance
-import module.common.data.entity.CliqueCategory
-import module.common.data.entity.Contacts
-import module.common.data.entity.UploadSign
-import module.common.data.entity.UserInfo
+import module.common.data.entity.*
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.ReqParams
 import module.common.data.response.LoginResp
+import module.common.data.response.ProtocolResp
 import module.common.data.response.UploadSignResp
 import module.common.data.response.VerificationCodeResp
 import module.common.utils.GsonConvert
@@ -170,5 +168,31 @@ class UserRemote {
         return RxHttp.postJson(fullUrl + token)
             .toAwait<DataResult<String?>>()
             .await()
+    }
+
+    suspend fun getProtocol(type: Int): DataResult<Protocol> {
+        val dataResult = DataResult<Protocol>()
+        val jsonObject = JSONObject()
+        jsonObject.put("id", type)
+        try {
+            val json = RxHttp.postJson(URLUtils.PROTOCOL)
+                .addAll(jsonObject.toString())
+                .toAwaitString()
+                .await()
+
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.setStatus(DataResult.TOKEN_PAST)
+            } else {
+                val resp = parseObject(json, ProtocolResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.t = resp.data
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
     }
 }

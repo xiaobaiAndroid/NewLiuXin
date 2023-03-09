@@ -13,10 +13,12 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/module_common" />
             <option value="$PROJECT_DIR$/module_im" />
+            <option value="$PROJECT_DIR$/module_live" />
             <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_user" />
             <option value="$PROJECT_DIR$/share_lib" />
             <option value="$PROJECT_DIR$/upload_lib" />
+            <option value="$PROJECT_DIR$/web_lib" />
           </set>
         </option>
       </GradleProjectSettings>

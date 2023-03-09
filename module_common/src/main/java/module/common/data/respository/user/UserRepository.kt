@@ -4,6 +4,7 @@ import android.content.Context
 import module.common.data.DataResult
 import module.common.data.api.CommonResp
 import module.common.data.entity.Contacts
+import module.common.data.entity.Protocol
 import module.common.data.entity.UploadSign
 import module.common.data.entity.UserInfo
 import module.common.data.request.ReqParams
@@ -169,6 +170,10 @@ class UserRepository private constructor() {
             }
         }
         return dataResult
+    }
+
+    suspend fun getProtocol(type: Int): DataResult<Protocol> {
+        return mRemote.getProtocol(type)
     }
 
     companion object {
