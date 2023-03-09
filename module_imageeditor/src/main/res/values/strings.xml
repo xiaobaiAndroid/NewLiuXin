@@ -1,0 +1,16 @@
+<resources>
+    <string name="text">文字</string>
+    <string name="sticker">贴纸</string>
+    <string name="filter">滤镜</string>
+    <string name="flag">标记</string>
+    <string name="adjust">调整</string>
+    <string name="select_music">选择音乐</string>
+    <string name="next_step">下一步</string>
+    <string name="clip">裁剪</string>
+    <string name="brightness">亮度</string>
+    <string name="contrast">对比度</string>
+    <string name="sharpness">锐化</string>
+    <string name="saturation">饱和度</string>
+    <string name="exposure">曝光</string>
+    <string name="processing">处理中</string>
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_filter_select"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.warkiz.widget.IndicatorSeekBar
+        android:id="@+id/progressSB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:isb_track_background_color="@color/cl_f1f1f1"
+        app:isb_track_background_size="2dp"
+        app:isb_track_progress_color="@color/cl_ffffff"
+        app:isb_track_progress_size="4dp"
+        app:isb_only_thumb_draggable="false"
+        app:isb_thumb_color="@color/cl_ffffff"
+        app:isb_indicator_color="@android:color/transparent"
+        app:isb_indicator_text_color="@color/cl_ffffff"
+        app:isb_indicator_text_size="18sp"
+        app:isb_thumb_size="20dp"
+        android:layout_marginTop="@dimen/dp_16"
+        />
+
+    <RadioGroup
+        android:id="@+id/adjustRG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressSB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/brightnessRB"
+            style="@style/imageeditor_adjust_radiobutton"
+            android:drawableTop="@drawable/selector_image_edit_adjust_bright"
+            android:text="@string/brightness"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/contrastRB"
+            style="@style/imageeditor_adjust_radiobutton"
+            android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
+            android:text="@string/contrast"
+            />
+
+        <RadioButton
+            android:id="@+id/sharpnessRB"
+            style="@style/imageeditor_adjust_radiobutton"
+            android:drawableTop="@drawable/selector_image_edit_adjust_sharpness"
+            android:text="@string/sharpness"
+            />
+
+        <RadioButton
+            android:id="@+id/saturationRB"
+            style="@style/imageeditor_adjust_radiobutton"
+            android:drawableTop="@drawable/selector_image_edit_adjust_saturation"
+            android:text="@string/saturation"
+            />
+
+        <RadioButton
+            android:id="@+id/exposureRB"
+            style="@style/imageeditor_adjust_radiobutton"
+            android:drawableTop="@drawable/selector_image_edit_adjust_exposure"
+            android:text="@string/exposure"
+            />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

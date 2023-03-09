@@ -32,4 +32,11 @@
     <string name="live_warm_hint">温馨提示</string>
     <string name="live_need_certification">你还未实名认证，是否前去实名认证？</string>
     <string name="live_to_certification">去认证</string>
+    <string name="live_publish_cancel">取消</string>
+    <string name="live_publish_input_title">请输入标题</string>
+    <string name="live_publish_input_describe">请添加描述</string>
+    <string name="live_publish_add_location">添加定位</string>
+    <string name="live_publish_select_category">选择分类</string>
+    <string name="live_publish_who_look">谁可以看</string>
+    <string name="live_publish_common_permission">公开</string>
 </resources>

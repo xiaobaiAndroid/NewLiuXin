@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import module.common.base.BaseFragment
 import module.live.databinding.LiveFragmentHomeBinding
-import module.live.publish.PublishEntranceActivity
+import module.live.publish.entrance.PublishEntranceActivity
 
 /**
  *@author: baizf
@@ -29,6 +29,6 @@ class LiveHomeFragment: BaseFragment<LiveFragmentHomeBinding,LiveHomeViewModel>(
     }
 
     override fun initView() {
-        startActivity(Intent(activity,PublishEntranceActivity::class.java))
+        startActivity(Intent(activity, PublishEntranceActivity::class.java))
     }
 }

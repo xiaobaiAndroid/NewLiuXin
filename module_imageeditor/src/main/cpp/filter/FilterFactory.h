@@ -1,0 +1,14 @@
+/**
+ *@author: baizf
+ *@date: 2023/2/1
+*/
+//
+
+#ifndef NATIVEIMAGEEDITOR_FILTERFACTORY_H
+#define NATIVEIMAGEEDITOR_FILTERFACTORY_H
+
+class FilterFactory{
+
+};
+
+#endif //NATIVEIMAGEEDITOR_FILTERFACTORY_H

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <application>
         <activity
-            android:name=".publish.protocol.ProtocolActivity"
-            android:exported="false"
-            android:configChanges="screenSize|keyboardHidden|locale|orientation"
-            android:screenOrientation="portrait"
-            />
+            android:name=".PublishActivity"
+            android:exported="false" />
         <activity
-            android:name=".publish.PublishEntranceActivity"
-            android:exported="false"
+            android:name=".publish.protocol.ProtocolActivity"
             android:configChanges="screenSize|keyboardHidden|locale|orientation"
-            android:screenOrientation="portrait"
-            />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".publish.entrance.PublishEntranceActivity"
+            android:configChanges="screenSize|keyboardHidden|locale|orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

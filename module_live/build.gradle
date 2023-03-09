@@ -49,15 +49,12 @@ dependencies {
     implementation project(path: ':module_common')
 
     implementation libs.xpopup
+    implementation project(path: ':module_imageeditor')
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.4.+'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
     kapt libs.lifecycleCompiler
 
-    implementation libs.fragmentKtx
-    implementation libs.activityKtx
-
-    implementation libs.arouter
     kapt libs.arouterCompiler
 }
