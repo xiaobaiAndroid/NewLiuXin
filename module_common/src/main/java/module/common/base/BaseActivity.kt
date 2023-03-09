@@ -57,7 +57,7 @@ abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity()
     }
 
 
-    protected fun initStatusBar() {
+    protected open fun initStatusBar() {
         ImmersionBarUtils.buildBarDark(this)
     }
 

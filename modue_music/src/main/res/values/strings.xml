@@ -1,0 +1,9 @@
+<resources>
+    <string name="music_music">配乐</string>
+    <string name="music_confirm">确定</string>
+    <string name="music_music_library">音乐库</string>
+    <string name="music_look_more">查看更多</string>
+    <string name="music_back">返回</string>
+    <string name="music_need_anew_login">登录失效，需要重新登录</string>
+
+</resources>

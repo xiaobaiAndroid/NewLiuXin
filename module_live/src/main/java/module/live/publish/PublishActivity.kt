@@ -1,6 +1,5 @@
 package module.live.publish
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,11 +9,9 @@ import module.common.base.BaseActivity
 import module.common.data.entity.CliqueCategory
 import module.common.data.entity.Music
 import module.common.data.request.PublishReq
-import module.common.type.MediaType
 import module.common.utils.ARouterHelper
 import module.common.utils.StatusBarUtils
 import module.common.view.GridSpaceDecoration
-import module.live.R
 import module.live.databinding.LiveActivityPublishBinding
 import module.live.publish.category.CategoriseView
 

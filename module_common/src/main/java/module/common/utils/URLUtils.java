@@ -195,7 +195,9 @@ public class URLUtils {
     public static final String DYNAMIC_SEARCH = HOST_CN +"circle/media/page/query/titleLike?"+TOKEN_KEY+"=";
 
     /*音乐类别*/
-    public static final String MUSIC_CATEGORY = HOST_CN +"circle/mediaMusic/musicType?"+TOKEN_KEY+"=";
+    //    http://tst.api.yiguo.fun/circle/mediaMusic/typeQuery?access_token=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzNTk2MDMyMjE5MDk4NzY3MzYiLCJhdWQiOiJBQ0NFU1NfVE9LRU4iLCJpYXQiOjE2NzgzMjQwNjcsInN1YiI6IjEzNTM5NzEzOTU1IiwiZXhwIjoxNjc4MzUyODY3fQ.aNOlPnKcfvsicqKkXd9ZAHs9PJpBnMfcf2fjeCASb5Q
+
+    public static final String MUSIC_CATEGORY = HOST_CN +"circle/mediaMusic/typeQuery?"+TOKEN_KEY+"=";
 
     /*更加类别获取音乐*/
     public static final String MUSICS_BY_CATEGORY = HOST_CN +"circle/mediaMusic/musicPageByType?"+TOKEN_KEY+"=";

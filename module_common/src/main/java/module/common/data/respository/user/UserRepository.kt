@@ -93,7 +93,7 @@ class UserRepository private constructor() {
         return dataResult
     }
 
-    private suspend fun refreshToken(context: Context): String? {
+    suspend fun refreshToken(context: Context): String? {
         return mLocal.getLoginUserInfo(context)?.let { userInfo ->
             val dataResult: DataResult<UserInfo?> = mRemote.refreshToken(userInfo.refresh_token)
             if (dataResult.status == DataResult.SUCCESS) {
@@ -108,7 +108,7 @@ class UserRepository private constructor() {
         }
     }
 
-    private suspend fun getToken(context: Context): String? {
+    suspend fun getToken(context: Context): String? {
         return mLocal.getLoginUserInfo(context).access_token
     }
 

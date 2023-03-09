@@ -15,24 +15,24 @@ object GsonConvert {
         return GsonHolder.gson
     }
 
-    @Throws(JsonIOException::class, JsonSyntaxException::class)
-    fun <T> fromJson(json: String?, type: Class<T>?): T {
-        return create().fromJson(json, type)
-    }
+//    @Throws(JsonIOException::class, JsonSyntaxException::class)
+//    fun <T> fromJson(json: String?, type: Class<T>?): T {
+//        return create().fromJson(json, type)
+//    }
 
     fun <T> fromJson(json: String?, type: Type?): T {
         return create().fromJson(json, type)
     }
 
-    @Throws(JsonIOException::class, JsonSyntaxException::class)
-    fun <T> fromJson(reader: JsonReader?, typeOfT: Type?): T {
-        return create().fromJson(reader, typeOfT)
-    }
+//    @Throws(JsonIOException::class, JsonSyntaxException::class)
+//    fun <T> fromJson(reader: JsonReader?, typeOfT: Type?): T {
+//        return create().fromJson(reader, typeOfT)
+//    }
 
-    @Throws(JsonSyntaxException::class, JsonIOException::class)
-    fun <T> fromJson(json: Reader?, classOfT: Class<T>?): T {
-        return create().fromJson(json, classOfT)
-    }
+//    @Throws(JsonSyntaxException::class, JsonIOException::class)
+//    fun <T> fromJson(json: Reader?, classOfT: Class<T>?): T {
+//        return create().fromJson(json, classOfT)
+//    }
 
     fun toJson(src: Any?): String {
         return create().toJson(src)

@@ -1,5 +1,6 @@
 package com.bzf.module_imageeditor
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.bzf.module_imageeditor.sticker.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
+import module.music.MusicHomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -95,6 +97,10 @@ class PictureEditActivity : FragmentActivity() {
 
         binding.nextStepBt.setOnClickListener {
             synthesisBitmap()
+        }
+
+        binding.selectMusicCL.setOnClickListener {
+            startActivity(Intent(this,MusicHomeActivity::class.java))
         }
 
         val deviceSupportsAEP: Boolean =
