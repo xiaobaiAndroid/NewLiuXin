@@ -16,7 +16,7 @@ interface MusicDao {
     @Query("SELECT * FROM $MUSIC_TABLE_NAME WHERE musicId= :musicId AND userId= :userId")
     suspend fun queryById(userId: String, musicId: String): List<MusicTable>
 
-    @Query("SELECT * FROM $MUSIC_TABLE_NAME WHERE userId= :userId")
+    @Query("SELECT * FROM $MUSIC_TABLE_NAME WHERE userId= :userId ORDER BY addDate DESC")
     suspend fun queryAll(userId: String):MutableList<MusicTable>
 
     @Insert

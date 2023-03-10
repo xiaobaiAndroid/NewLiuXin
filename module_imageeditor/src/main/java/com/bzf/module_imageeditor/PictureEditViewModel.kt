@@ -29,6 +29,7 @@ class PictureEditViewModel: BaseViewModel() {
        val musicTable =  MusicRepository.instance.addMusic(context,music)
         withContext(Dispatchers.Main){
             musicTable?.let {
+                it.selected = true
                 musicLiveData.value = it
             }
         }

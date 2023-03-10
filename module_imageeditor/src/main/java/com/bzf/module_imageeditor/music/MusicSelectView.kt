@@ -31,6 +31,9 @@ class MusicSelectView(context: Context, private val musics: MutableList<MusicTab
         return R.layout.imageeditor_layout_music_select
     }
 
+    private var lastSelectedPosition = -1
+    private val headViewCount = 1
+
     override fun onCreate() {
         super.onCreate()
 
@@ -53,12 +56,34 @@ class MusicSelectView(context: Context, private val musics: MutableList<MusicTab
             startActivity(context,Intent(context, MusicHomeActivity::class.java),null)
         }
         musicAdapter.setOnItemClickListener { adapter, view, position ->
-
+            changeSelectState(position)
         }
+    }
+
+    private fun changeSelectState(position: Int) {
+        if (lastSelectedPosition == position) {
+            return
+        }
+        val musicTable = musicAdapter.getItem(position)
+        musicTable.selected = true
+        musicAdapter.notifyItemChanged(position + headViewCount)
+
+        if (lastSelectedPosition != -1) {
+            val lastMusicTable = musicAdapter.getItem(lastSelectedPosition)
+            lastMusicTable.selected = false
+            musicAdapter.notifyItemChanged(lastSelectedPosition + headViewCount)
+        }
+        lastSelectedPosition = position
     }
 
     fun addMusic(musicTable: MusicTable){
         musicAdapter.addData(0,musicTable)
+        if (lastSelectedPosition != -1) {
+            val lastMusicTable = musicAdapter.getItem(lastSelectedPosition)
+            lastMusicTable.selected = false
+            musicAdapter.notifyItemChanged(lastSelectedPosition + headViewCount)
+        }
+        lastSelectedPosition = 0
     }
 
 }

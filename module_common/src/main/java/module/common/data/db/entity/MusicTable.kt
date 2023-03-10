@@ -1,6 +1,7 @@
 package module.common.data.db.entity
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 const val MUSIC_TABLE_NAME = "music_table"
@@ -27,5 +28,9 @@ class MusicTable {
     var musicUrl: String?= null
 
     var musicTime: String?= null
+
     var musicLable: String?= null
+
+    @Ignore
+    var selected = false
 }

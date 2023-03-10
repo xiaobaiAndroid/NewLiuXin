@@ -107,7 +107,6 @@ internal class UserLocal {
                 userDao.updateLoginUser(userInfoTable)
             }
         }
-        AppDatabase.getDatabase(context).close()
     }
 
     suspend fun getLoginUserInfo(context: Context): UserInfo{
@@ -147,7 +146,6 @@ internal class UserLocal {
             userInfo.isLogin = userInfoTable.loginState
             userInfo.registerDate = userInfoTable.registerDate
         }
-        AppDatabase.getDatabase(context).close()
         return userInfo
     }
 
