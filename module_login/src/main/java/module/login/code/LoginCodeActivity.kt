@@ -131,7 +131,7 @@ class LoginCodeActivity : BaseActivity<LoginActivityLoginCodeBinding, LoginCodeV
                 withContext(Dispatchers.Main){
                     hideLoadingUI()
                     if(dataResult.status == DataResult.SUCCESS){
-                        val messageEvent = MessageEvent(MessageEvent.MessageType.UPDATE_USERINFO)
+                        val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
                         messageEvent.obj = dataResult.t
                         EventBus.getDefault().post(messageEvent)
 

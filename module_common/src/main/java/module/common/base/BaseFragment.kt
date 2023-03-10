@@ -81,7 +81,7 @@ abstract class BaseFragment<T : ViewBinding,V: ViewModel> : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
-        if (MessageEvent.MessageType.UPDATE_USERINFO == event.type) {
+        if (MessageEvent.Type.UPDATE_USERINFO === event.type) {
             val userInfo = event.obj as UserInfo
 //            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
         }

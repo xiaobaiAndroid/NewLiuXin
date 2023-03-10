@@ -34,6 +34,13 @@ class MusicHomeActivity : BaseActivity<MusicActivityMusicHomeBinding, MusicHomeV
         return MusicActivityMusicHomeBinding.inflate(layoutInflater)
     }
 
+    override fun disposeMessageEvent(event: MessageEvent?) {
+        super.disposeMessageEvent(event)
+        if(event?.type === MessageEvent.Type.MUSIC_SELECT_MUSIC){
+            onBackPressed()
+        }
+    }
+
 
     override fun initStatusBar() {
         ImmersionBarUtils.defaultBuild(this)
@@ -52,9 +59,9 @@ class MusicHomeActivity : BaseActivity<MusicActivityMusicHomeBinding, MusicHomeV
         binding.contentRV.adapter = musicAdapter
 
         musicAdapter.setOnItemClickListener { adapter, view, position ->
-            val music = musicAdapter.getItem(position)
-            val messageEvent = MessageEvent(MessageEvent.MessageType.MUSIC_SELECT_MUSIC)
-            messageEvent.obj = music
+            val musicMultiEntity = musicAdapter.getItem(position)
+            val messageEvent = MessageEvent(MessageEvent.Type.MUSIC_SELECT_MUSIC)
+            messageEvent.obj = musicMultiEntity.music
             EventBus.getDefault().post(messageEvent)
             onBackPressed()
         }

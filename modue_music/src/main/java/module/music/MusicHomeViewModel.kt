@@ -31,21 +31,23 @@ class MusicHomeViewModel : BaseViewModel() {
     fun getData(context: Context) = viewModelScope.launch(Dispatchers.IO) {
         val categoryDataResult: DataResult<List<MusicCategory>> =
             MusicRepository.instance.getCategories(context)
-        val categories = categoryDataResult.t
-        val musicMultiEntities = mutableListOf<MusicMultiEntity>()
 
-        for (category in categories) {
-            val categoryMultiEntity = MusicMultiEntity(MusicMultiEntity.Type.CATEGORY.ordinal)
-            categoryMultiEntity.category = category
-            musicMultiEntities.add(categoryMultiEntity)
-            category.mediaMusicList?.let { musicList ->
-                for (music in musicList) {
-                    val musicMultiEntity = MusicMultiEntity(MusicMultiEntity.Type.CONTENT.ordinal)
-                    musicMultiEntity.music = music
-                    musicMultiEntities.add(musicMultiEntity)
+        val musicMultiEntities = mutableListOf<MusicMultiEntity>()
+        categoryDataResult.t?.let {categories->
+            for (category in categories) {
+                val categoryMultiEntity = MusicMultiEntity(MusicMultiEntity.Type.CATEGORY.ordinal)
+                categoryMultiEntity.category = category
+                musicMultiEntities.add(categoryMultiEntity)
+                category.mediaMusicList?.let { musicList ->
+                    for (music in musicList) {
+                        val musicMultiEntity = MusicMultiEntity(MusicMultiEntity.Type.CONTENT.ordinal)
+                        musicMultiEntity.music = music
+                        musicMultiEntities.add(musicMultiEntity)
+                    }
                 }
             }
         }
+
         withContext(Dispatchers.Main) {
             if (categoryDataResult.status == DataResult.SUCCESS) {
 //                categoriesLiveData.value = categories
@@ -61,4 +63,5 @@ class MusicHomeViewModel : BaseViewModel() {
 
         }
     }
+
 }

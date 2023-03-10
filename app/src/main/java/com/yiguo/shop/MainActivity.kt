@@ -73,7 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
     override fun disposeMessageEvent(event: MessageEvent?) {
         super.disposeMessageEvent(event)
-        if(event?.type == MessageEvent.MessageType.MAIN_GOODS_PAGE){
+        if(event?.type == MessageEvent.Type.MAIN_GOODS_PAGE){
             binding.ctl.currentTab = defaultPosition
             binding.viewPager.setCurrentItem(defaultPosition,false)
         }

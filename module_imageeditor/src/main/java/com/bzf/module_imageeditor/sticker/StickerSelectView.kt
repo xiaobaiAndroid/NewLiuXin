@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bzf.module_imageeditor.R
-import com.bzf.module_imageeditor.entity.MessageEvent
 import com.bzf.module_imageeditor.view.GridSpaceDecoration
 import com.lxj.xpopup.core.BottomPopupView
+import module.common.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -50,7 +50,9 @@ class StickerSelectView(context: Context, val imageId: String): BottomPopupView(
         mAdapter.setOnItemClickListener { adapter, view, position ->
             if(position != mLastPosition){
                 mLastPosition = position
-                EventBus.getDefault().post(MessageEvent(MessageEvent.Type.STICKER_ADD, mAdapter.getItem(position)))
+                val messageEvent = MessageEvent(MessageEvent.Type.STICKER_ADD)
+                messageEvent.obj =  mAdapter.getItem(position)
+                EventBus.getDefault().post(messageEvent)
                 this.dismiss()
             }
 

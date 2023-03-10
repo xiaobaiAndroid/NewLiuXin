@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bzf.module_imageeditor.FilterType
 import com.bzf.module_imageeditor.R
-import com.bzf.module_imageeditor.entity.MessageEvent
 import com.bzf.module_imageeditor.view.LinearSpaceDecoration
 import com.lxj.xpopup.core.BottomPopupView
+import module.common.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -105,7 +105,9 @@ class FilterSelectView(context: Context, val imageId: String): BottomPopupView(c
 
                 mLastPosition = position
                 item.imageId = imageId
-                EventBus.getDefault().post(MessageEvent(MessageEvent.Type.FILTER, item))
+                val messageEvent = MessageEvent(MessageEvent.Type.FILTER)
+                messageEvent.obj = item
+                EventBus.getDefault().post(messageEvent)
             }
 
         }

@@ -39,7 +39,7 @@ class CategoriseView(context: Context, private val categorises: MutableList<Cliq
         binding.contentRV.addItemDecoration(decoration)
         categoriseAdapter.setOnItemClickListener { _, _, position ->
             val category = categoriseAdapter.getItem(position)
-            val messageEvent = MessageEvent(MessageEvent.MessageType.PUBLISH_SELECT_CATEGORY)
+            val messageEvent = MessageEvent(MessageEvent.Type.PUBLISH_SELECT_CATEGORY)
             messageEvent.obj = category
             EventBus.getDefault().post(messageEvent)
             dismiss()

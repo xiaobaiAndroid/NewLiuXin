@@ -78,10 +78,10 @@ abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity()
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
-        if (MessageEvent.MessageType.UPDATE_USERINFO == event.type) {
+        if (MessageEvent.Type.UPDATE_USERINFO === event.type) {
             val userInfo = event.obj as UserInfo
 //            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
-        } else if (MessageEvent.MessageType.EXIT_APP == event.type) {
+        } else if (MessageEvent.Type.EXIT_APP === event.type) {
             finish()
         }
         disposeMessageEvent(event)

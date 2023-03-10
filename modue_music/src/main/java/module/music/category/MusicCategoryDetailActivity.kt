@@ -44,7 +44,11 @@ class MusicCategoryDetailActivity :
         binding.contentRV.adapter = musicAdapter
 
         musicAdapter.setOnItemClickListener { adapter, view, position ->
-
+            val music = musicAdapter.getItem(position)
+            val messageEvent = MessageEvent(MessageEvent.Type.MUSIC_SELECT_MUSIC)
+            messageEvent.obj = music
+            EventBus.getDefault().post(messageEvent)
+            onBackPressed()
         }
 
         musicAdapter.loadMoreModule.setOnLoadMoreListener {

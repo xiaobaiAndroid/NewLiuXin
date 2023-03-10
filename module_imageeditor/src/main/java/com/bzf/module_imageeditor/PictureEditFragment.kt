@@ -9,19 +9,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bzf.module_imageeditor.databinding.FragmentPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
-import com.bzf.module_imageeditor.entity.MessageEvent
 import com.bzf.module_imageeditor.filter.FilterEntity
 import com.bzf.module_imageeditor.sticker.Sticker
 import com.bzf.module_imageeditor.sticker.StickerProxy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import module.common.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -89,7 +88,9 @@ class PictureEditFragment: Fragment() {
                     drawBitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream)
 
                     val concatBitmap = ConcatBitmap(mSurfaceView.mGPUImageView.imageId, imagePath)
-                    EventBus.getDefault().post(MessageEvent(MessageEvent.Type.CONCAT_BITMAP_RESULT,concatBitmap))
+                    val messageEvent = MessageEvent(MessageEvent.Type.CONCAT_BITMAP_RESULT)
+                    messageEvent.obj = concatBitmap
+                    EventBus.getDefault().post(messageEvent)
                 }
             }
 
@@ -141,28 +142,28 @@ class PictureEditFragment: Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent){
-        if(event.type == MessageEvent.Type.RELEASE){
+        if(event.type === MessageEvent.Type.RELEASE){
             Log.i("imageeditor","release opengl")
             mSurfaceView.mGPUImageView.destroy()
-        }else if(event.type == MessageEvent.Type.FILTER){
-            val filterEntity = event.data as FilterEntity
+        }else if(event.type === MessageEvent.Type.FILTER){
+            val filterEntity = event.obj as FilterEntity
             if(mSurfaceView.mGPUImageView.imageId == filterEntity.imageId){
                 mSurfaceView.mGPUImageView.setupFilter(filterEntity.filterType)
             }
-        }else if(event.type == MessageEvent.Type.REFRESH){
-            val imageId = event.data as String
+        }else if(event.type === MessageEvent.Type.REFRESH){
+            val imageId = event.obj as String
             if(mSurfaceView.mGPUImageView.imageId == imageId){
                 mSurfaceView.requestRender()
             }
-        }else if(event.type == MessageEvent.Type.SCREEN_ORIENTATION){
-            val screenDegree = event.data as Int
+        }else if(event.type === MessageEvent.Type.SCREEN_ORIENTATION){
+            val screenDegree = event.obj as Int
             mSurfaceView.mGPUImageView.mScreenDegree = screenDegree
-        }else if(event.type == MessageEvent.Type.STICKER_ADD){
-            val sticker = event.data as Sticker
-            if(mSurfaceView.mGPUImageView.imageId == sticker.imageId){
+        }else if(event.type === MessageEvent.Type.STICKER_ADD){
+            val sticker = event.obj as Sticker
+            if(mSurfaceView.mGPUImageView.imageId === sticker.imageId){
                 mStickerProxy.addSticker(sticker)
             }
-        }else if(event.type == MessageEvent.Type.SAVE){
+        }else if(event.type === MessageEvent.Type.SAVE){
             concatBitmap()
         }
     }

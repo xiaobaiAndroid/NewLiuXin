@@ -100,7 +100,7 @@ class LoginPswActivity : BaseActivity<LoginActivityLoginBinding, LoginPswViewMod
                     withContext(Dispatchers.Main){
                         hideLoadingUI()
                         if(dataResult.status == DataResult.SUCCESS){
-                            val messageEvent = MessageEvent(MessageEvent.MessageType.UPDATE_USERINFO)
+                            val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
                             messageEvent.obj = dataResult.t
                             EventBus.getDefault().post(messageEvent)
                             ARouterHelper.openPath(this@LoginPswActivity, ARouterHelper.MAIN)

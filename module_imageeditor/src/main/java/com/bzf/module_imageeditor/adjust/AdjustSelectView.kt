@@ -4,11 +4,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.RadioGroup
 import com.bzf.module_imageeditor.R
-import com.bzf.module_imageeditor.entity.MessageEvent
 import com.lxj.xpopup.core.BottomPopupView
 import com.warkiz.widget.IndicatorSeekBar
 import com.warkiz.widget.OnSeekChangeListener
 import com.warkiz.widget.SeekParams
+import module.common.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -39,7 +39,9 @@ class AdjustSelectView(context: Context, val imageId: String) : BottomPopupView(
         progressSB.onSeekChangeListener = object : OnSeekChangeListener {
             override fun onSeeking(seekParams: SeekParams?) {
                 nSetAdjustValue(imageId,adjustType.value,seekParams!!.progress.toFloat())
-                EventBus.getDefault().post(MessageEvent(MessageEvent.Type.REFRESH, imageId))
+                val messageEvent = MessageEvent(MessageEvent.Type.REFRESH)
+                messageEvent.obj = imageId
+                EventBus.getDefault().post(messageEvent)
             }
 
             override fun onStartTrackingTouch(seekBar: IndicatorSeekBar?) {

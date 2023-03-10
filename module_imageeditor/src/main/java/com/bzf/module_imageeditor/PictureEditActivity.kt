@@ -1,23 +1,25 @@
 package com.bzf.module_imageeditor
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.OrientationEventListener
+import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.viewpager2.widget.ViewPager2
 import com.bzf.module_imageeditor.adjust.AdjustSelectView
 import com.bzf.module_imageeditor.databinding.ActivityPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
-import com.bzf.module_imageeditor.entity.MessageEvent
 import com.bzf.module_imageeditor.filter.FilterSelectView
+import com.bzf.module_imageeditor.music.MusicSelectView
 import com.bzf.module_imageeditor.sticker.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
-import module.music.MusicHomeActivity
+import module.common.data.entity.Music
+import module.common.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -31,6 +33,10 @@ class PictureEditActivity : FragmentActivity() {
         externalCacheDir?.absolutePath ?: cacheDir.absolutePath
     }
 
+    private val viewModel: PictureEditViewModel by lazy {
+        viewModels<PictureEditViewModel>().value
+    }
+
     private val mAdapter: PictureEditAdapter by lazy {
         PictureEditAdapter(this, mList)
     }
@@ -42,6 +48,8 @@ class PictureEditActivity : FragmentActivity() {
 
     private var mConcatBitmaps = arrayListOf<ConcatBitmap>()
     private var mTempBitmapMap = hashMapOf<Int,ConcatBitmap>()
+
+    private var mMusicSelectView: MusicSelectView?=null
 
     private val mOrientationListener:OrientationEventListener  by lazy{
         object: OrientationEventListener(applicationContext){
@@ -60,8 +68,11 @@ class PictureEditActivity : FragmentActivity() {
                 }
 
                 if(mCurrentScreenDegree != mLastScreenDegree){
-                    EventBus.getDefault().post(MessageEvent(MessageEvent.Type.SCREEN_ORIENTATION,mCurrentScreenDegree))
-                    mLastScreenDegree = mCurrentScreenDegree;
+                    val messageEvent =
+                        MessageEvent(MessageEvent.Type.SCREEN_ORIENTATION)
+                    messageEvent.obj = mCurrentScreenDegree
+                    EventBus.getDefault().post(messageEvent)
+                    mLastScreenDegree = mCurrentScreenDegree
                 }
 
             }
@@ -100,7 +111,7 @@ class PictureEditActivity : FragmentActivity() {
         }
 
         binding.selectMusicCL.setOnClickListener {
-            startActivity(Intent(this,MusicHomeActivity::class.java))
+            showMusicView()
         }
 
         val deviceSupportsAEP: Boolean =
@@ -111,6 +122,24 @@ class PictureEditActivity : FragmentActivity() {
             Log.i("bzf","不支持AEP")
         }
 
+        iniData()
+    }
+
+    private fun iniData() {
+        viewModel.musicLiveData.observe(this){
+            mMusicSelectView?.addMusic(it)
+        }
+
+        viewModel.queryAllLocalMusic(applicationContext)
+    }
+
+    private fun showMusicView() {
+        mMusicSelectView = MusicSelectView(this,viewModel.musicAllLiveData.value)
+         XPopup.Builder(this)
+            .isViewMode(true)
+            .hasShadowBg(false)
+            .asCustom(mMusicSelectView)
+            .show()
     }
 
     override fun onDestroy() {
@@ -174,6 +203,7 @@ class PictureEditActivity : FragmentActivity() {
 
     }
 
+
     private fun showStickView() {
         val pictureEntity = mList[binding.contentVP.currentItem]
         XPopup.Builder(this)
@@ -233,7 +263,7 @@ class PictureEditActivity : FragmentActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent){
         if(event.type == MessageEvent.Type.CONCAT_BITMAP_RESULT){
-            val concatBitmap = event.data as ConcatBitmap
+            val concatBitmap = event.obj as ConcatBitmap
             if(!mTempBitmapMap.containsValue(concatBitmap)){
                 for (i in mList.indices){
                     val pictureEntity = mList[i]
@@ -247,6 +277,9 @@ class PictureEditActivity : FragmentActivity() {
             if(mTempBitmapMap.size == mList.size){
                 sendBitmapData()
             }
+        }else if (event.type === MessageEvent.Type.MUSIC_SELECT_MUSIC){
+            val music = event.obj as Music
+            viewModel.addMusic(applicationContext,music)
         }
     }
 

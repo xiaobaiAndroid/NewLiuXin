@@ -2,6 +2,7 @@ package module.common.data.respository.music
 
 import android.content.Context
 import module.common.data.DataResult
+import module.common.data.db.entity.MusicTable
 import module.common.data.entity.Music
 import module.common.data.entity.MusicCategory
 import module.common.data.request.MusicsReq
@@ -31,9 +32,26 @@ class MusicRepository private constructor() {
         return dataResult
     }
 
-    suspend fun getMusicsByCategoryId(context: Context, req: MusicsReq): DataResult<MutableList<Music>?>{
+    suspend fun getMusicsByCategoryId(
+        context: Context,
+        req: MusicsReq
+    ): DataResult<MutableList<Music>?> {
         val token = UserRepository.instance.getToken(context)
-        return mRemote.getMusicsByCategoryId(token,req)
+        return mRemote.getMusicsByCategoryId(token, req)
+    }
+
+    suspend fun addMusic(context: Context, music: Music): MusicTable? {
+        val userInfo = UserRepository.instance.getUserInfo(context)
+        return userInfo.userId?.let {
+            mLocal.addMusic(context, it,music)
+        }
+    }
+
+    suspend fun queryAllLocalMusic(context: Context): MutableList<MusicTable>? {
+        val userInfo = UserRepository.instance.getUserInfo(context)
+        return userInfo.userId?.let {
+            mLocal.queryAllMusic(context, it)
+        }
     }
 
 
