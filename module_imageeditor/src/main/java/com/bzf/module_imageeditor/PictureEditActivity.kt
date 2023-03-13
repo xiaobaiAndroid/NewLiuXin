@@ -1,5 +1,6 @@
 package com.bzf.module_imageeditor
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,7 @@ import android.view.KeyEvent
 import android.view.OrientationEventListener
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bzf.module_imageeditor.adjust.AdjustSelectView
 import com.bzf.module_imageeditor.databinding.ActivityPictureEditBinding
@@ -18,8 +19,14 @@ import com.bzf.module_imageeditor.sticker.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.impl.LoadingPopupView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import module.audioplayer_lib.AudioPlayerEngine
+import module.common.data.db.entity.MusicTable
 import module.common.data.entity.Music
 import module.common.event.MessageEvent
+import module.music.MusicHomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -32,6 +39,8 @@ class PictureEditActivity : FragmentActivity() {
     private val savePath: String by lazy{
         externalCacheDir?.absolutePath ?: cacheDir.absolutePath
     }
+
+    private val mAudioPlayerEngine = AudioPlayerEngine()
 
     private val viewModel: PictureEditViewModel by lazy {
         viewModels<PictureEditViewModel>().value
@@ -126,15 +135,31 @@ class PictureEditActivity : FragmentActivity() {
     }
 
     private fun iniData() {
+        viewModel.musicExitPosition.observe(this){
+            mMusicSelectView?.changeSelect(it)
+        }
         viewModel.musicLiveData.observe(this){
-            mMusicSelectView?.addMusic(it)
+            it?.let {musicTable->
+                mMusicSelectView?.addMusic(musicTable)
+            }
+
         }
 
         viewModel.queryAllLocalMusic(applicationContext)
     }
 
     private fun showMusicView() {
-        mMusicSelectView = MusicSelectView(this,viewModel.musicAllLiveData.value)
+        mMusicSelectView = MusicSelectView(this,viewModel.musicAllLiveData.value,object: MusicSelectView.Listener{
+            override fun openMusicLib() {
+                mAudioPlayerEngine.stop()
+                startActivity(Intent(this@PictureEditActivity,MusicHomeActivity::class.java))
+            }
+
+            override fun selectedMusic(musicTable: MusicTable) {
+                preparePlay(musicTable)
+            }
+
+        })
          XPopup.Builder(this)
             .isViewMode(true)
             .hasShadowBg(false)
@@ -142,10 +167,23 @@ class PictureEditActivity : FragmentActivity() {
             .show()
     }
 
+    private fun preparePlay(musicTable: MusicTable) {
+        musicTable.musicUrl?.let {
+            lifecycleScope.launch(Dispatchers.IO) {
+                mAudioPlayerEngine.prepare(it)
+                withContext(Dispatchers.Main) {
+                    mAudioPlayerEngine.play()
+                }
+            }
+        }
+    }
+
+
     override fun onDestroy() {
         if(EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().unregister(this)
         }
+        mAudioPlayerEngine.release()
 
         super.onDestroy()
     }
@@ -279,7 +317,7 @@ class PictureEditActivity : FragmentActivity() {
             }
         }else if (event.type === MessageEvent.Type.MUSIC_SELECT_MUSIC){
             val music = event.obj as Music
-            viewModel.addMusic(applicationContext,music)
+            viewModel.addMusic(applicationContext,music,mMusicSelectView?.getData())
         }
     }
 

@@ -11,7 +11,8 @@ const val MUSIC_TABLE_NAME = "music_table"
  *@date: 2023/3/9
  */
 @Entity(tableName = MUSIC_TABLE_NAME)
-class MusicTable {
+class
+MusicTable {
 
     @PrimaryKey
     var localId: String = ""

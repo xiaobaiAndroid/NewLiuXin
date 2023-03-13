@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'module.audioplayer'
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        externalNativeBuild {
+            cmake {
+                //cFlags: 指定 C++ 编译器的标志
+                //启用 C++11标准、RTTI（运行时类型信息）支持和 C++ 异常
+                //RTTI说明：https://www.cnblogs.com/zhuyf87/archive/2013/03/15/2960899.html
+                cppFlags "-std=c++11", "-fexceptions", "-frtti"
+
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+
+        ndk{
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "./src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        viewBinding true
+
+    }
+
+    buildFeatures {
+        prefab true
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    //指定NDK版本
+    ndkVersion "21.0.6113669"
+}
+
+dependencies {
+
+    implementation libs.appcompat
+
+//    https://github.com/google/oboe/blob/main/docs/GettingStarted.md
+    implementation 'com.google.oboe:oboe:1.7.0'
+
+}

@@ -62,6 +62,7 @@ dependencies {
 
     implementation libs.xpopup
     implementation project(path: ':modue_music')
+    implementation project(path: ':audioplayer_lib')
 
     kapt libs.lifecycleCompiler
 

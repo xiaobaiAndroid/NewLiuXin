@@ -17,16 +17,31 @@ import module.common.data.respository.music.MusicRepository
  */
 class PictureEditViewModel: BaseViewModel() {
 
-    val musicLiveData: MutableLiveData<MusicTable> by lazy {
-        MutableLiveData<MusicTable>()
+    val musicLiveData: MutableLiveData<MusicTable?> by lazy {
+        MutableLiveData<MusicTable?>()
     }
 
     val musicAllLiveData: MutableLiveData<MutableList<MusicTable>?> by lazy {
         MutableLiveData<MutableList<MusicTable>?>()
     }
 
-    fun addMusic(context: Context,music: Music) = viewModelScope.launch(Dispatchers.IO) {
-       val musicTable =  MusicRepository.instance.addMusic(context,music)
+
+    val musicExitPosition: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
+
+    fun addMusic(context: Context, music: Music, adapterList: MutableList<MusicTable>?) = viewModelScope.launch(Dispatchers.IO) {
+        adapterList?.let {musicTables->
+            for ( i in 0 until musicTables.size){
+                val musicTable = musicTables[i]
+                if(musicTable.musicId == music.id){
+                    musicExitPosition.value = i
+                    return@launch
+                }
+            }
+        }
+        val musicTable =  MusicRepository.instance.addMusic(context,music)
         withContext(Dispatchers.Main){
             musicTable?.let {
                 it.selected = true

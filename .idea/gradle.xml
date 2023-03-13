@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/audioplayer_lib" />
             <option value="$PROJECT_DIR$/indicatorseekbar" />
             <option value="$PROJECT_DIR$/modue_music" />
             <option value="$PROJECT_DIR$/module_common" />
