@@ -7,68 +7,37 @@
     android:background="@android:color/black"
     tools:context=".PictureEditActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationLL"
+        android:id="@+id/navigationBarCL"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_height="@dimen/dp_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:background="@color/cl_333333"
-        app:layout_constraintTop_toTopOf="parent">
+        >
+
+        <include
+            android:id="@+id/selectMusicLayout"
+            layout="@layout/img_layout_select_actionbar"
+            />
+
+        <include layout="@layout/img_layout_play_actionbar"
+            android:id="@+id/playMusicLayout"
+            />
 
         <ImageView
             android:id="@+id/backIV"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
             android:scaleType="center"
-            android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/selectMusicCL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_marginEnd="@dimen/dp_20"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <TextView
-                android:id="@+id/selectMusicTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawablePadding="4dp"
-                android:text="@string/select_music"
-                android:textColor="@color/cl_ffffff"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-               />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/imageeditor_music"
-                app:layout_constraintTop_toTopOf="@id/selectMusicTV"
-                app:layout_constraintBottom_toBottomOf="@id/selectMusicTV"
-                app:layout_constraintEnd_toStartOf="@id/selectMusicTV"
-                android:layout_marginEnd="@dimen/dp_2"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:src="@drawable/ic_back" />
 
         <Button
             android:id="@+id/nextStepBt"
@@ -86,6 +55,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/contentVP"
         android:layout_width="0dp"
@@ -93,7 +63,7 @@
         app:layout_constraintBottom_toTopOf="@id/pageNumberTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/navigationLL"
+        app:layout_constraintTop_toBottomOf="@id/navigationBarCL"
         android:layout_marginTop="@dimen/dp_24"
         />
 

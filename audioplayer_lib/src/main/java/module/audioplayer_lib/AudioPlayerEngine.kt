@@ -4,16 +4,36 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.media.MediaPlayer.MEDIA_ERROR_SERVER_DIED
+import android.media.MediaPlayer.MEDIA_ERROR_UNKNOWN
 import android.media.MediaRecorder.AudioSource
 import android.os.Build
+import android.util.Log
 
-class AudioPlayerEngine() {
+class AudioPlayerEngine(val listener: Listener) {
 
     private val mMediaPlayer: MediaPlayer by lazy {
         val mediaPlayer = MediaPlayer()
         val builder = AudioAttributes.Builder()
-        val attributes = builder.setLegacyStreamType(AudioManager.STREAM_MUSIC).build()
+        val attributes = builder.setLegacyStreamType(AudioManager.STREAM_MUSIC)
+            .build()
         mediaPlayer.setAudioAttributes(attributes)
+        mediaPlayer.setVolume(0.5f, 0.5f)
+        mediaPlayer.setOnErrorListener { mp, what, extra ->
+            if (what == MEDIA_ERROR_UNKNOWN || what == MEDIA_ERROR_SERVER_DIED) {
+                listener.onError()
+            }
+            true
+        }
+        mediaPlayer.setOnBufferingUpdateListener { mp, percent ->
+            Log.i("bzf", "percent=$percent")
+            if (percent == 0 || percent == 100) {
+                listener.onPrepared()
+            }
+        }
+        mediaPlayer.setOnCompletionListener {
+            listener.onCompletion()
+        }
         mediaPlayer
     }
 
@@ -37,7 +57,7 @@ class AudioPlayerEngine() {
 
     fun prepare(url: String) {
         try {
-            if(mMediaPlayer.isPlaying){
+            if (mMediaPlayer.isPlaying) {
                 stop()
             }
             mMediaPlayer.reset()
@@ -45,20 +65,32 @@ class AudioPlayerEngine() {
             mMediaPlayer.prepare()
         } catch (e: Exception) {
             e.printStackTrace()
+            listener.onError()
         }
 
     }
 
     fun play() {
 //        nPlay()
+        if (mMediaPlayer.isPlaying) {
+            mMediaPlayer.stop()
+        }
         mMediaPlayer.start()
     }
 
-    fun stop(){
+    fun stop() {
         try {
-            mMediaPlayer.stop()
+            if (mMediaPlayer.isPlaying) {
+                mMediaPlayer.stop()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    fun pause() {
+        if (mMediaPlayer.isPlaying) {
+            mMediaPlayer.pause()
         }
     }
 
@@ -81,5 +113,11 @@ class AudioPlayerEngine() {
 //            return 0
 //        }
         return 0
+    }
+
+    interface Listener {
+        fun onError()
+        fun onPrepared()
+        fun onCompletion()
     }
 }

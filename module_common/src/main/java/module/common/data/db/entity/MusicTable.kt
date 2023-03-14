@@ -34,4 +34,7 @@ MusicTable {
 
     @Ignore
     var selected = false
+
+    @Ignore
+    var startPlay = false
 }

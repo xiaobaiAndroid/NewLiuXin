@@ -94,6 +94,15 @@ class MusicSelectView(context: Context, private val musics: MutableList<MusicTab
         return musicAdapter.data
     }
 
+    fun updatePlayState(startPlay: Boolean) {
+        if(lastSelectedPosition < 0){
+            return
+        }
+        val musicTable = musicAdapter.getItem(lastSelectedPosition)
+        musicTable.startPlay = startPlay
+        musicAdapter.notifyItemChanged(lastSelectedPosition + headViewCount)
+    }
+
     interface Listener{
         fun openMusicLib()
         fun selectedMusic(musicTable: MusicTable)

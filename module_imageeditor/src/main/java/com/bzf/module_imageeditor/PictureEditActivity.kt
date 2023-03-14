@@ -1,12 +1,20 @@
 package com.bzf.module_imageeditor
 
+import android.animation.*
+import android.animation.Animator.AnimatorListener
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.OrientationEventListener
+import android.view.*
+import android.view.animation.AnimationSet
+import android.view.animation.LayoutAnimationController
 import androidx.activity.viewModels
+import androidx.compose.ui.graphics.Color
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
+import androidx.core.view.marginTop
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -18,7 +26,10 @@ import com.bzf.module_imageeditor.music.MusicSelectView
 import com.bzf.module_imageeditor.sticker.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.impl.LoadingPopupView
+import com.lxj.xpopup.interfaces.SimpleCallback
+import com.lxj.xpopup.interfaces.XPopupCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,6 +37,8 @@ import module.audioplayer_lib.AudioPlayerEngine
 import module.common.data.db.entity.MusicTable
 import module.common.data.entity.Music
 import module.common.event.MessageEvent
+import module.common.utils.IconUtils
+import module.common.utils.ToastUtils
 import module.music.MusicHomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -34,13 +47,32 @@ import java.util.*
 
 class PictureEditActivity : FragmentActivity() {
 
-    private lateinit var  binding: ActivityPictureEditBinding
+    private lateinit var binding: ActivityPictureEditBinding
     private val mList = java.util.ArrayList<PictureEntity>()
-    private val savePath: String by lazy{
+    private val savePath: String by lazy {
         externalCacheDir?.absolutePath ?: cacheDir.absolutePath
     }
 
-    private val mAudioPlayerEngine = AudioPlayerEngine()
+    private val mAudioPlayerEngine = AudioPlayerEngine(object: AudioPlayerEngine.Listener{
+        override fun onError() {
+            ToastUtils.setMessage(this@PictureEditActivity, resources.getString(R.string.play_music_not_exit))
+        }
+
+        override fun onPrepared() {
+            binding.playMusicLayout.playIV.setImageResource(R.drawable.img_ic_pause)
+            binding.playMusicLayout.musicPlayAnimationView.visibility = View.VISIBLE
+            mSoundAnimationDrawable?.start()
+            mMusicSelectView?.updatePlayState(true)
+        }
+
+        override fun onCompletion() {
+            binding.playMusicLayout.playIV.setImageResource(R.drawable.img_ic_play)
+            mSoundAnimationDrawable?.stop()
+            binding.playMusicLayout.musicPlayAnimationView.visibility = View.INVISIBLE
+            mMusicSelectView?.updatePlayState(false)
+        }
+
+    })
 
     private val viewModel: PictureEditViewModel by lazy {
         viewModels<PictureEditViewModel>().value
@@ -53,30 +85,32 @@ class PictureEditActivity : FragmentActivity() {
     private var mLastScreenDegree: Int = 0
     private var mCurrentScreenDegree: Int = 0
 
-    var loadingPopupView: LoadingPopupView ?= null
+    var loadingPopupView: LoadingPopupView? = null
 
     private var mConcatBitmaps = arrayListOf<ConcatBitmap>()
-    private var mTempBitmapMap = hashMapOf<Int,ConcatBitmap>()
+    private var mTempBitmapMap = hashMapOf<Int, ConcatBitmap>()
 
-    private var mMusicSelectView: MusicSelectView?=null
+    private var mMusicSelectView: MusicSelectView? = null
 
-    private val mOrientationListener:OrientationEventListener  by lazy{
-        object: OrientationEventListener(applicationContext){
+    private var mSoundAnimationDrawable: AnimationDrawable?=null
+
+    private val mOrientationListener: OrientationEventListener by lazy {
+        object : OrientationEventListener(applicationContext) {
             override fun onOrientationChanged(orientation: Int) {
-                Log.i("bzf","OrientationEventListener---orientation=$orientation")
-                if(orientation>350 || orientation < 10){ //0°
+                Log.i("bzf", "OrientationEventListener---orientation=$orientation")
+                if (orientation > 350 || orientation < 10) { //0°
                     mCurrentScreenDegree = 0
-                }else if(orientation >80 || orientation < 100 ){ //90°
+                } else if (orientation > 80 || orientation < 100) { //90°
                     mCurrentScreenDegree = 90
-                }else if(orientation >170 || orientation < 190 ){ //180°
+                } else if (orientation > 170 || orientation < 190) { //180°
                     mCurrentScreenDegree = 180
-                }else if(orientation >260 || orientation < 280 ){ //270°
+                } else if (orientation > 260 || orientation < 280) { //270°
                     mCurrentScreenDegree = 270
-                }else{
-                    mCurrentScreenDegree =  OrientationEventListener.ORIENTATION_UNKNOWN
+                } else {
+                    mCurrentScreenDegree = OrientationEventListener.ORIENTATION_UNKNOWN
                 }
 
-                if(mCurrentScreenDegree != mLastScreenDegree){
+                if (mCurrentScreenDegree != mLastScreenDegree) {
                     val messageEvent =
                         MessageEvent(MessageEvent.Type.SCREEN_ORIENTATION)
                     messageEvent.obj = mCurrentScreenDegree
@@ -91,21 +125,26 @@ class PictureEditActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         binding = ActivityPictureEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(!EventBus.getDefault().isRegistered(this)){
+        IconUtils.setColor(binding.backIV, resources.getColor(R.color.cl_ffffff))
+
+
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
 
         val list = intent.getStringArrayListExtra("paths")
         list?.let {
-            for (index in 0 until it.size){
+            for (index in 0 until it.size) {
                 val path = it[index]
                 Log.i("bzf", "path=$path")
                 val id = UUID.randomUUID().toString().replace("-", "").lowercase(Locale.ROOT)
                 LogUtils.printI("imageId=$id")
-                mList.add(PictureEntity(id,path, savePath, index))
+                mList.add(PictureEntity(id, path, savePath, index))
             }
         }
 
@@ -119,27 +158,87 @@ class PictureEditActivity : FragmentActivity() {
             synthesisBitmap()
         }
 
-        binding.selectMusicCL.setOnClickListener {
+        binding.selectMusicLayout.selectMusicCL.setOnClickListener {
+            showMusicView()
+        }
+
+
+        binding.playMusicLayout.playIV.isSelected = false
+        binding.playMusicLayout.playIV.setOnClickListener {
+            changePlayStatus()
+
+        }
+
+        binding.playMusicLayout.playContentCL.isEnabled = false
+        binding.playMusicLayout.playContentCL.setOnClickListener {
+            hideNextstepAnim()
             showMusicView()
         }
 
         val deviceSupportsAEP: Boolean =
             packageManager.hasSystemFeature(PackageManager.FEATURE_OPENGLES_EXTENSION_PACK)
-        if(deviceSupportsAEP){
-            Log.i("bzf","支持AEP")
-        }else{
-            Log.i("bzf","不支持AEP")
+        if (deviceSupportsAEP) {
+            Log.i("bzf", "支持AEP")
+        } else {
+            Log.i("bzf", "不支持AEP")
         }
 
         iniData()
     }
 
+    private fun hideNextstepAnim() {
+        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+        val objectAnimator1 = ObjectAnimator.ofFloat(
+            binding.backIV,
+            "alpha",
+            1.0f //start
+            , 0f //end
+        )
+
+        val objectAnimator2 = ObjectAnimator.ofFloat(
+            binding.nextStepBt,
+            "alpha",
+            1.0f //start
+            , 0f //end
+        )
+
+        val animatorSet = AnimatorSet()
+        animatorSet.duration = defaultDuration.toLong()
+        animatorSet.playTogether(objectAnimator1,objectAnimator2)
+        animatorSet.start()
+    }
+
+    private fun changePlayStatus() {
+        binding.playMusicLayout.playIV.apply {
+            if (isSelected) {
+                setImageResource(R.drawable.img_ic_pause)
+                mAudioPlayerEngine.play()
+                visibility = View.VISIBLE
+                mSoundAnimationDrawable?.stop()
+            } else {
+                setImageResource(R.drawable.img_ic_play)
+                mAudioPlayerEngine.pause()
+                visibility = View.VISIBLE
+                mSoundAnimationDrawable?.stop()
+            }
+            isSelected = !isSelected
+        }
+
+        binding.playMusicLayout.musicPlayAnimationView.apply {
+             if(mSoundAnimationDrawable == null){
+                 setImageResource(R.drawable.img_sound_animation)
+                 mSoundAnimationDrawable = drawable as AnimationDrawable
+             }
+        }
+
+    }
+
     private fun iniData() {
-        viewModel.musicExitPosition.observe(this){
+        viewModel.musicExitPosition.observe(this) {
             mMusicSelectView?.changeSelect(it)
         }
-        viewModel.musicLiveData.observe(this){
-            it?.let {musicTable->
+        viewModel.musicLiveData.observe(this) {
+            it?.let { musicTable ->
                 mMusicSelectView?.addMusic(musicTable)
             }
 
@@ -149,47 +248,118 @@ class PictureEditActivity : FragmentActivity() {
     }
 
     private fun showMusicView() {
-        mMusicSelectView = MusicSelectView(this,viewModel.musicAllLiveData.value,object: MusicSelectView.Listener{
-            override fun openMusicLib() {
-                mAudioPlayerEngine.stop()
-                startActivity(Intent(this@PictureEditActivity,MusicHomeActivity::class.java))
-            }
+        mMusicSelectView = MusicSelectView(
+            this,
+            viewModel.musicAllLiveData.value,
+            object : MusicSelectView.Listener {
+                override fun openMusicLib() {
+                    mAudioPlayerEngine.stop()
+                    startActivity(Intent(this@PictureEditActivity, MusicHomeActivity::class.java))
+                }
 
-            override fun selectedMusic(musicTable: MusicTable) {
-                preparePlay(musicTable)
-            }
+                override fun selectedMusic(musicTable: MusicTable) {
+                    preparePlay(musicTable)
+                }
 
-        })
-         XPopup.Builder(this)
+            })
+        XPopup.Builder(this)
             .isViewMode(true)
+            .isClickThrough(true)
             .hasShadowBg(false)
+            .setPopupCallback(object: SimpleCallback() {
+                override fun onDismiss(popupView: BasePopupView?) {
+                    super.onDismiss(popupView)
+                    showNextstepAnim()
+                }
+
+            })
             .asCustom(mMusicSelectView)
             .show()
     }
 
+    private fun showNextstepAnim() {
+        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+        val objectAnimator1 = ObjectAnimator.ofFloat(
+            binding.backIV,
+            "alpha",
+            0.0f //start
+            , 1f //end
+        )
+
+        val objectAnimator2 = ObjectAnimator.ofFloat(
+            binding.nextStepBt,
+            "alpha",
+            0.0f //start
+            , 1f //end
+        )
+
+        val animatorSet = AnimatorSet()
+        animatorSet.duration = defaultDuration.toLong()
+        animatorSet.playTogether(objectAnimator1,objectAnimator2)
+        animatorSet.start()
+    }
+
+
+    private var isShowPlayLayout = false
     private fun preparePlay(musicTable: MusicTable) {
+        if (!isShowPlayLayout) {
+            showPlayAnim()
+            isShowPlayLayout = true
+            binding.playMusicLayout.playContentCL.isEnabled = true
+        }
+        binding.playMusicLayout.musicNameTV.text = musicTable.musicName
+
         musicTable.musicUrl?.let {
             lifecycleScope.launch(Dispatchers.IO) {
                 mAudioPlayerEngine.prepare(it)
                 withContext(Dispatchers.Main) {
-                    mAudioPlayerEngine.play()
+                    changePlayStatus()
                 }
             }
         }
+
+    }
+
+    private fun showPlayAnim() {
+        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+
+        val objectAnimator = ObjectAnimator.ofFloat(
+            binding.selectMusicLayout.selectMusicRootCL,
+            "translationY",
+            0f, -binding.selectMusicLayout.selectMusicRootCL.height.toFloat()
+        )
+
+        val objectAnimator1 = ObjectAnimator.ofFloat(
+            binding.playMusicLayout.playMusicCL,
+            "translationY",
+            binding.playMusicLayout.playMusicCL.height.toFloat() //start
+            , 0f //end
+        )
+
+
+        val animatorSet = AnimatorSet()
+        animatorSet.duration = defaultDuration.toLong()
+        animatorSet.playTogether(objectAnimator, objectAnimator1)
+        animatorSet.start()
+
+        hideNextstepAnim()
+
     }
 
 
     override fun onDestroy() {
-        if(EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this)
         }
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        mAudioPlayerEngine.stop()
         mAudioPlayerEngine.release()
-
+        mSoundAnimationDrawable?.stop()
         super.onDestroy()
     }
 
     private fun synthesisBitmap() {
-        loadingPopupView  = XPopup.Builder(this)
+        loadingPopupView = XPopup.Builder(this)
             .dismissOnTouchOutside(false)
             .dismissOnBackPressed(false)
             .asLoading(resources.getString(R.string.processing))
@@ -203,11 +373,12 @@ class PictureEditActivity : FragmentActivity() {
         binding.contentVP.offscreenPageLimit = mList.size
         binding.contentVP.adapter = mAdapter
 
-        binding.contentVP.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        binding.contentVP.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.pageNumberTV.text = (position + 1).toString() + "/" + mAdapter.itemCount.toString()
+                binding.pageNumberTV.text =
+                    (position + 1).toString() + "/" + mAdapter.itemCount.toString()
             }
         })
 
@@ -247,7 +418,7 @@ class PictureEditActivity : FragmentActivity() {
         XPopup.Builder(this)
             .isViewMode(true)
             .hasShadowBg(false)
-            .asCustom(StickerSelectView(this,pictureEntity.id))
+            .asCustom(StickerSelectView(this, pictureEntity.id))
             .show()
     }
 
@@ -256,7 +427,7 @@ class PictureEditActivity : FragmentActivity() {
         XPopup.Builder(this)
             .isViewMode(true)
             .hasShadowBg(false)
-            .asCustom(AdjustSelectView(this,pictureEntity.id))
+            .asCustom(AdjustSelectView(this, pictureEntity.id))
             .show()
     }
 
@@ -265,7 +436,7 @@ class PictureEditActivity : FragmentActivity() {
         XPopup.Builder(this)
             .isViewMode(true)
             .hasShadowBg(false)
-            .asCustom(FilterSelectView(this,pictureEntity.id))
+            .asCustom(FilterSelectView(this, pictureEntity.id))
             .show()
     }
 
@@ -278,7 +449,7 @@ class PictureEditActivity : FragmentActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    private fun release(){
+    private fun release() {
         EventBus.getDefault().post(MessageEvent(MessageEvent.Type.RELEASE))
         finish()
     }
@@ -286,44 +457,44 @@ class PictureEditActivity : FragmentActivity() {
 
     override fun onStop() {
         super.onStop()
-        if(mOrientationListener.canDetectOrientation()){
+        if (mOrientationListener.canDetectOrientation()) {
             mOrientationListener.disable()
         }
     }
 
     override fun onStart() {
         super.onStart()
-        if(mOrientationListener.canDetectOrientation()){ //判断设备是否支持旋转
+        if (mOrientationListener.canDetectOrientation()) { //判断设备是否支持旋转
             mOrientationListener.enable()
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: MessageEvent){
-        if(event.type == MessageEvent.Type.CONCAT_BITMAP_RESULT){
+    fun onMessageEvent(event: MessageEvent) {
+        if (event.type == MessageEvent.Type.CONCAT_BITMAP_RESULT) {
             val concatBitmap = event.obj as ConcatBitmap
-            if(!mTempBitmapMap.containsValue(concatBitmap)){
-                for (i in mList.indices){
+            if (!mTempBitmapMap.containsValue(concatBitmap)) {
+                for (i in mList.indices) {
                     val pictureEntity = mList[i]
-                    if(pictureEntity.id == concatBitmap.id){
+                    if (pictureEntity.id == concatBitmap.id) {
                         concatBitmap.position = i
                         mTempBitmapMap[i] = concatBitmap
                         break
                     }
                 }
             }
-            if(mTempBitmapMap.size == mList.size){
+            if (mTempBitmapMap.size == mList.size) {
                 sendBitmapData()
             }
-        }else if (event.type === MessageEvent.Type.MUSIC_SELECT_MUSIC){
+        } else if (event.type === MessageEvent.Type.MUSIC_SELECT_MUSIC) {
             val music = event.obj as Music
-            viewModel.addMusic(applicationContext,music,mMusicSelectView?.getData())
+            viewModel.addMusic(applicationContext, music, mMusicSelectView?.getData())
         }
     }
 
     private fun sendBitmapData() {
-        for (i in mList.indices){
-           mConcatBitmaps.add(mTempBitmapMap[i]!!)
+        for (i in mList.indices) {
+            mConcatBitmaps.add(mTempBitmapMap[i]!!)
         }
         loadingPopupView?.dismiss()
 //        val intent = Intent()

@@ -14,4 +14,6 @@
     <string name="exposure">曝光</string>
     <string name="processing">处理中</string>
     <string name="imageeditor_music">配乐</string>
+    <string name="img_play">播放</string>
+    <string name="play_music_not_exit">音乐链接不存在</string>
 </resources>
