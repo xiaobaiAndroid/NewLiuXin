@@ -53,26 +53,7 @@ class PictureEditActivity : FragmentActivity() {
         externalCacheDir?.absolutePath ?: cacheDir.absolutePath
     }
 
-    private val mAudioPlayerEngine = AudioPlayerEngine(object: AudioPlayerEngine.Listener{
-        override fun onError() {
-            ToastUtils.setMessage(this@PictureEditActivity, resources.getString(R.string.play_music_not_exit))
-        }
 
-        override fun onPrepared() {
-            binding.playMusicLayout.playIV.setImageResource(R.drawable.img_ic_pause)
-            binding.playMusicLayout.musicPlayAnimationView.visibility = View.VISIBLE
-            mSoundAnimationDrawable?.start()
-            mMusicSelectView?.updatePlayState(true)
-        }
-
-        override fun onCompletion() {
-            binding.playMusicLayout.playIV.setImageResource(R.drawable.img_ic_play)
-            mSoundAnimationDrawable?.stop()
-            binding.playMusicLayout.musicPlayAnimationView.visibility = View.INVISIBLE
-            mMusicSelectView?.updatePlayState(false)
-        }
-
-    })
 
     private val viewModel: PictureEditViewModel by lazy {
         viewModels<PictureEditViewModel>().value
@@ -90,9 +71,6 @@ class PictureEditActivity : FragmentActivity() {
     private var mConcatBitmaps = arrayListOf<ConcatBitmap>()
     private var mTempBitmapMap = hashMapOf<Int, ConcatBitmap>()
 
-    private var mMusicSelectView: MusicSelectView? = null
-
-    private var mSoundAnimationDrawable: AnimationDrawable?=null
 
     private val mOrientationListener: OrientationEventListener by lazy {
         object : OrientationEventListener(applicationContext) {
@@ -130,8 +108,6 @@ class PictureEditActivity : FragmentActivity() {
         binding = ActivityPictureEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        IconUtils.setColor(binding.backIV, resources.getColor(R.color.cl_ffffff))
-
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
@@ -148,98 +124,22 @@ class PictureEditActivity : FragmentActivity() {
             }
         }
 
+        binding.navigationBarV.mActivity = this
         initTabView()
-
-        binding.backIV.setOnClickListener {
-            release()
-        }
-
-        binding.nextStepBt.setOnClickListener {
-            synthesisBitmap()
-        }
-
-        binding.selectMusicLayout.selectMusicCL.setOnClickListener {
-            showMusicView()
-        }
-
-
-        binding.playMusicLayout.playIV.isSelected = false
-        binding.playMusicLayout.playIV.setOnClickListener {
-            changePlayStatus()
-
-        }
-
-        binding.playMusicLayout.playContentCL.isEnabled = false
-        binding.playMusicLayout.playContentCL.setOnClickListener {
-            hideNextstepAnim()
-            showMusicView()
-        }
-
-        val deviceSupportsAEP: Boolean =
-            packageManager.hasSystemFeature(PackageManager.FEATURE_OPENGLES_EXTENSION_PACK)
-        if (deviceSupportsAEP) {
-            Log.i("bzf", "支持AEP")
-        } else {
-            Log.i("bzf", "不支持AEP")
-        }
 
         iniData()
     }
 
-    private fun hideNextstepAnim() {
-        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-        val objectAnimator1 = ObjectAnimator.ofFloat(
-            binding.backIV,
-            "alpha",
-            1.0f //start
-            , 0f //end
-        )
 
-        val objectAnimator2 = ObjectAnimator.ofFloat(
-            binding.nextStepBt,
-            "alpha",
-            1.0f //start
-            , 0f //end
-        )
 
-        val animatorSet = AnimatorSet()
-        animatorSet.duration = defaultDuration.toLong()
-        animatorSet.playTogether(objectAnimator1,objectAnimator2)
-        animatorSet.start()
-    }
-
-    private fun changePlayStatus() {
-        binding.playMusicLayout.playIV.apply {
-            if (isSelected) {
-                setImageResource(R.drawable.img_ic_pause)
-                mAudioPlayerEngine.play()
-                visibility = View.VISIBLE
-                mSoundAnimationDrawable?.stop()
-            } else {
-                setImageResource(R.drawable.img_ic_play)
-                mAudioPlayerEngine.pause()
-                visibility = View.VISIBLE
-                mSoundAnimationDrawable?.stop()
-            }
-            isSelected = !isSelected
-        }
-
-        binding.playMusicLayout.musicPlayAnimationView.apply {
-             if(mSoundAnimationDrawable == null){
-                 setImageResource(R.drawable.img_sound_animation)
-                 mSoundAnimationDrawable = drawable as AnimationDrawable
-             }
-        }
-
-    }
 
     private fun iniData() {
         viewModel.musicExitPosition.observe(this) {
-            mMusicSelectView?.changeSelect(it)
+            binding.navigationBarV.mMusicSelectView?.changeSelect(it)
         }
         viewModel.musicLiveData.observe(this) {
             it?.let { musicTable ->
-                mMusicSelectView?.addMusic(musicTable)
+                binding.navigationBarV.mMusicSelectView?.addMusic(musicTable)
             }
 
         }
@@ -247,104 +147,6 @@ class PictureEditActivity : FragmentActivity() {
         viewModel.queryAllLocalMusic(applicationContext)
     }
 
-    private fun showMusicView() {
-        mMusicSelectView = MusicSelectView(
-            this,
-            viewModel.musicAllLiveData.value,
-            object : MusicSelectView.Listener {
-                override fun openMusicLib() {
-                    mAudioPlayerEngine.stop()
-                    startActivity(Intent(this@PictureEditActivity, MusicHomeActivity::class.java))
-                }
-
-                override fun selectedMusic(musicTable: MusicTable) {
-                    preparePlay(musicTable)
-                }
-
-            })
-        XPopup.Builder(this)
-            .isViewMode(true)
-            .isClickThrough(true)
-            .hasShadowBg(false)
-            .setPopupCallback(object: SimpleCallback() {
-                override fun onDismiss(popupView: BasePopupView?) {
-                    super.onDismiss(popupView)
-                    showNextstepAnim()
-                }
-
-            })
-            .asCustom(mMusicSelectView)
-            .show()
-    }
-
-    private fun showNextstepAnim() {
-        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-        val objectAnimator1 = ObjectAnimator.ofFloat(
-            binding.backIV,
-            "alpha",
-            0.0f //start
-            , 1f //end
-        )
-
-        val objectAnimator2 = ObjectAnimator.ofFloat(
-            binding.nextStepBt,
-            "alpha",
-            0.0f //start
-            , 1f //end
-        )
-
-        val animatorSet = AnimatorSet()
-        animatorSet.duration = defaultDuration.toLong()
-        animatorSet.playTogether(objectAnimator1,objectAnimator2)
-        animatorSet.start()
-    }
-
-
-    private var isShowPlayLayout = false
-    private fun preparePlay(musicTable: MusicTable) {
-        if (!isShowPlayLayout) {
-            showPlayAnim()
-            isShowPlayLayout = true
-            binding.playMusicLayout.playContentCL.isEnabled = true
-        }
-        binding.playMusicLayout.musicNameTV.text = musicTable.musicName
-
-        musicTable.musicUrl?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-                mAudioPlayerEngine.prepare(it)
-                withContext(Dispatchers.Main) {
-                    changePlayStatus()
-                }
-            }
-        }
-
-    }
-
-    private fun showPlayAnim() {
-        val defaultDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
-
-        val objectAnimator = ObjectAnimator.ofFloat(
-            binding.selectMusicLayout.selectMusicRootCL,
-            "translationY",
-            0f, -binding.selectMusicLayout.selectMusicRootCL.height.toFloat()
-        )
-
-        val objectAnimator1 = ObjectAnimator.ofFloat(
-            binding.playMusicLayout.playMusicCL,
-            "translationY",
-            binding.playMusicLayout.playMusicCL.height.toFloat() //start
-            , 0f //end
-        )
-
-
-        val animatorSet = AnimatorSet()
-        animatorSet.duration = defaultDuration.toLong()
-        animatorSet.playTogether(objectAnimator, objectAnimator1)
-        animatorSet.start()
-
-        hideNextstepAnim()
-
-    }
 
 
     override fun onDestroy() {
@@ -352,13 +154,11 @@ class PictureEditActivity : FragmentActivity() {
             EventBus.getDefault().unregister(this)
         }
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        mAudioPlayerEngine.stop()
-        mAudioPlayerEngine.release()
-        mSoundAnimationDrawable?.stop()
+        binding.navigationBarV.onDestroy()
         super.onDestroy()
     }
 
-    private fun synthesisBitmap() {
+    fun synthesisBitmap() {
         loadingPopupView = XPopup.Builder(this)
             .dismissOnTouchOutside(false)
             .dismissOnBackPressed(false)
@@ -449,7 +249,7 @@ class PictureEditActivity : FragmentActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    private fun release() {
+    fun release() {
         EventBus.getDefault().post(MessageEvent(MessageEvent.Type.RELEASE))
         finish()
     }
@@ -488,7 +288,7 @@ class PictureEditActivity : FragmentActivity() {
             }
         } else if (event.type === MessageEvent.Type.MUSIC_SELECT_MUSIC) {
             val music = event.obj as Music
-            viewModel.addMusic(applicationContext, music, mMusicSelectView?.getData())
+            viewModel.addMusic(applicationContext, music, binding.navigationBarV.mMusicSelectView?.getData())
         }
     }
 
@@ -500,6 +300,10 @@ class PictureEditActivity : FragmentActivity() {
 //        val intent = Intent()
 //        intent.putParcelableArrayListExtra("images",mConcatBitmaps)
 //        startActivity(intent)
+    }
+
+    fun getMusicsData(): MutableList<MusicTable>? {
+        return viewModel.musicAllLiveData.value
     }
 
     companion object {

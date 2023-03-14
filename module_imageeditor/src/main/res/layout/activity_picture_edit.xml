@@ -8,52 +8,15 @@
     tools:context=".PictureEditActivity">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/navigationBarCL"
+    <com.bzf.module_imageeditor.view.NavigationBarView
+        android:id="@+id/navigationBarV"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/cl_333333"
-        >
-
-        <include
-            android:id="@+id/selectMusicLayout"
-            layout="@layout/img_layout_select_actionbar"
-            />
-
-        <include layout="@layout/img_layout_play_actionbar"
-            android:id="@+id/playMusicLayout"
-            />
-
-        <ImageView
-            android:id="@+id/backIV"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:paddingStart="@dimen/dp_16"
-            android:paddingEnd="@dimen/dp_16"
-            android:scaleType="center"
-            android:src="@drawable/ic_back" />
-
-        <Button
-            android:id="@+id/nextStepBt"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_next_step"
-            android:gravity="center"
-            android:text="@string/next_step"
-            android:textColor="@color/cl_ffffff"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        />
 
 
     <androidx.viewpager2.widget.ViewPager2
@@ -63,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/pageNumberTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/navigationBarCL"
+        app:layout_constraintTop_toBottomOf="@id/navigationBarV"
         android:layout_marginTop="@dimen/dp_24"
         />
 

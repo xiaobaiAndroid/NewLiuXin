@@ -1,13 +1,10 @@
 package module.audioplayer_lib
 
-import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.MediaPlayer.MEDIA_ERROR_SERVER_DIED
 import android.media.MediaPlayer.MEDIA_ERROR_UNKNOWN
-import android.media.MediaRecorder.AudioSource
-import android.os.Build
 import android.util.Log
 
 class AudioPlayerEngine(val listener: Listener) {
@@ -28,11 +25,14 @@ class AudioPlayerEngine(val listener: Listener) {
         mediaPlayer.setOnBufferingUpdateListener { mp, percent ->
             Log.i("bzf", "percent=$percent")
             if (percent == 0 || percent == 100) {
-                listener.onPrepared()
+                listener.onStartPlaying()
             }
         }
         mediaPlayer.setOnCompletionListener {
             listener.onCompletion()
+        }
+        mediaPlayer.setOnPreparedListener {
+            listener.onPrepare()
         }
         mediaPlayer
     }
@@ -62,7 +62,7 @@ class AudioPlayerEngine(val listener: Listener) {
             }
             mMediaPlayer.reset()
             mMediaPlayer.setDataSource(url)
-            mMediaPlayer.prepare()
+            mMediaPlayer.prepareAsync()
         } catch (e: Exception) {
             e.printStackTrace()
             listener.onError()
@@ -115,9 +115,14 @@ class AudioPlayerEngine(val listener: Listener) {
         return 0
     }
 
+    fun isPlaying(): Boolean {
+        return  mMediaPlayer.isPlaying
+    }
+
     interface Listener {
         fun onError()
-        fun onPrepared()
+        fun onStartPlaying()
         fun onCompletion()
+        fun onPrepare()
     }
 }

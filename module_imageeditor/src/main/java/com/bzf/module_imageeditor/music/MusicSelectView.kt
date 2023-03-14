@@ -95,7 +95,7 @@ class MusicSelectView(context: Context, private val musics: MutableList<MusicTab
     }
 
     fun updatePlayState(startPlay: Boolean) {
-        if(lastSelectedPosition < 0){
+        if(lastSelectedPosition < 0 || lastSelectedPosition >= musicAdapter.data.size){
             return
         }
         val musicTable = musicAdapter.getItem(lastSelectedPosition)
