@@ -19,4 +19,7 @@
     <string name="img_label_location">地点</string>
     <string name="img_label_user">用户</string>
     <string name="img_label">标签</string>
+    <string name="img_no_location_permisison">未获得定位权限</string>
+    <string name="img_user_disable_location_permisison">定位权限被关，请手动打开定位权限开关</string>
+    <string name="img_open_location_permisison">请打开精确定位</string>
 </resources>

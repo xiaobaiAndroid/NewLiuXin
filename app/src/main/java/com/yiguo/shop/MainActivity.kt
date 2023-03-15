@@ -1,5 +1,6 @@
 package com.yiguo.shop
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -68,7 +69,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
     }
 
     override fun disposeMessageEvent(event: MessageEvent?) {
