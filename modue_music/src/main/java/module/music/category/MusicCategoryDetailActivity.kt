@@ -1,6 +1,5 @@
 package module.music.category
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import module.common.data.entity.MusicCategory
 import module.common.event.MessageEvent
 import module.common.utils.ImmersionBarUtils
 import module.common.utils.StatusBarUtils
-import module.music.MusicAdapter
 import module.music.R
 import module.music.databinding.MusicActivityMusicCategoryDetailBinding
 import org.greenrobot.eventbus.EventBus
@@ -28,7 +26,7 @@ class MusicCategoryDetailActivity :
     }
 
     override fun initStatusBar() {
-        ImmersionBarUtils.defaultBuild(this)
+        ImmersionBarUtils.init(this)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

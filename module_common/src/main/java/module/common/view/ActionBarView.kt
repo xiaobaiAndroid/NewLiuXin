@@ -32,7 +32,7 @@ class ActionBarView(context: Context,attrs:AttributeSet) : FrameLayout(context,a
         binding.backIB.setOnClickListener {
             activity.onBackPressed()
         }
-        StatusBarUtils.setMarginStatusBarHeight(activity,binding.toolbarCL)
+//        StatusBarUtils.setMarginStatusBarHeight(activity,binding.toolbarCL)
     }
 
     /**

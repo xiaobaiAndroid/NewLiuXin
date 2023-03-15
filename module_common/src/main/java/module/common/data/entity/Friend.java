@@ -41,13 +41,14 @@ public class Friend extends BaseNode implements Parcelable {
     private int blacklist;
     private String remark;
     private int state;
-    private UserInfo extend;
+    private IMUserInfo extend;
 
     private IMFriendGroup group;
     private int praiseNum;
     private int likeNum;
     private int fansNum;
     private int storeId;
+
 
     private boolean isSelected = false;
 
@@ -175,11 +176,11 @@ public class Friend extends BaseNode implements Parcelable {
         this.state = state;
     }
 
-    public UserInfo getExtend() {
+    public IMUserInfo getExtend() {
         return extend;
     }
 
-    public void setExtend(UserInfo extend) {
+    public void setExtend(IMUserInfo extend) {
         this.extend = extend;
     }
 

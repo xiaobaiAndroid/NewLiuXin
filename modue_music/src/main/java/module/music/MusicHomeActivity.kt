@@ -2,11 +2,8 @@ package module.music
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import module.common.base.BaseActivity
 import module.common.event.MessageEvent
 import module.common.utils.ImmersionBarUtils
@@ -43,7 +40,7 @@ class MusicHomeActivity : BaseActivity<MusicActivityMusicHomeBinding, MusicHomeV
 
 
     override fun initStatusBar() {
-        ImmersionBarUtils.defaultBuild(this)
+        ImmersionBarUtils.init(this)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

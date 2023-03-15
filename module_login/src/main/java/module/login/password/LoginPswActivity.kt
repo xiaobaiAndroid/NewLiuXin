@@ -103,7 +103,7 @@ class LoginPswActivity : BaseActivity<LoginActivityLoginBinding, LoginPswViewMod
                             val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
                             messageEvent.obj = dataResult.t
                             EventBus.getDefault().post(messageEvent)
-                            ARouterHelper.openPath(this@LoginPswActivity, ARouterHelper.MAIN)
+                            onBackPressed()
                         }else{
                             ToastUtils.setMessage(this@LoginPswActivity,dataResult.message)
                         }

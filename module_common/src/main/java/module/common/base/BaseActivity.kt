@@ -14,7 +14,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivity() {
     protected var isLogin = false
 
     /*Activity是否初始化*/
@@ -27,6 +27,7 @@ abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity()
         binding = getBindingView()
         setContentView(binding.root)
         viewModel = createViewModel()
+        viewModel.mContext = applicationContext
 
         initStatusBar()
         initView(savedInstanceState)
@@ -58,7 +59,7 @@ abstract class BaseActivity<T : ViewBinding, V: ViewModel> : AppCompatActivity()
 
 
     protected open fun initStatusBar() {
-        ImmersionBarUtils.buildBarDark(this)
+        ImmersionBarUtils.init(this)
     }
 
     /**

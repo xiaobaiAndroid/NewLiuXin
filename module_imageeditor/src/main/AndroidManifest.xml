@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Tell the system this app requires OpenGL ES 3.1. -->
-    <uses-feature android:glEsVersion="0x00030001" android:required="true" />
-    <!-- 支持的纹理压缩格式 -->
-<!--    <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" />-->
-<!--    <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" />-->
-
-    <!--  ATI 纹理压缩。在运行 Adreno GPU 的设备上可用  -->
+    <uses-feature
+        android:glEsVersion="0x00030001"
+        android:required="true" /> <!-- 支持的纹理压缩格式 -->
+    <!-- <supports-gl-texture android:name="GL_OES_compressed_ETC1_RGB8_texture" /> -->
+    <!-- <supports-gl-texture android:name="GL_OES_compressed_paletted_texture" /> -->
+    <!-- ATI 纹理压缩。在运行 Adreno GPU 的设备上可用 -->
     <supports-gl-texture android:name="GL_AMD_compressed_ATC_texture" />
-    <supports-gl-texture android:name="GL_ATI_texture_compression_atitc"/>
-
-    <!--   ASTC纹理压缩  ASTC 是 OpenGL 和 OpenGL ES 标准化扩展-->
-    <!--    支持具有 LDR 的 2D 纹理。-->
-    <supports-gl-texture android:name="GL_KHR_texture_compression_astc_ldr"/>
-    <!--    扩展了 LDR 配置文件以添加 HDR 支持-->
-    <supports-gl-texture android:name="GL_KHR_texture_compression_astc_hdr"/>
-    <!--    增加了对压缩 3D 纹理的支持-->
-    <supports-gl-texture android:name="GL_OES_texture_compression_astc"/>
-
-
-<!--    AEP 可确保您的应用支持除 OpenGL 3.1 规范中描述的核心 OpenGL 扩展集之外的标准化扩展集。
-将这些扩展打包在一起可促使在各种设备上实现一致的功能集，同时使开发者能够充分利用最新的移动 GPU 设备。-->
-    <uses-feature android:name="android.hardware.opengles.aep"
+    <supports-gl-texture android:name="GL_ATI_texture_compression_atitc" /> <!-- ASTC纹理压缩  ASTC 是 OpenGL 和 OpenGL ES 标准化扩展 -->
+    <!-- 支持具有 LDR 的 2D 纹理。 -->
+    <supports-gl-texture android:name="GL_KHR_texture_compression_astc_ldr" /> <!-- 扩展了 LDR 配置文件以添加 HDR 支持 -->
+    <supports-gl-texture android:name="GL_KHR_texture_compression_astc_hdr" /> <!-- 增加了对压缩 3D 纹理的支持 -->
+    <supports-gl-texture android:name="GL_OES_texture_compression_astc" />
+    <!--
+    AEP 可确保您的应用支持除 OpenGL 3.1 规范中描述的核心 OpenGL 扩展集之外的标准化扩展集。
+将这些扩展打包在一起可促使在各种设备上实现一致的功能集，同时使开发者能够充分利用最新的移动 GPU 设备。
+    -->
+    <uses-feature
+        android:name="android.hardware.opengles.aep"
         android:required="true" />
 
     <application>
         <activity
+            android:name=".label.LabelSelectActivity"
+            android:configChanges="keyboardHidden|screenSize|locale|orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".PictureEditActivity"
             android:configChanges="keyboardHidden|screenSize|locale|orientation"
-            android:screenOrientation="portrait"
             android:exported="false"
-            />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

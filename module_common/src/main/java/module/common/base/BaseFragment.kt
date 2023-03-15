@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseFragment<T : ViewBinding,V: ViewModel> : Fragment() {
+abstract class BaseFragment<T : ViewBinding,V: BaseViewModel> : Fragment() {
     protected var isViewInitiated = false
     protected var isVisibleToUser = false
     protected var isDataInitiated = false
@@ -33,8 +33,8 @@ abstract class BaseFragment<T : ViewBinding,V: ViewModel> : Fragment() {
 
 
     /*是否一个Activity只有一个Fragment,那就不需要延迟加载*/
-    val isAlone: Boolean
-        get() = false
+    protected var isAlone: Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,11 +43,12 @@ abstract class BaseFragment<T : ViewBinding,V: ViewModel> : Fragment() {
     ): View? {
         binding = getViewBinding(layoutInflater,container)
         viewModel = createViewModel()
+        viewModel.mContext = requireContext().applicationContext
         mArguments = arguments
         if (needEventBus()) {
             EventBus.getDefault().register(this)
         }
-        return binding?.root
+        return binding.root
     }
 
     protected abstract fun createViewModel(): V
@@ -83,12 +84,12 @@ abstract class BaseFragment<T : ViewBinding,V: ViewModel> : Fragment() {
     fun onMessageEvent(event: MessageEvent) {
         if (MessageEvent.Type.UPDATE_USERINFO === event.type) {
             val userInfo = event.obj as UserInfo
-//            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
+            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
         }
         disposeMessageEvent(event)
     }
 
-    fun disposeMessageEvent(event: MessageEvent?) {}
+    open fun disposeMessageEvent(event: MessageEvent?) {}
     @JvmOverloads
     fun prepareFetchData(forceUpdate: Boolean = false): Boolean {
         if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {

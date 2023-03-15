@@ -1,10 +1,10 @@
 package com.yiguo.shop
 
-import androidx.lifecycle.ViewModel
+import module.common.base.BaseViewModel
 
 /**
  *@author: baizf
  *@date: 2023/3/7
  */
-class MainViewModel: ViewModel() {
+class MainViewModel: BaseViewModel() {
 }

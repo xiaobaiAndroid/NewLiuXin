@@ -1,0 +1,50 @@
+package module.common.data.entity
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class IMUserInfo(
+    val avatar: String,
+    val birthday: String,
+    val certification: String,
+    val chatTeamList: List<ChatTeam>,
+    val cityCode: Int,
+    val cityName: String,
+    val colleges: String,
+    val countyCode: Int,
+    val countyName: String,
+    val createBy: String,
+    val createTime: String,
+    val email: String,
+    val fansNum: Int,
+    val friend: String,
+    val fullAddress: String,
+    val id: String,
+    val intro: String,
+    val isFriend: Int,
+    val isOfficial: String,
+    val job: String,
+    val lat: String,
+    val likeNum: Int,
+    val lng: String,
+    val mobile: String,
+    val name: String,
+    val nickName: String,
+    val no: String,
+    val onLineState: Int,
+    val photo: String,
+    val praiseNum: Int,
+    val provinceCode: Int,
+    val provinceName: String,
+    val qrcode: String,
+    val sex: Int,
+    val showRealInfo: Int,
+    val state: Int,
+    val storeId: String,
+    val teamNum: Int,
+    val updateBy: String,
+    val updateTime: String,
+//    val userImageList: String,
+    val worksNum: Int
+): Parcelable

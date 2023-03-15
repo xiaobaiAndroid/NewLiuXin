@@ -16,4 +16,7 @@
     <string name="imageeditor_music">配乐</string>
     <string name="img_play">播放</string>
     <string name="play_music_not_exit">音乐链接不存在</string>
+    <string name="img_label_location">地点</string>
+    <string name="img_label_user">用户</string>
+    <string name="img_label">标签</string>
 </resources>

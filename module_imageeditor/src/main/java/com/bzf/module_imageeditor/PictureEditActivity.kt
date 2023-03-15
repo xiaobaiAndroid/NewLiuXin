@@ -22,6 +22,7 @@ import com.bzf.module_imageeditor.adjust.AdjustSelectView
 import com.bzf.module_imageeditor.databinding.ActivityPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
 import com.bzf.module_imageeditor.filter.FilterSelectView
+import com.bzf.module_imageeditor.label.LabelSelectActivity
 import com.bzf.module_imageeditor.music.MusicSelectView
 import com.bzf.module_imageeditor.sticker.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
@@ -126,7 +127,6 @@ class PictureEditActivity : FragmentActivity() {
 
         binding.navigationBarV.mActivity = this
         initTabView()
-
         iniData()
     }
 
@@ -208,6 +208,10 @@ class PictureEditActivity : FragmentActivity() {
         }
         binding.stickerTab.tabLL.setOnClickListener {
             showStickView()
+        }
+
+        binding.tagTab.tabLL.setOnClickListener {
+            startActivity(Intent(this, LabelSelectActivity::class.java))
         }
 
     }

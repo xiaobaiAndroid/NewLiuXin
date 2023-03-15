@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 * @author: bzf
 * @date: 12/26/20
 */
-@SuppressLint("ParcelCreator")
+
 @Parcelize
 data class IMFriendGroup(
 

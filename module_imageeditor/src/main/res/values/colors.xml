@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    表达式顺序是“aabbggrr”-->
     <color name="cl_333333">#333333</color>
     <color name="cl_ffffff">#ffffff</color>
     <color name="cl_next_step">#F7564A</color>
@@ -8,4 +9,5 @@
     <color name="cl_f1f1f1">#f1f1f1</color>
     <color name="cl_444444">#444444</color>
     <color name="cl_66666680">#66666680</color>
+    <color name="cl_ffffff40">#40ffffff</color>
 </resources>

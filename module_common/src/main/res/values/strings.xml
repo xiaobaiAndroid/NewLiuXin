@@ -11,4 +11,5 @@
     <string name="hint">提示</string>
     <string name="not_data">暂无数据</string>
     <string name="search">搜索</string>
+    <string name="need_anew_login">登录失效，需要重新登录</string>
 </resources>
