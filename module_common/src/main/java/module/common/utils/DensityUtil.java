@@ -19,6 +19,11 @@ public class DensityUtil {
         return (int) (dpValue * scale + 0.5f);
     }
 
+    public static Float dip2pxFloat(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return dpValue * scale + 0.5f;
+    }
+
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
@@ -96,6 +101,20 @@ public class DensityUtil {
     public static int sp2px(Context context, float spVal) {
 
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+
+                spVal, context.getResources().getDisplayMetrics());
+
+    }
+
+    /**
+     * sp转px
+     *
+     * @param context
+     * @return
+     */
+    public static float spToFloatPx(Context context, float spVal) {
+
+        return  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
 
                 spVal, context.getResources().getDisplayMetrics());
 

@@ -28,7 +28,9 @@ object GPSUtils {
      * 跳转GPS设置
      */
     fun getOpenGPSSettingsIntent(): Intent {
-        return Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        return intent
 
     }
 }

@@ -13,11 +13,11 @@ import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.bzf.module_imageeditor.databinding.FragmentPictureEditBinding
+import com.bzf.module_imageeditor.attachment.sticker.display.StickerEntity
+import com.bzf.module_imageeditor.databinding.ImgFragmentPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
 import com.bzf.module_imageeditor.filter.FilterEntity
-import com.bzf.module_imageeditor.sticker.Sticker
-import com.bzf.module_imageeditor.sticker.StickerProxy
+import com.bzf.module_imageeditor.label.select.LabelEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import module.common.event.MessageEvent
@@ -33,13 +33,9 @@ import java.io.FileOutputStream
  */
 class PictureEditFragment: Fragment() {
 
-    private lateinit var binding: FragmentPictureEditBinding
+    private lateinit var binding: ImgFragmentPictureEditBinding
 
     private  var entity: PictureEntity?=null
-
-    private val mStickerProxy: StickerProxy by lazy {
-        StickerProxy(binding.stickersImageView)
-    }
 
     private val mSurfaceView: PictureSurfaceView by lazy {
         PictureSurfaceView()
@@ -50,11 +46,11 @@ class PictureEditFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPictureEditBinding.inflate(inflater, container,false)
+        binding = ImgFragmentPictureEditBinding.inflate(inflater, container,false)
         mSurfaceView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
-        binding.contentFL.addView(mSurfaceView)
+        binding.contentFL.addView(mSurfaceView,0)
 
-        binding.stickersImageView.clipToOutline = true
+        binding.attachmentLayout.clipToOutline = true
 
         binding.root
         return binding.root
@@ -62,6 +58,8 @@ class PictureEditFragment: Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+
+        EventBus.getDefault().register(this)
 
         entity = arguments?.getParcelable<PictureEntity>("entity")
         entity?.let {
@@ -75,7 +73,7 @@ class PictureEditFragment: Fragment() {
                     val bitmap = BitmapFactory.decodeFile(imagePath)
                     val drawBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
                     val canvas = Canvas(drawBitmap)
-                    val stickers = binding.stickersImageView.mStickers
+                    val stickers = binding.attachmentLayout.getStickers()
                     for (sticker in stickers){
                         sticker.draw(canvas)
                     }
@@ -104,14 +102,16 @@ class PictureEditFragment: Fragment() {
                     val marginBottom = rect[1]
                     val width = rect[2]
                     val height = rect[3]
-                    val layoutParams =  binding.stickersImageView.layoutParams as ConstraintLayout.LayoutParams
+                    val layoutParams =  binding.attachmentLayout.layoutParams as ConstraintLayout.LayoutParams
                     layoutParams.marginStart = marginLeft
                     layoutParams.marginEnd = marginLeft
                     layoutParams.topMargin = marginBottom
                     layoutParams.bottomMargin = marginBottom
                     layoutParams.width = width
                     layoutParams.height = height
-                    binding.stickersImageView.layoutParams = layoutParams
+                    binding.attachmentLayout.layoutParams = layoutParams
+
+
                 }
             }
 
@@ -129,14 +129,10 @@ class PictureEditFragment: Fragment() {
 //        super.onResume()
 //    }
 
-    override fun onStart() {
-        EventBus.getDefault().register(this)
-        super.onStart()
-    }
-
-    override fun onStop() {
+    override fun onDestroyView() {
+        binding.labelsDrawView.destroy()
         EventBus.getDefault().unregister(this)
-        super.onStop()
+        super.onDestroyView()
     }
 
 
@@ -159,20 +155,26 @@ class PictureEditFragment: Fragment() {
             val screenDegree = event.obj as Int
             mSurfaceView.mGPUImageView.mScreenDegree = screenDegree
         }else if(event.type === MessageEvent.Type.STICKER_ADD){
-            val sticker = event.obj as Sticker
+            val sticker = event.obj as StickerEntity
             if(mSurfaceView.mGPUImageView.imageId === sticker.imageId){
-                mStickerProxy.addSticker(sticker)
+                binding.attachmentLayout.addStickerAttachment(sticker)
             }
         }else if(event.type === MessageEvent.Type.SAVE){
             concatBitmap()
+        } else if(event.type === MessageEvent.Type.SELECT_LABEL){
+            val labelEntity = event.obj as LabelEntity
+            if(labelEntity.position == (entity?.position ?: -1)){
+                binding.labelsDrawView.addLabel(labelEntity)
+            }
         }
     }
 
     private fun concatBitmap() {
-        binding.stickersImageView.hideSelectedFrame()
-        binding.stickersImageView.invalidate()
+        binding.attachmentLayout.hideSelectedFrame()
         mSurfaceView.mGPUImageView.getBitmap()
     }
+
+
 
 
     inner class PictureSurfaceView: GLSurfaceView(context){

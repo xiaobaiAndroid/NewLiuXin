@@ -31,7 +31,6 @@ class MapPOIProvider {
 
             override fun onLocDiagnosticMessage(locType: Int, diagnosticType: Int, diagnosticMessage: String?) {
                 super.onLocDiagnosticMessage(locType, diagnosticType, diagnosticMessage)
-                Log.i("location","locType=$locType----diagnosticType=$diagnosticType----diagnosticMessage$diagnosticMessage")
             }
 
         })
@@ -41,7 +40,6 @@ class MapPOIProvider {
     private fun assemble(bdLocation: BDLocation?): MutableList<MapPoi> {
         bdLocation ?: return mutableListOf()
         val locType = bdLocation.locType
-        Log.i("map","locType=$locType")
 
         bdLocation.poiList ?: return mutableListOf()
 
@@ -49,8 +47,6 @@ class MapPOIProvider {
 
         val latitude: Double = bdLocation.latitude
         val longitude: Double = bdLocation.longitude
-
-        Log.i("bzf","poiList=${bdLocation.poiList}")
 
         val poiList: List<Poi> = bdLocation.poiList
 

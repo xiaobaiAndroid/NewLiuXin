@@ -28,7 +28,9 @@ class MessageEvent(var type: Type) {
        MUSIC_SELECT_MUSIC,
        EXIT_APP,
        PUBLISH_SELECT_CATEGORY,
-       MAIN_GOODS_PAGE
+       MAIN_GOODS_PAGE,
+       //选择标签
+       SELECT_LABEL
    }
 
 }

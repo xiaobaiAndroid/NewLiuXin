@@ -1,46 +1,24 @@
 package com.bzf.module_imageeditor
 
-import android.animation.*
-import android.animation.Animator.AnimatorListener
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.animation.AnimationSet
-import android.view.animation.LayoutAnimationController
 import androidx.activity.viewModels
-import androidx.compose.ui.graphics.Color
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
-import androidx.core.view.marginTop
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bzf.module_imageeditor.adjust.AdjustSelectView
 import com.bzf.module_imageeditor.databinding.ActivityPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
 import com.bzf.module_imageeditor.filter.FilterSelectView
-import com.bzf.module_imageeditor.label.LabelSelectActivity
-import com.bzf.module_imageeditor.music.MusicSelectView
-import com.bzf.module_imageeditor.sticker.StickerSelectView
+import com.bzf.module_imageeditor.label.select.LabelSelectActivity
+import com.bzf.module_imageeditor.attachment.sticker.select.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup
-import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.impl.LoadingPopupView
-import com.lxj.xpopup.interfaces.SimpleCallback
-import com.lxj.xpopup.interfaces.XPopupCallback
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import module.audioplayer_lib.AudioPlayerEngine
 import module.common.data.db.entity.MusicTable
 import module.common.data.entity.Music
 import module.common.event.MessageEvent
-import module.common.utils.IconUtils
-import module.common.utils.ToastUtils
-import module.music.MusicHomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -211,7 +189,9 @@ class PictureEditActivity : FragmentActivity() {
         }
 
         binding.tagTab.tabLL.setOnClickListener {
-            startActivity(Intent(this, LabelSelectActivity::class.java))
+            val intent = Intent(this, LabelSelectActivity::class.java)
+            intent.putExtra("position",binding.contentVP.currentItem)
+            startActivity(intent)
         }
 
     }
