@@ -1,6 +1,7 @@
 package module.map
 
 import android.content.Context
+import android.util.Log
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
@@ -22,6 +23,7 @@ class LocationHelper(context: Context, val isHight: Boolean = false, listener: B
             mLocationClient = LocationClient(context)
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.i("bzf", "LocationClient---${e.message}")
         }
 
         val option = LocationClientOption()

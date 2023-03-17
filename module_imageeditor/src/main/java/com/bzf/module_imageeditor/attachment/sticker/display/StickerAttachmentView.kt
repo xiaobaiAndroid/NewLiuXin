@@ -4,9 +4,8 @@ import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.Rect
 import com.bzf.module_imageeditor.attachment.AttachmentLayout
-import com.bzf.module_imageeditor.attachment.base.AttachmentOperationType
 import com.bzf.module_imageeditor.attachment.base.AttachmentViewBase
-import com.bzf.module_imageeditor.attachment.base.IAttachmentDraw
+import com.bzf.module_imageeditor.attachment.base.IAttachmentDrawable
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.bzf.module_imageeditor.utils.Point2D
 import kotlin.math.max
@@ -16,28 +15,30 @@ import kotlin.math.min
  *@author: baizf
  *@date: 2023/3/16
  */
-class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewBase<StickerDrawable>(attachmentLayout) {
+class StickerAttachmentView(attachmentLayout: AttachmentLayout) :
+    AttachmentViewBase(attachmentLayout) {
 
 
-    override fun add(drawable: StickerDrawable) {
+    override fun add(drawable: IAttachmentDrawable) {
         val scaleBitmapWidth: Int
         val scaleBitmapHeight: Int
 
-        val stickerBitmap = drawable.bitmap
+        val drawableRect = drawable.getOriginalRect()
+
 
         val imageViewSize = max(attachmentLayout.width, attachmentLayout.height)
-        val bitmapSize = max(stickerBitmap.width, stickerBitmap.height)
-        if(bitmapSize > imageViewSize){
-            val ratioW = attachmentLayout.width.toFloat() / stickerBitmap.width.toFloat()
-            val ratioH = attachmentLayout.height.toFloat()/stickerBitmap.height.toFloat()
+        val bitmapSize = max(drawableRect.width(), drawableRect.height())
+        if (bitmapSize > imageViewSize) {
+            val ratioW = attachmentLayout.width.toFloat() / drawableRect.width().toFloat()
+            val ratioH = attachmentLayout.height.toFloat() / drawableRect.height().toFloat()
 
             val ratio = min(ratioW, ratioH)
 
-            scaleBitmapWidth = (drawable.bitmap.width * ratio).toInt()
-            scaleBitmapHeight = (stickerBitmap.height * ratio).toInt()
-        }else{
-            scaleBitmapWidth = stickerBitmap.width
-            scaleBitmapHeight = stickerBitmap.height
+            scaleBitmapWidth = (drawableRect.width() * ratio).toInt()
+            scaleBitmapHeight = (drawableRect.height() * ratio).toInt()
+        } else {
+            scaleBitmapWidth = drawableRect.width()
+            scaleBitmapHeight = drawableRect.height()
         }
 
         LogUtils.printI("scaleBitmapWidth=$scaleBitmapWidth, scaleBitmapHeight=$scaleBitmapHeight")
@@ -47,7 +48,7 @@ class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewB
 
         LogUtils.printI("left=$left, top=$top")
         val rect = Rect(left, top, left + scaleBitmapWidth, top + scaleBitmapHeight)
-        drawable.setPosition(rect,attachmentLayout.width, attachmentLayout.height)
+        drawable.setPosition(rect, attachmentLayout.width, attachmentLayout.height)
 
         mAttachmentDrawables.add(drawable)
         mSelectedPosition = mAttachmentDrawables.size - 1
@@ -55,50 +56,18 @@ class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewB
         attachmentLayout.invalidate()
     }
 
-    override fun delete() {
-        if (isSelected() && mOperateType == AttachmentOperationType.DELETE) {
-            mAttachmentDrawables.removeAt(mSelectedPosition)
-            mSelectedPosition = NO_SELECTED
-            attachmentLayout.invalidate()
-        }
-    }
-
-    override fun move(currentX: Float, currentY: Float, lastX: Float, lastY: Float) {
-        if (isSelected() && mAttachmentDrawables.isNotEmpty()) {
-            //禁止ViewGroup拦截当前事件
-            attachmentLayout.parent.requestDisallowInterceptTouchEvent(true)
-
-            val offsetX = currentX - lastX
-            val offsetY = currentY - lastY
-
-            val stickerDrawable = mAttachmentDrawables[mSelectedPosition]
-            when(mOperateType){
-                AttachmentOperationType.MOVE->{
-                    stickerDrawable.changePosition(offsetX, offsetY)
-                }
-                AttachmentOperationType.RESIZE->{
-                    scaleAndRotate(stickerDrawable as StickerDrawable, currentX, currentY, offsetX, offsetY)
-                }
-                else->{
-
-                }
-            }
-            attachmentLayout.invalidate()
-        } else {
-            //不禁止ViewGroup拦截当前事件
-            attachmentLayout.parent.parent.requestDisallowInterceptTouchEvent(false)
-        }
-    }
 
     override fun scaleAndRotate(
-        drawable: StickerDrawable,
+        drawable: IAttachmentDrawable,
         currentX: Float,
         currentY: Float,
         offsetX: Float,
         offsetY: Float
     ) {
-        val centerPoint = drawable.getCenterPoint()
-        val bottomRightPoint = drawable.getRightBottomPoint()
+        val stickerDrawable = drawable as StickerDrawable
+
+        val centerPoint = stickerDrawable.getCenterPoint()
+        val bottomRightPoint = stickerDrawable.getRightBottomPoint()
         val currentPoint = PointF(currentX, currentY)
 
         LogUtils.printI("centerPoint=$centerPoint, bottomRightPoint=$bottomRightPoint,  currentPoint=$currentPoint")
@@ -110,7 +79,7 @@ class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewB
 
         LogUtils.printI("sourceAngle=$sourceAngle, currentAngle=$currentAngle,  offsetAngle=$offsetAngle")
 
-        drawable.setRotateAngle(offsetAngle)
+        stickerDrawable.setRotateAngle(offsetAngle)
 
         var offsetPoint = computeRotateOffset(offsetAngle, offsetX, offsetY)
 
@@ -122,60 +91,8 @@ class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewB
         val distanceNew = Point2D.distance(offsetPoint, centerPoint)
 
         val distance = distanceNew - distanceOld
-        drawable.resize(distance.toFloat())
+        stickerDrawable.resize(distance.toFloat())
     }
-
-
-    override fun isSelected(): Boolean {
-        return mSelectedPosition != NO_SELECTED
-    }
-
-    override fun isTouchAtAttachment(x: Float, y: Float) {
-        if (mAttachmentDrawables.isNotEmpty()) {
-            mOperateType = AttachmentOperationType.NONE
-
-            var tempSelectPosition = NO_SELECTED
-            for (i in mAttachmentDrawables.indices) {
-                val stickerDraw = mAttachmentDrawables[i]
-                if (stickerDraw.isTouch(x, y)) {
-                    tempSelectPosition = i
-                }
-            }
-            if (tempSelectPosition == NO_SELECTED) { //点击事件都不在所有贴纸上,在看是不是在操作按钮上
-                if(isSelected()){
-                    val stickerDrawable = mAttachmentDrawables[mSelectedPosition]
-                    if(stickerDrawable.isTouchDelete(x,y)){
-                        mOperateType = AttachmentOperationType.DELETE
-                    }else if(stickerDrawable.isTouchResize(x,y)){
-                        mOperateType = AttachmentOperationType.RESIZE
-                    }else{
-                        hideSelectedFrame()
-                    }
-                }else{
-                    hideSelectedFrame()
-                }
-            } else {
-                mAttachmentDrawables[tempSelectPosition].setSelected(true)
-                cancelSelected()
-                mSelectedPosition = tempSelectPosition
-                mOperateType = AttachmentOperationType.MOVE
-            }
-            attachmentLayout.invalidate()
-        }
-    }
-
-    override fun cancelSelected() {
-        if (isSelected()) {
-            mAttachmentDrawables[mSelectedPosition].setSelected(false)
-        }
-    }
-
-    fun hideSelectedFrame() {
-        cancelSelected()
-        mSelectedPosition = NO_SELECTED
-        mOperateType = AttachmentOperationType.NONE
-    }
-
 
 
     private fun computeRotateOffset(
@@ -191,10 +108,6 @@ class StickerAttachmentView(attachmentLayout: AttachmentLayout): AttachmentViewB
         val rotateOffsetX = offsetArr[0]
         val rotateOffsetY = offsetArr[1]
         return PointF(rotateOffsetX, rotateOffsetY)
-    }
-
-    fun getStickers(): MutableList<IAttachmentDraw> {
-        return mAttachmentDrawables
     }
 
 

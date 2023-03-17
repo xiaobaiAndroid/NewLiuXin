@@ -5,7 +5,6 @@ import android.graphics.*
 import com.bzf.module_imageeditor.R
 import com.bzf.module_imageeditor.attachment.base.AttachmentDrawBase
 import com.bzf.module_imageeditor.utils.LogUtils
-import java.security.SecureRandom
 
 /**
  *@author: baizf
@@ -16,8 +15,6 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
     val bitmap: Bitmap = context.assets.open(attachment.path).use {
         BitmapFactory.decodeStream(it)
     }
-
-    private val mOriginalRect = Rect(0, 0, bitmap.width, bitmap.height)
 
     private var mRotateAngle: Float = 0.0f
 
@@ -34,31 +31,16 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
     )
     private val mResizeRect = RectF()
 
+    init {
+        mOriginalRect = Rect(0, 0, bitmap.width, bitmap.height)
+    }
 
 
-
-    fun setPosition(rect: Rect, viewWidth: Int, viewHeight: Int) {
+    override fun setPosition(rect: Rect, viewWidth: Int, viewHeight: Int) {
+        super.setPosition(rect, viewWidth, viewHeight)
         mRatioWH = rect.width().toFloat() / rect.height().toFloat()
-
-        mOffsetPoint.set(createRandomOffset(viewWidth, viewHeight, rect))
-
-        mRect.set(
-            0f,
-            0f,
-            rect.width().toFloat(),
-            rect.height().toFloat()
-        )
-
-        mSelectedFrameRect.set(mRect)
-        mSelectedFrameRect.inset(-mStickerPadding, -mStickerPadding)
-
-        setDeleteBimapRect()
-        setResizeBitmapRect()
-        resetMatrix()
-
         mMaxSize = viewWidth/2f
-
-        setSelected(true)
+        setResizeBitmapRect()
     }
 
 
@@ -70,33 +52,7 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
         mResizeRect.set(resizeLeft, resizeTop, resizeRight, resizeBottom)
     }
 
-    private fun createRandomOffset(
-        viewWidth: Int,
-        viewHeight: Int,
-        rect: Rect
-    ): PointF {
-        val rangeX = viewWidth / 4
-        val rangeY = viewHeight / 4
 
-        val random = SecureRandom()
-        val isLeft = random.nextInt(100)
-
-        val randomX = SecureRandom.getInstance("SHA1PRNG")
-        val randomY = SecureRandom.getInstance("SHA1PRNG")
-
-        val offsetX: Int
-        val offsetY: Int
-        if (isLeft < 50) {
-            offsetX = rect.left - randomX.nextInt(rangeX)
-            offsetY = rect.top - randomY.nextInt(rangeY)
-        } else {
-            offsetX = rect.left - randomX.nextInt(rangeX)
-            offsetY = rect.top - randomY.nextInt(rangeY)
-        }
-        LogUtils.printI("offsetX=$offsetX, offsetY=$offsetY")
-
-        return PointF(offsetX.toFloat(), offsetY.toFloat())
-    }
 
 
     override fun drawSelf(canvas: Canvas) {
@@ -108,11 +64,6 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
         canvas.drawBitmap(mResizeBitmap,mResizeRect.left, mResizeRect.top,null)
     }
 
-    override fun getCenterPoint(): PointF {
-        mTempRect.set(mSelectedFrameRect)
-        mMatrix.mapRect(mTempRect)
-        return PointF(mTempRect.centerX(),mTempRect.centerY())
-    }
 
     fun getRightBottomPoint(): PointF {
         mTempRect.set(mSelectedFrameRect)
@@ -149,7 +100,7 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
         mRect.set(mTempRect)
 
         mSelectedFrameRect.set(mRect)
-        mSelectedFrameRect.inset(-mStickerPadding, -mStickerPadding)
+        mSelectedFrameRect.inset(-mPadding, -mPadding)
 
         setDeleteBimapRect()
         setResizeBitmapRect()
@@ -173,10 +124,12 @@ class StickerDrawable(context: Context, val attachment: StickerEntity): Attachme
 
     override fun isTouchResize(x: Float, y: Float): Boolean {
         mTempRect.set(mResizeRect)
-        mTempRect.inset(-mStickerPadding, -mStickerPadding)
+        mTempRect.inset(-mPadding, -mPadding)
         mMatrix.mapRect(mTempRect)
         return mTempRect.contains(x, y)
     }
+
+
 
 
 }

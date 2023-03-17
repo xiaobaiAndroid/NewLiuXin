@@ -11,7 +11,7 @@ import com.bzf.module_imageeditor.adjust.AdjustSelectView
 import com.bzf.module_imageeditor.databinding.ActivityPictureEditBinding
 import com.bzf.module_imageeditor.entity.ConcatBitmap
 import com.bzf.module_imageeditor.filter.FilterSelectView
-import com.bzf.module_imageeditor.label.select.LabelSelectActivity
+import com.bzf.module_imageeditor.attachment.label.select.LabelSelectActivity
 import com.bzf.module_imageeditor.attachment.sticker.select.StickerSelectView
 import com.bzf.module_imageeditor.utils.LogUtils
 import com.lxj.xpopup.XPopup

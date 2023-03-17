@@ -1,4 +1,4 @@
-package com.bzf.module_imageeditor.label.select
+package com.bzf.module_imageeditor.attachment.label.select
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bzf.module_imageeditor.R
 import com.bzf.module_imageeditor.databinding.ImgFragmentLabelSelectBinding
+import com.bzf.module_imageeditor.label.select.LabelEntity
+import com.bzf.module_imageeditor.label.select.LabelType
 import com.bzf.module_imageeditor.view.LinearSpaceDecoration
 import module.common.base.BaseFragment
 import module.common.event.MessageEvent

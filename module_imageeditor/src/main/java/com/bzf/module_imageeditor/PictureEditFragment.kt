@@ -130,7 +130,7 @@ class PictureEditFragment: Fragment() {
 //    }
 
     override fun onDestroyView() {
-        binding.labelsDrawView.destroy()
+        binding.attachmentLayout.destroy()
         EventBus.getDefault().unregister(this)
         super.onDestroyView()
     }
@@ -143,11 +143,13 @@ class PictureEditFragment: Fragment() {
             mSurfaceView.mGPUImageView.destroy()
         }else if(event.type === MessageEvent.Type.FILTER){
             val filterEntity = event.obj as FilterEntity
+            binding.attachmentLayout.hideSelectedFrame()
             if(mSurfaceView.mGPUImageView.imageId == filterEntity.imageId){
                 mSurfaceView.mGPUImageView.setupFilter(filterEntity.filterType)
             }
         }else if(event.type === MessageEvent.Type.REFRESH){
             val imageId = event.obj as String
+            binding.attachmentLayout.hideSelectedFrame()
             if(mSurfaceView.mGPUImageView.imageId == imageId){
                 mSurfaceView.requestRender()
             }
@@ -156,6 +158,7 @@ class PictureEditFragment: Fragment() {
             mSurfaceView.mGPUImageView.mScreenDegree = screenDegree
         }else if(event.type === MessageEvent.Type.STICKER_ADD){
             val sticker = event.obj as StickerEntity
+            binding.attachmentLayout.hideSelectedFrame()
             if(mSurfaceView.mGPUImageView.imageId === sticker.imageId){
                 binding.attachmentLayout.addStickerAttachment(sticker)
             }
@@ -163,8 +166,9 @@ class PictureEditFragment: Fragment() {
             concatBitmap()
         } else if(event.type === MessageEvent.Type.SELECT_LABEL){
             val labelEntity = event.obj as LabelEntity
+            binding.attachmentLayout.hideSelectedFrame()
             if(labelEntity.position == (entity?.position ?: -1)){
-                binding.labelsDrawView.addLabel(labelEntity)
+                binding.attachmentLayout.addLabelAttachment(labelEntity)
             }
         }
     }

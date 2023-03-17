@@ -1,4 +1,4 @@
-package com.bzf.module_imageeditor.label.select
+package com.bzf.module_imageeditor.attachment.label.select
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bzf.module_imageeditor.R
 import com.bzf.module_imageeditor.databinding.ImgFragmentLabelSelectBinding
+import com.bzf.module_imageeditor.label.select.LabelEntity
+import com.bzf.module_imageeditor.label.select.LabelType
 import com.bzf.module_imageeditor.view.LinearSpaceDecoration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

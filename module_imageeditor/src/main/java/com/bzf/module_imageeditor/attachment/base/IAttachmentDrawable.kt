@@ -2,12 +2,13 @@ package com.bzf.module_imageeditor.attachment.base
 
 import android.graphics.Canvas
 import android.graphics.PointF
+import android.graphics.Rect
 
 /**
  *@author: baizf
  *@date: 2023/3/16
  */
-interface IAttachmentDraw {
+interface IAttachmentDrawable {
 
     fun draw(canvas: Canvas)
 
@@ -32,4 +33,10 @@ interface IAttachmentDraw {
     fun isSelected(): Boolean
 
     fun setSelected(selected: Boolean)
+
+    fun getOriginalRect(): Rect
+
+    fun setPosition(rect: Rect, viewWidth: Int, viewHeight: Int)
+
+    fun destroy()
 }

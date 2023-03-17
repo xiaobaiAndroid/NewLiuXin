@@ -33,6 +33,9 @@ class MapPOIProvider {
                 super.onLocDiagnosticMessage(locType, diagnosticType, diagnosticMessage)
             }
 
+            override fun onConnectHotSpotMessage(p0: String?, p1: Int) {
+                super.onConnectHotSpotMessage(p0, p1)
+            }
         })
         mapHelper?.start()
     }

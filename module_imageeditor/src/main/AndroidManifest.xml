@@ -24,7 +24,7 @@
 
     <application>
         <activity
-            android:name=".label.select.LabelSelectActivity"
+            android:name=".attachment.label.select.LabelSelectActivity"
             android:configChanges="keyboardHidden|screenSize|locale|orientation"
             android:exported="true"
             android:screenOrientation="portrait" >

@@ -1,4 +1,4 @@
-package com.bzf.module_imageeditor.label.select
+package com.bzf.module_imageeditor.attachment.label.select
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cl_000000"
-    tools:context=".label.select.LabelSelectActivity">
+    tools:context=".attachment.label.select.LabelSelectActivity">
 
     <module.common.view.ActionBarView
         android:id="@+id/actionBarV"
