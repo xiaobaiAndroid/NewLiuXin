@@ -86,7 +86,7 @@ class LanguageConfigUtils {
         fun isZh(context: Context): Boolean {
             val locale = getAppLocale(context)
             val language = locale.language
-            LogUtils.i("language=" + language)
+            LogUtils.printI("language=" + language)
             return language.endsWith("zh")
         }
 

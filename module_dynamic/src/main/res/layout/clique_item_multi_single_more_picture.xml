@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/clique_layout_dynamic_header" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/pictureIV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_6"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dp_5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/picture1IV"
+        app:layout_constraintTop_toBottomOf="@id/avatarIV" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/picture1IV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_12"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dp_5"
+        app:layout_constraintLeft_toRightOf="@id/pictureIV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pictureIV" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/picture2IV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/dp_5"
+        app:layout_constraintBottom_toBottomOf="@id/pictureIV"
+        app:layout_constraintLeft_toLeftOf="@id/picture1IV"
+        app:layout_constraintRight_toRightOf="@id/picture1IV"
+        app:layout_constraintTop_toBottomOf="@id/picture1IV" />
+
+
+    <TextView
+        android:id="@+id/pictureNumberTV"
+        style="@style/tv_10_ffffff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:background="@drawable/clique_bg_picture_number"
+        android:paddingLeft="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_1"
+        android:paddingRight="@dimen/dp_6"
+        android:paddingBottom="@dimen/dp_1"
+        app:layout_constraintBottom_toBottomOf="@id/picture2IV"
+        app:layout_constraintRight_toRightOf="@id/picture2IV" />
+
+    <include layout="@layout/clique_layout_dynamic_footer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

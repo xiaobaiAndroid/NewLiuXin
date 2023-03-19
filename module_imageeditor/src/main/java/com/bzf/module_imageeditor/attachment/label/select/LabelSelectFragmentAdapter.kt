@@ -9,7 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
  *@author: baizf
  *@date: 2023/3/14
  */
-class LabelSelectFragmentAdapter(fragmentActivity: FragmentActivity, position: Int) :
+class LabelSelectFragmentAdapter(fragmentActivity: FragmentActivity, val picturePosition: Int) :
     FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int {
         return 2
@@ -17,7 +17,7 @@ class LabelSelectFragmentAdapter(fragmentActivity: FragmentActivity, position: I
 
     override fun createFragment(position: Int): Fragment {
         val bundle = Bundle()
-        bundle.putInt("position", position)
+        bundle.putInt("position", picturePosition)
         return when (position) {
             0 -> {
                 val labelAddressSelectFragment = LabelAddressSelectFragment()

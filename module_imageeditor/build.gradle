@@ -20,7 +20,7 @@ android {
                 //cFlags: 指定 C++ 编译器的标志
                 //启用 C++11标准、RTTI（运行时类型信息）支持和 C++ 异常
                 //RTTI说明：https://www.cnblogs.com/zhuyf87/archive/2013/03/15/2960899.html
-                cppFlags "-std=c++11", "-fexceptions", "-frtti"
+                cppFlags "-std=c++17", "-fexceptions", "-frtti"
             }
         }
 
@@ -63,9 +63,6 @@ dependencies {
     implementation libs.xpopup
     implementation project(path: ':modue_music')
     implementation project(path: ':audioplayer_lib')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.4.+'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation project(path: ':module_map')
 
     kapt libs.lifecycleCompiler

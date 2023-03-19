@@ -1,0 +1,11 @@
+<resources>
+    <string name="flip">翻转</string>
+    <string name="filter">滤镜</string>
+    <string name="adjust">调节</string>
+    <string name="select_music">选择音乐</string>
+    <string name="brightness">亮度</string>
+    <string name="contrast">对比度</string>
+    <string name="sharpness">锐化</string>
+    <string name="saturation">饱和度</string>
+    <string name="exposure">曝光</string>
+</resources>

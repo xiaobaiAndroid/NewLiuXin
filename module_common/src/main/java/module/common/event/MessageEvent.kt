@@ -30,7 +30,10 @@ class MessageEvent(var type: Type) {
        PUBLISH_SELECT_CATEGORY,
        MAIN_GOODS_PAGE,
        //选择标签
-       SELECT_LABEL
+       SELECT_LABEL,
+       SELECTED_CITY,
+       SHOW_WAY,
+       DYNAMIC_SELECT_CATEGORY
    }
 
 }

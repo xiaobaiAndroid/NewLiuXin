@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import module.common.data.entity.UserInfo
 import module.common.event.MessageEvent
@@ -54,7 +53,7 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
      * @date: 2020/2/7
      */
     protected fun activityStartVisible() {
-        LogUtils.i("activityStartVisible-----")
+        LogUtils.printI("activityStartVisible-----")
     }
 
 

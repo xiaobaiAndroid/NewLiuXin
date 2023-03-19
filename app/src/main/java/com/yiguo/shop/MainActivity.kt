@@ -1,6 +1,5 @@
 package com.yiguo.shop
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -56,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
             }
 
             override fun onTabReselect(position: Int) {
-                LogUtils.i("onTabReselect---position="+position)
+                LogUtils.printI("onTabReselect---position="+position)
             }
 
         })

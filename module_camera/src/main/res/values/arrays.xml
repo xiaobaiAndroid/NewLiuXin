@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter">
+        <item>原图</item>
+        <item>童话</item>
+        <item>日出</item>
+        <item>日落</item>
+        <item>白猫</item>
+        <item>黑猫</item>
+        <item>美白</item>
+        <item>健康</item>
+        <item>甜品</item>
+        <item>浪漫</item>
+        <item>樱花</item>
+        <item>温暖</item>
+        <item>复古</item>
+        <item>怀旧</item>
+        <item>平静</item>
+        <item>拿铁</item>
+        <item>温柔</item>
+        <item>冰冷</item>
+        <item>祖母绿</item>
+        <item>常青</item>
+        <item>蜡笔</item>
+        <item>素描</item>
+    </string-array>
+</resources>

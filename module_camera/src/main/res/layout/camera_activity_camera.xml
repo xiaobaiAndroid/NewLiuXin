@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".CameraActivity">
+
+    <com.bzf.module_camera.CameraSurfaceView
+        android:id="@+id/cameraSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/flipIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:src="@drawable/video_ic_flip"
+        android:padding="@dimen/dp_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/flipTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="@id/flipIV"
+        app:layout_constraintEnd_toEndOf="@id/flipIV"
+        app:layout_constraintTop_toBottomOf="@id/flipIV"
+        android:textColor="@color/cl_ffffff"
+        android:text="@string/flip"
+        />
+
+
+    <ImageView
+        android:id="@+id/filterIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/flipIV"
+        app:layout_constraintEnd_toEndOf="@id/flipIV"
+        app:layout_constraintTop_toBottomOf="@id/flipTV"
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@drawable/video_ic_filter"
+        android:padding="@dimen/dp_6"
+        />
+
+    <TextView
+        android:id="@+id/filterTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="@id/filterIV"
+        app:layout_constraintEnd_toEndOf="@id/filterIV"
+        app:layout_constraintTop_toBottomOf="@id/filterIV"
+        android:textColor="@color/cl_ffffff"
+        android:text="@string/filter"
+        />
+
+    <ImageView
+        android:id="@+id/adjustIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/filterTV"
+        app:layout_constraintEnd_toEndOf="@id/filterTV"
+        app:layout_constraintTop_toBottomOf="@id/filterTV"
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@drawable/video_ic_beauty"
+        android:padding="@dimen/dp_6"
+        />
+
+    <TextView
+        android:id="@+id/adjustTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="@id/adjustIV"
+        app:layout_constraintEnd_toEndOf="@id/adjustIV"
+        app:layout_constraintTop_toBottomOf="@id/adjustIV"
+        android:textColor="@color/cl_ffffff"
+        android:text="@string/adjust"
+        />
+
+
+    <ImageButton
+        android:id="@+id/closeIB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@drawable/video_ic_close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_20"
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/musicCL"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/closeIB"
+        app:layout_constraintBottom_toBottomOf="@id/closeIB"
+        android:maxWidth="200dp"
+        >
+
+
+        <ImageView
+            android:id="@+id/musicIV"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/video_ic_music"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/dp_16"
+            />
+
+
+        <TextView
+            android:id="@+id/selectMusicTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_music"
+            android:textColor="@color/cl_ffffff"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toEndOf="@id/musicIV"
+            android:layout_marginStart="@dimen/dp_6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/dp_16"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <module.camera.VideoRecordView
+        android:id="@+id/recordV"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

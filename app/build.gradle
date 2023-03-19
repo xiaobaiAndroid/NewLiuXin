@@ -42,7 +42,8 @@ dependencies {
     implementation project(path: ':module_common')
     implementation project(path: ':module_login')
     implementation project(path: ':module_user')
-    implementation project(path: ':module_live')
+    implementation project(path: ':module_publish')
+    implementation project(path: ':module_dynamic')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

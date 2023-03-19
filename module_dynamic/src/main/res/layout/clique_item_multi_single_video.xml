@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/clique_layout_dynamic_header" />
+
+
+    <ImageView
+        android:id="@+id/pictureIV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarIV" />
+
+    <ImageView
+        android:id="@+id/playIV"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintLeft_toLeftOf="@id/pictureIV"
+        app:layout_constraintRight_toRightOf="@id/pictureIV"
+        app:layout_constraintTop_toTopOf="@id/pictureIV"
+        app:layout_constraintBottom_toBottomOf="@id/pictureIV"
+        android:src="@drawable/clique_play"
+        />
+
+
+    <include layout="@layout/clique_layout_dynamic_footer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

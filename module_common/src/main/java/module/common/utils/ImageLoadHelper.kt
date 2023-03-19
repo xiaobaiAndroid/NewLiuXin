@@ -52,7 +52,7 @@ object ImageLoadHelper {
     }
 
     fun loadCricleBackcall(imageView: ImageView, image_url: String, defaultImage: Int) {
-        LogUtils.i("image_url=$image_url")
+        LogUtils.printI("image_url=$image_url")
         Glide.with(imageView.context)
             .load(image_url)
             .centerCrop()
@@ -64,7 +64,7 @@ object ImageLoadHelper {
                     target: Target<Drawable>,
                     isFirstResource: Boolean
                 ): Boolean {
-                    LogUtils.i("加载失败 errorMsg:" + if (e != null) e.message else "null")
+                    LogUtils.printI("加载失败 errorMsg:" + if (e != null) e.message else "null")
                     return false
                 }
 
@@ -75,7 +75,7 @@ object ImageLoadHelper {
                     dataSource: DataSource,
                     isFirstResource: Boolean
                 ): Boolean {
-                    LogUtils.i("成功  Drawable Name:" + resource.javaClass.canonicalName)
+                    LogUtils.printI("成功  Drawable Name:" + resource.javaClass.canonicalName)
                     return false
                 }
             })
@@ -84,7 +84,7 @@ object ImageLoadHelper {
     }
 
     fun load(imageView: ImageView, url: String) {
-        LogUtils.i("url=$url")
+        LogUtils.printI("url=$url")
         Glide.with(imageView.context)
             .load(url)
             .centerCrop()
@@ -100,7 +100,7 @@ object ImageLoadHelper {
     }
 
     fun load(requestOptions: RequestOptions?, imageView: ImageView?, url: String) {
-        LogUtils.i("url=$url")
+        LogUtils.printI("url=$url")
         Glide.with(imageView!!)
             .load(url)
             .apply(requestOptions!!)
@@ -108,7 +108,7 @@ object ImageLoadHelper {
     }
 
     fun defaultLoad(imageView: ImageView, url: String) {
-        LogUtils.i("url=$url")
+        LogUtils.printI("url=$url")
         Glide.with(imageView.context)
             .load(url)
             .into(imageView)
@@ -196,7 +196,7 @@ object ImageLoadHelper {
         image_url: String,
         listener: RequestListener<Drawable?>?
     ) {
-        LogUtils.i("image_url=$image_url")
+        LogUtils.printI("image_url=$image_url")
         Glide.with(imageView.context)
             .load(image_url)
             .listener(listener)
@@ -208,7 +208,7 @@ object ImageLoadHelper {
      * @date: 2020/4/5
      */
     fun loadAssert(imageView: ImageView, assetFileName: String) {
-        LogUtils.i("assetFileName=$assetFileName")
+        LogUtils.printI("assetFileName=$assetFileName")
         Glide.with(imageView.context)
             .load(ASSET + assetFileName)
             .fitCenter()
@@ -220,7 +220,7 @@ object ImageLoadHelper {
      * @date: 2020/7/30
      */
     fun downloadOnly(context: Context?, imgUrl: String, listener: DownloadListener) {
-        LogUtils.i("downloadOnly=$imgUrl")
+        LogUtils.printI("downloadOnly=$imgUrl")
         val requestManager = Glide.with(context!!)
         val requestBuilder = requestManager.downloadOnly()
         requestBuilder.load(imgUrl)
@@ -243,7 +243,7 @@ object ImageLoadHelper {
                     isFirstResource: Boolean
                 ): Boolean {
                     if (resource != null) {
-                        LogUtils.i(resource.absolutePath)
+                        LogUtils.printI(resource.absolutePath)
                     }
                     listener.success(resource)
                     return false

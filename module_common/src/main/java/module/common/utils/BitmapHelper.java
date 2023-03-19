@@ -47,7 +47,8 @@ public class BitmapHelper {
             saveSignImage(context,bitName,bitmap);
             return fileName;
         } else {
-            LogUtils.i("saveBitmap brand", "" + brand);
+            LogUtils.INSTANCE.printI("saveBitmap brand", "" + brand);
+
             file =new File(fileName);
         }
         if (file.exists()) {
@@ -73,15 +74,15 @@ public class BitmapHelper {
 
             }
         } catch (FileNotFoundException e) {
-            LogUtils.i("FileNotFoundException", "FileNotFoundException:" + e.getMessage().toString());
+            LogUtils.INSTANCE.printI("FileNotFoundException", "FileNotFoundException:" + e.getMessage().toString());
             e.printStackTrace();
             return fileName;
         } catch (IOException e) {
-            LogUtils.i("IOException", "IOException:" + e.getMessage().toString());
+            LogUtils.INSTANCE.printI("IOException", "IOException:" + e.getMessage().toString());
             e.printStackTrace();
             return fileName;
         } catch (Exception e) {
-            LogUtils.i("IOException", "IOException:" + e.getMessage().toString());
+            LogUtils.INSTANCE.printI("IOException", "IOException:" + e.getMessage().toString());
             e.printStackTrace();
             return fileName;
 

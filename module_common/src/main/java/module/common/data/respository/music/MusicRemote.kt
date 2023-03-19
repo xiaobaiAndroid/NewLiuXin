@@ -23,7 +23,7 @@ internal class MusicRemote {
                 .addAll("{}")
                 .toAwaitString()
                 .await()
-            LogUtils.i("http",json)
+            LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
                 dataResult.setStatus(DataResult.TOKEN_PAST)
             } else {
@@ -56,7 +56,7 @@ internal class MusicRemote {
                 .addAll(GsonUtils.toJson(req))
                 .toAwaitString()
                 .await()
-            LogUtils.i("http",json)
+            LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
                 dataResult.setStatus(DataResult.TOKEN_PAST)
             } else {

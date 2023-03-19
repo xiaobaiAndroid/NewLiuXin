@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/pictureIV"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/playIV"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        app:layout_constraintLeft_toLeftOf="@id/pictureIV"
+        app:layout_constraintBottom_toBottomOf="@id/pictureIV"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:src="@drawable/clique_play"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/tv_15_313131"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pictureIV"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+
+    <TextView
+        android:id="@+id/contentTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/tv_10_707070"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTV"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginTop="@dimen/dp_8"
+        />
+
+    <ImageView
+        android:id="@+id/avatarIV"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentTV"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/nicknameTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/tv_10_313131"
+        app:layout_constraintLeft_toRightOf="@id/avatarIV"
+        app:layout_constraintTop_toTopOf="@id/avatarIV"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIV"
+        android:layout_marginLeft="@dimen/dp_10"
+        app:layout_constraintRight_toLeftOf="@id/praiseIV"
+        android:ellipsize="end"
+        android:maxLines="1"
+        />
+
+    <TextView
+        android:id="@+id/praiseTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_12"
+        app:layout_constraintBaseline_toBaselineOf="@id/nicknameTV"
+        style="@style/tv_10_313131"
+        />
+
+    <ImageView
+        android:id="@+id/praiseIV"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        android:src="@drawable/clique_praise"
+        app:layout_constraintTop_toTopOf="@id/praiseTV"
+        android:layout_marginTop="@dimen/dp_3"
+        app:layout_constraintRight_toLeftOf="@id/praiseTV"
+        android:layout_marginRight="@dimen/dp_4"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

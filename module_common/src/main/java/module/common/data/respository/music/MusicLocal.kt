@@ -36,7 +36,7 @@ internal class MusicLocal {
     suspend fun queryAllMusic(context: Context, userId: String): MutableList<MusicTable> {
         val musicDao = AppDatabase.getDatabase(context).musicDao()
         val musicTableList = musicDao.queryAll(userId)
-        LogUtils.i("queryAllMusic---size=${musicTableList.size}")
+        LogUtils.printI("queryAllMusic---size=${musicTableList.size}")
         return musicTableList
     }
 }

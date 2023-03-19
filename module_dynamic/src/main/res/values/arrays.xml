@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="clique_arr_ranking">
+        <item>富豪榜</item>
+        <item>点赞榜</item>
+        <item>明星作品榜</item>
+    </string-array>
+    <string-array name="clique_arr_date_ranking">
+        <item>昨日榜</item>
+        <item>上周榜</item>
+        <item>上月榜</item>
+    </string-array>
+
+
+
+    <string-array name="clique_hot_search">
+        <item>元旦</item>
+        <item>美食</item>
+        <item>旅游</item>
+        <item>购物</item>
+        <item>约会</item>
+    </string-array>
+</resources>

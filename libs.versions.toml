@@ -75,4 +75,12 @@ pictureselectorUcrop = 'io.github.lucksiege:ucrop:v3.10.7'
 #https://github.com/google/gson
 gson = 'com.google.code.gson:gson:2.10.1'
 
+#https://github.com/scwang90/SmartRefreshLayout
+smartRefreshLayoutCore = 'io.github.scwang90:refresh-layout-kernel:2.0.5'
+smartRefreshLayoutHeader = 'io.github.scwang90:refresh-header-classics:2.0.5'
+smartRefreshLayoutFooter = 'io.github.scwang90:refresh-footer-classics:2.0.5'
+
+
+roundedimageview = 'com.makeramen:roundedimageview:2.3.0'
+
 [plugins]

@@ -46,11 +46,12 @@ class UserRemote {
             val jsonObject = JSONObject()
             jsonObject.put("account", phone)
             jsonObject.put("password", psw)
+            jsonObject.put("userAccountType", 4)
             val json = RxHttp.postJson(URLUtils.LOGIN_PSW)
                 .addAll(jsonObject.toString())
                 .toAwaitString()
                 .await()
-            LogUtils.i("http",json)
+            LogUtils.printI("http",json)
             if (json.contains("{\"code\":\"401\",\"detail\":\"授权过期\"}")) {
                 dataResult.setStatus(DataResult.TOKEN_PAST)
             } else {
@@ -123,7 +124,7 @@ class UserRemote {
                 .toAwaitString()
                 .await()
 
-            LogUtils.i("http",json)
+            LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
                 dataResult.setStatus(DataResult.TOKEN_PAST)
             } else {
@@ -187,6 +188,35 @@ class UserRemote {
                 dataResult.message = resp.message.info
                 if (resp.message.code == DataResult.SERVICE_SUCCESS) {
                     dataResult.t = resp.data
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun register(username: String, code: String, recommendPhone: String): DataResult<String> {
+        val dataResult = DataResult<String>()
+        val jsonObject = JSONObject()
+        jsonObject.put("account", username)
+        jsonObject.put("code", code)
+        jsonObject.put("password", code)
+        jsonObject.put("userAccountType", 3)
+        try {
+            val json = RxHttp.postJson(URLUtils.PROTOCOL)
+                .addAll(jsonObject.toString())
+                .toAwaitString()
+                .await()
+
+
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.setStatus(DataResult.TOKEN_PAST)
+            } else {
+                val resp = parseObject(json, LoginResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
                     dataResult.status = DataResult.SUCCESS
                 }
             }

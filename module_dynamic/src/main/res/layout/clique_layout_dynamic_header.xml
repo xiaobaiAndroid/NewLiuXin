@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/avatarIV"
+        android:layout_width="@dimen/dp_44"
+        android:layout_height="@dimen/dp_44"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/nicknameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/avatarIV"
+        app:layout_constraintLeft_toRightOf="@id/avatarIV"
+        style="@style/tv_15_313131"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_8"
+        />
+
+
+    <TextView
+        android:id="@+id/dateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/nicknameTV"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIV"
+        android:layout_marginBottom="@dimen/dp_4"
+        style="@style/tv_10_707070"
+        />
+
+    <TextView
+        android:id="@+id/praiseTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_12"
+        app:layout_constraintBaseline_toBaselineOf="@id/nicknameTV"
+        style="@style/tv_12_313131"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/dp_11"
+        android:layout_height="@dimen/dp_11"
+        android:src="@drawable/clique_praise"
+        app:layout_constraintTop_toTopOf="@id/praiseTV"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintRight_toLeftOf="@id/praiseTV"
+        android:layout_marginRight="@dimen/dp_4"
+        />
+
+
+</merge>

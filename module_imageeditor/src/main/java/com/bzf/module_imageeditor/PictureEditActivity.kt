@@ -189,8 +189,9 @@ class PictureEditActivity : FragmentActivity() {
         }
 
         binding.tagTab.tabLL.setOnClickListener {
+            val currentItem = binding.contentVP.currentItem
             val intent = Intent(this, LabelSelectActivity::class.java)
-            intent.putExtra("position",binding.contentVP.currentItem)
+            intent.putExtra("position",currentItem)
             startActivity(intent)
         }
 

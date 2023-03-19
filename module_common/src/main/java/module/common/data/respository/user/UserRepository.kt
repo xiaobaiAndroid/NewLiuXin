@@ -176,6 +176,15 @@ class UserRepository private constructor() {
         return mRemote.getProtocol(type)
     }
 
+    suspend fun register(
+        mContext: Context,
+        username: String,
+        code: String,
+        recommendPhone: String
+    ): DataResult<String> {
+        return mRemote.register(username,code,recommendPhone)
+    }
+
     companion object {
         val instance: UserRepository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             UserRepository()

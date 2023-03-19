@@ -7,9 +7,8 @@ import java.math.BigDecimal
  * @date: 2020/6/27
  * @author: Mr Bai
  */
-class MoneyUtils {
+object MoneyUtils {
 
-    companion object{
 
         /**
          * @describe: 转换成显示的价格，保留两位小数
@@ -21,5 +20,4 @@ class MoneyUtils {
             return value
         }
 
-    }
 }

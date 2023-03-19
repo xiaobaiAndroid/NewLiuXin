@@ -1,0 +1,53 @@
+<resources>
+    <string name="clique_friend_clique">朋友圈</string>
+    <string name="clique_in_video">IN视频</string>
+    <string name="clique_live">直播</string>
+    <string name="clique_filter">筛选</string>
+    <string name="clique_multi_content">图文</string>
+    <string name="clique_format_picture_number">共%s张</string>
+    <string name="clique_not_video">暂无更多视频</string>
+    <string name="clique_not_imgtxt">暂无更多文章</string>
+    <string name="clique_upload_statement">上传声明</string>
+    <string name="clique_protocol_left">进入当前页即代表同意</string>
+    <string name="clique_publish_video">发视频</string>
+    <string name="clique_publish_imgtxt">发图文</string>
+    <string name="clique_format_comment_count">共%s条评论</string>
+    <string name="clique_recommend_goods">推荐商品</string>
+    <string name="clique_mark">马克一下</string>
+    <string name="clique_comment_content">说点什么...</string>
+    <string name="clique_format_sell_count">已售%s件</string>
+    <string name="clique_comment_success">评论成功</string>
+    <string name="clique_comment_fail">评论失败</string>
+    <string name="clique_yet_attention">已关注</string>
+    <string name="clique_attention_cancel">已取消关注</string>
+    <string name="clique_not_money">浏币不足</string>
+
+
+    <string name="clique_to_him_talk">个人空间</string>
+    <string name="clique_send_gift">送礼物</string>
+    <string name="clique_share">分享</string>
+    <string name="clique_report">举报</string>
+    <string name="clique_blacklist">屏蔽</string>
+    <string name="clique_cancel">取消</string>
+    <string name="clique_give">赠送</string>
+    <string name="clique_delete">删除</string>
+    <string name="clique_input_gift_number">请输入要赠送礼物的数量</string>
+    <string name="clique_yet_cancel">已取消</string>
+    <string name="clique_collect_success">收藏成功</string>
+    <string name="clique_endorse_success">点赞成功</string>
+    <string name="clique_load_more_comment">展开更多评论</string>
+    <string name="clique_input_key">请输入关键字</string>
+    <string name="clique_hot_search">热门搜索</string>
+    <string name="clique_search_history">搜索历史</string>
+    <string name="clique_clear_history">清空搜索历史</string>
+    <string name="clique_search_result">搜索结果</string>
+    <string name="clique_not_search_result">未搜索到内容</string>
+    <string name="clique_ranking_attention">+关注</string>
+    <string name="clique_not_data">暂无数据</string>
+    <string name="clique_receive">收到</string>
+    <string name="clique_ranking_title">富豪榜·热搜榜</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

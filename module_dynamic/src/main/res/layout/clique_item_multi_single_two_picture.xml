@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/clique_layout_dynamic_header"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/pictureIV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/picture1IV"
+        app:layout_constraintTop_toBottomOf="@id/avatarIV"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_6"
+        app:riv_corner_radius="@dimen/dp_5"
+        />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/picture1IV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/pictureIV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatarIV"
+        android:layout_marginRight="@dimen/dp_12"
+        app:riv_corner_radius="@dimen/dp_5"
+        />
+
+    <include layout="@layout/clique_layout_dynamic_footer"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

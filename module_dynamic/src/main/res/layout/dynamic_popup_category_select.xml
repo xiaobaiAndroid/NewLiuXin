@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/cl_ffffff"
+    android:layout_height="@dimen/dp_300">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/tv_16_313131"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:text="@string/clique_select_category"
+        android:layout_marginTop="@dimen/dp_12"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contentRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:layout_marginTop="@dimen/dp_12"
+        />
+
+</LinearLayout>

@@ -88,6 +88,7 @@ public class ARouterHelper {
     public static final String ALBUM_HOME = "/album/HomeActivity";
     /*发布主界面*/
     public static final String PUBLISH_HOME = "/publish/PublishHomeActivity";
+    public static final String PUBLISH_ENTRANCE = "/publish/PublishEntranceActivity";
 
     /*视频编辑*/
     public static final String VIDEO_MODIFY = "/publish/VideoModifyActivity";
