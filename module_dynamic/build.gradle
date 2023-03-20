@@ -54,6 +54,7 @@ dependencies {
     implementation libs.roundedimageview
 
     implementation libs.banner
+    implementation project(path: ':audioplayer_lib')
 
     kapt libs.lifecycleCompiler
     

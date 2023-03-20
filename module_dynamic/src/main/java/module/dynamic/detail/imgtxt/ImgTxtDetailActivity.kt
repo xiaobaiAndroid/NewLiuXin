@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lxj.xpopup.core.BasePopupView
 import com.youth.banner.indicator.CircleIndicator
+import module.audioplayer_lib.AudioPlayerEngine
 import module.common.base.BaseActivity
 import module.common.data.DataResult
 import module.common.data.entity.Comment
@@ -46,7 +47,7 @@ class ImgTxtDetailActivity :
     private val handler = Handler()
     var commentListPopup: BasePopupView? = null
 
-
+    private lateinit var mAudioPlayer: AudioPlayerEngine
     override fun createViewModel(): ImgTxtDetailViewModel {
         return viewModels<ImgTxtDetailViewModel>().value
     }
@@ -91,6 +92,27 @@ class ImgTxtDetailActivity :
         )
         spaceDecoration.setMargin(resources.getDimension(module.common.R.dimen.dp_12).toInt())
         binding.recommendRV.addItemDecoration(spaceDecoration)
+
+
+        mAudioPlayer = AudioPlayerEngine(object: AudioPlayerEngine.Listener{
+            override fun onError() {
+                ToastUtils.setMessage(this@ImgTxtDetailActivity, resources.getString(R.string.play_music_not_exit))
+            }
+
+            override fun onStartPlaying() {
+
+            }
+
+            override fun onCompletion() {
+
+            }
+
+            override fun onPrepare() {
+                binding.audioPlayLL.visibility = View.VISIBLE
+                mAudioPlayer.play()
+            }
+
+        })
 
         initListener()
 
@@ -138,6 +160,32 @@ class ImgTxtDetailActivity :
                 ToastUtils.setMessage(this, it.message)
             }
         }
+
+        viewModel.endorseDataResultLD.observe(this){
+            if(it.status == DataResult.SUCCESS){
+                viewModel.imgTxtResultLD.value?.t?.let { imgTxt->
+                    var number = imgTxt.praiseNum.toInt()
+                    if (imgTxt.praiseStatus == CommonStatus.YET) {
+                        imgTxt.praiseStatus = CommonStatus.NOT
+                        number -= 1
+                        imgTxt.praiseNum = number.toString()
+                        ToastUtils.setMessage(this, resources.getString(R.string.clique_yet_cancel))
+                    } else {
+                        imgTxt.praiseStatus = CommonStatus.YET
+                        number += 1
+                        imgTxt.praiseNum = number.toString()
+                        ToastUtils.setMessage(this, resources.getString(R.string.clique_endorse_success))
+                    }
+                    binding.endorseCountTV.text = imgTxt.praiseNum ?: "0"
+                    setImgTxtData(imgTxt)
+                }
+
+            }else{
+
+                ToastUtils.setMessage(this, resources.getString(R.string.clique_endorse_fail))
+            }
+            binding.endorseCountLL.isEnabled = true
+        }
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -179,14 +227,7 @@ class ImgTxtDetailActivity :
         binding.endorseCountTV.text = StringUtils.packNull(imgTxt.praiseNum)
         binding.collectCountTV.text = StringUtils.packNull(imgTxt.favoriteNum)
 
-        if (imgTxt.praiseStatus == CommonStatus.YET) {
-            IconUtils.setColor(
-                binding.endorseIV,
-                resources.getColor(module.common.R.color.cl_e5004f)
-            )
-        } else {
-            IconUtils.setColor(binding.endorseIV, 0)
-        }
+        setLikeStatus(imgTxt)
 
         if (imgTxt.favoriteStatus == CommonStatus.YET) {
             IconUtils.setColor(
@@ -200,8 +241,17 @@ class ImgTxtDetailActivity :
         binding.dateTV.text = DateUtils.dateToString(Date(imgTxt.createTime), DateUtils.FORMAT_3)
         binding.audioPlayTV.text = StringUtils.packNull(imgTxt.resourceName)
 
-        if (imgTxt.musicUrl.isEmpty()) {
-            binding.audioPlayLL.visibility = View.GONE
+        binding.audioPlayLL.visibility = View.GONE
+        imgTxt.musicUrl?.let {
+            mAudioPlayer.prepare(it,true)
+        }
+    }
+
+    private fun setLikeStatus(imgTxt: ImgTxtData) {
+        if (imgTxt.praiseStatus == CommonStatus.YET) {
+            binding.endorseIV.setImageResource(R.drawable.dynamic_ic_like_selected)
+        } else {
+            binding.endorseIV.setImageResource(R.drawable.dynamic_ic_like_normal)
         }
     }
 
@@ -229,8 +279,8 @@ class ImgTxtDetailActivity :
         }
 
         binding.endorseCountLL.setOnClickListener {
-            binding.endorseCountLL.isClickable = false
-            viewModel.endorse(dynamic)
+            binding.endorseCountLL.isEnabled = false
+            viewModel.endorse(dynamic?.id)
         }
 
         binding.collectNumberLL.setOnClickListener {
@@ -325,6 +375,14 @@ class ImgTxtDetailActivity :
             binding.loadMoreTV.isClickable = false
             viewModel.getComments(dynamic?.id)
         }
+
+        binding.audioPlayLL.setOnClickListener {
+            if(mAudioPlayer.isPlaying()){
+                mAudioPlayer.pause()
+            }else{
+                mAudioPlayer.resume()
+            }
+        }
     }
 
     /**
@@ -344,6 +402,23 @@ class ImgTxtDetailActivity :
 //            .hasShadowBg(false)
 //            .asCustom(MoreOperationView(this, dynamic,shareIV, shareEntity))
 //            .show()
+    }
+
+
+    override fun onResume() {
+        mAudioPlayer.resume()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        mAudioPlayer.pause()
+        super.onPause()
+    }
+
+
+    override fun onDestroy() {
+        mAudioPlayer.release()
+        super.onDestroy()
     }
 
 }

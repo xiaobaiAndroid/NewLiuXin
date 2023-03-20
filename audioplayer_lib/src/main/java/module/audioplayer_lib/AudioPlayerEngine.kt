@@ -55,13 +55,14 @@ class AudioPlayerEngine(val listener: Listener) {
         }
     }
 
-    fun prepare(url: String) {
+    fun prepare(url: String, isLooping: Boolean = false) {
         try {
             if (mMediaPlayer.isPlaying) {
                 stop()
             }
             mMediaPlayer.reset()
             mMediaPlayer.setDataSource(url)
+            mMediaPlayer.isLooping = isLooping
             mMediaPlayer.prepareAsync()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -88,6 +89,11 @@ class AudioPlayerEngine(val listener: Listener) {
         }
     }
 
+    fun resume(){
+        if (!mMediaPlayer.isPlaying) {
+            mMediaPlayer.start()
+        }
+    }
     fun pause() {
         if (mMediaPlayer.isPlaying) {
             mMediaPlayer.pause()

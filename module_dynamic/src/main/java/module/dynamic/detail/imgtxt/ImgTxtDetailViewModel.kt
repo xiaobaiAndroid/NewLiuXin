@@ -13,11 +13,12 @@ import module.common.data.entity.Dynamic
 import module.common.data.entity.Goods
 import module.common.data.entity.ImgTxtData
 import module.common.data.request.CommentListReq
+import module.common.data.request.EndorseReq
 import module.common.data.request.RecommendGoodsReq
 import module.common.data.respository.comment.CommentRepository
 import module.common.data.respository.dynamic.DynamicRepository
 import module.common.data.respository.goods.GoodsRepository
-import module.common.data.respository.user.UserRepository
+import module.common.data.status.CommonStatus
 import module.common.event.entity.EGiveGift
 
 /**
@@ -31,6 +32,10 @@ class ImgTxtDetailViewModel: BaseViewModel() {
 
     val imgTxtResultLD: MutableLiveData<DataResult<ImgTxtData?>> by lazy {
         MutableLiveData<DataResult<ImgTxtData?>>()
+    }
+
+    val endorseDataResultLD: MutableLiveData<DataResult<String>> by lazy {
+        MutableLiveData<DataResult<String>>()
     }
 
     val commentsDataResultLD: MutableLiveData<DataResult<MutableList<Comment>>> by lazy {
@@ -81,8 +86,20 @@ class ImgTxtDetailViewModel: BaseViewModel() {
 
     }
 
-    fun endorse(dynamic: Dynamic?) {
-        TODO("Not yet implemented")
+    fun endorse(dynamicId: String?) = viewModelScope.launch(Dispatchers.IO) {
+        val endorseReq = EndorseReq()
+        endorseReq.mediaId = dynamicId
+
+        val imgTxtData = imgTxtResultLD.value?.t
+        if (imgTxtData?.praiseStatus == CommonStatus.YET) {
+            endorseReq.state = CommonStatus.NOT.toString() + ""
+        } else {
+            endorseReq.state = CommonStatus.YET.toString() + ""
+        }
+        val dataResult: DataResult<String> = DynamicRepository.instance.endorse(mContext,endorseReq)
+        withContext(Dispatchers.Main){
+            endorseDataResultLD.value = dataResult
+        }
     }
 
     fun collect(dynamic: Dynamic?) {

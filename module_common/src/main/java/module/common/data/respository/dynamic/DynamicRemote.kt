@@ -7,8 +7,10 @@ import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
+import module.common.data.request.EndorseReq
 import module.common.data.response.CliqueCategoryResp
 import module.common.data.response.DynamicListResp
+import module.common.data.response.EndorseResp
 import module.common.data.response.ImgTxtDataResp
 import module.common.type.LanguageType
 import module.common.utils.GsonUtils
@@ -138,6 +140,38 @@ internal class DynamicRemote {
                 if (resp.message.code == DataResult.SERVICE_SUCCESS) {
                     dataResult.status = DataResult.SUCCESS
                     dataResult.t = resp.data
+                }
+            }
+        }catch (e: HttpStatusCodeException){
+            e.printStackTrace()
+            if(e.statusCode == 401){
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun endorse(token: String?, endorseReq: EndorseReq): DataResult<String> {
+        val dataResult = DataResult<String>()
+        try {
+            val url = URLHelper.instance.getFullUrl(URLUtils.ENDORSE, LanguageType.CN.value)
+            val json = RxHttp.postJson(url + token)
+                .addAll(GsonUtils.toJson(endorseReq))
+                .toAwaitString()
+                .await()
+
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(
+                    json,
+                    EndorseResp::class.java
+                )
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.status = DataResult.SUCCESS
                 }
             }
         }catch (e: HttpStatusCodeException){

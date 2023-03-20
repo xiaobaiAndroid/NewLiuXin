@@ -300,7 +300,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:src="@drawable/clique_ic_endorse" />
+                    android:src="@drawable/dynamic_ic_like_normal" />
 
                 <TextView
                     android:id="@+id/endorseCountTV"

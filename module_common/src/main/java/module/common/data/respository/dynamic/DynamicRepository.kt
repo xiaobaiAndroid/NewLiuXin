@@ -5,8 +5,10 @@ import module.common.data.DataResult
 import module.common.data.entity.CliqueCategory
 import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
+import module.common.data.entity.UserInfo
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
+import module.common.data.request.EndorseReq
 import module.common.data.respository.user.UserRepository
 
 class DynamicRepository private constructor() {
@@ -70,6 +72,12 @@ class DynamicRepository private constructor() {
             }
         }
         return dataResult
+    }
+
+    suspend fun endorse(mContext: Context, endorseReq: EndorseReq): DataResult<String> {
+        val userInfo: UserInfo = UserRepository.instance.getUserInfo(mContext)
+        endorseReq.userId = userInfo.userId
+        return mRemote.endorse(userInfo.access_token, endorseReq)
     }
 
 }
