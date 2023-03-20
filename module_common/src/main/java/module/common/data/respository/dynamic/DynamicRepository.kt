@@ -4,6 +4,7 @@ import android.content.Context
 import module.common.data.DataResult
 import module.common.data.entity.CliqueCategory
 import module.common.data.entity.Dynamic
+import module.common.data.entity.ImgTxtData
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
 import module.common.data.respository.user.UserRepository
@@ -34,7 +35,7 @@ class DynamicRepository private constructor() {
        if (dataResult.status == DataResult.TOKEN_PAST) {
            UserRepository.instance.refreshToken(context)?.let {
                dataResult = mRemote.getCategoryData(it, req)
-           } ?: dataResult.setStatus(DataResult.NEED_LOGIN)
+           }
        }
        return dataResult
     }
@@ -55,7 +56,18 @@ class DynamicRepository private constructor() {
                     cityCode,
                     req
                 )
-            } ?: dataResult.setStatus(DataResult.NEED_LOGIN)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun getImgTxtData(context: Context, dynamicId: String?): DataResult<ImgTxtData?> {
+        var token = UserRepository.instance.getToken(context)
+        var dataResult = mRemote.getImgTxtData(token, dynamicId)
+        if(dataResult.status == DataResult.TOKEN_PAST){
+            UserRepository.instance.refreshToken(context)?.let{
+                dataResult = mRemote.getImgTxtData(token, dynamicId)
+            }
         }
         return dataResult
     }

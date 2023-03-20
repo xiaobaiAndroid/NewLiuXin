@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.common.base.BaseActivity
 import module.common.data.DataResult
-import module.common.data.entity.UserInfo
 import module.common.type.ProtocolType
 import module.common.utils.*
 import module.user.R

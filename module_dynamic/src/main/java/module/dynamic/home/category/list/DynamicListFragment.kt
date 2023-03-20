@@ -1,5 +1,8 @@
 package module.dynamic.home.category.list
 
+import android.content.Intent
+import android.net.Uri
+import android.net.wifi.aware.WifiAwareDataPathSecurityConfig.Builder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,9 +17,11 @@ import module.common.base.BaseFragment
 import module.common.data.DataResult
 import module.common.type.MediaType
 import module.common.utils.ARouterHelper
+import module.common.utils.ActivityLauncher
 import module.common.utils.DensityUtil
 import module.common.utils.ToastUtils
 import module.common.view.GridSpaceDecoration
+import module.dynamic.BuildConfig
 import module.dynamic.databinding.DynamicFramentListBinding
 
 /**
@@ -138,13 +143,10 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
 
             } else {
                 val multiEntity = dynamicAdapter.getItem(position)
-                val dynamic = multiEntity.dynamic
-                if (dynamic != null) {
-                    val bundle = Bundle()
-                    bundle.putParcelable("dynamic", dynamic)
-                    bundle.putString("categoryId", typeId)
-                    ARouterHelper.openPath(activity, ARouterHelper.IMGTXT_DETAIL, bundle)
+                multiEntity.dynamic?.let {
+                    ActivityLauncher.launchImgTxtDetail(requireActivity(),it,typeId)
                 }
+
             }
         }
 

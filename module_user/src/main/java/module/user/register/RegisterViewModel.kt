@@ -3,7 +3,6 @@ package module.user.register
 import androidx.lifecycle.MutableLiveData
 import module.common.base.BaseViewModel
 import module.common.data.DataResult
-import module.common.data.entity.UserInfo
 import module.common.data.respository.user.UserRepository
 
 /**

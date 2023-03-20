@@ -33,7 +33,10 @@ class MessageEvent(var type: Type) {
        SELECT_LABEL,
        SELECTED_CITY,
        SHOW_WAY,
-       DYNAMIC_SELECT_CATEGORY
+       DYNAMIC_SELECT_CATEGORY,
+       PLAY_VIDEO_SVGA,
+       DELETE_DYNAMIC,
+       SEND_COMMENT
    }
 
 }

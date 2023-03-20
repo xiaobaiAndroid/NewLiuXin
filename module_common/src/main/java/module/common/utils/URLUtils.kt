@@ -6,6 +6,8 @@ package module.common.utils
  * @author: Mr Bai
  */
 object URLUtils {
+
+
     //中文
     const val HOST_CN = "http://tst.api.yiguo.fun/"
 
@@ -316,6 +318,9 @@ object URLUtils {
 
     /*验证码登录*/
     const val LOGIN_CODE = HOST_CN + "system/user/mobile/login"
+
+    val IMGTXT_DATA = "circle/mediaComment/getImageTextData?"+ TOKEN_KEY + "="
+
 
     /*产品分享*/
     val GOODS_SHARE: String? = "http://www.dmbg.net/shareApp.html?goodsId="

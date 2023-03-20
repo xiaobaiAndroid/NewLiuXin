@@ -32,7 +32,7 @@ class IMRemote {
                 .await()
 
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val type = object : TypeToken<BaseResp<MutableList<IMFriendGroup?>?>?>() {}.type
                 val resp: BaseResp<MutableList<IMFriendGroup>> = GsonConvert.fromJson(json, type)

@@ -25,7 +25,7 @@ internal class MusicRemote {
                 .await()
             LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = parseObject(json, MusicCategoryResp::class.java)
                 dataResult.message = resp.message.info
@@ -58,7 +58,7 @@ internal class MusicRemote {
                 .await()
             LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = parseObject(json, MusicsResp::class.java)
                 dataResult.message = resp.message.info

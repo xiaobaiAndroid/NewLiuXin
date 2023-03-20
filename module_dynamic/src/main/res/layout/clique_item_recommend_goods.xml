@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/goodsIV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/goodsNameTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/tv_14_313131"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginRight="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_4"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+    <TextView
+        android:id="@+id/describeTV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:textColor="@color/cl_707070"
+        android:textSize="@dimen/sp_13"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:layout_marginRight="@dimen/dp_6"
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/priceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/cl_e5004f"
+            android:layout_marginLeft="@dimen/dp_6"
+            />
+
+        <TextView
+            android:id="@+id/sellCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cl_707070"
+            android:textSize="@dimen/sp_10"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:text="@string/clique_format_sell_count"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

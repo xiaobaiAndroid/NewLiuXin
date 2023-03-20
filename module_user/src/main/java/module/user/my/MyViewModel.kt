@@ -6,8 +6,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.luck.picture.lib.utils.BitmapUtils
-import com.yalantis.ucrop.util.BitmapLoadUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -21,7 +19,6 @@ import module.common.data.entity.Store
 import module.common.data.entity.UserInfo
 import module.common.data.request.ReqParams
 import module.common.data.respository.user.UserRepository
-import module.common.utils.BitmapHelper
 import module.common.utils.ToastUtils
 import java.io.File
 import java.io.FileOutputStream

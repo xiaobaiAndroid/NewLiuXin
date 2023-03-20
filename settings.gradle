@@ -12,6 +12,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+
+//        https://github.com/youth5201314/banner
+        maven { url "https://s01.oss.sonatype.org/content/groups/public" }
     }
 
     versionCatalogs {

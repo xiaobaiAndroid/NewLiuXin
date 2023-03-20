@@ -1,13 +1,10 @@
 package module.login.password
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import module.common.base.BaseViewModel
 import module.common.data.DataResult
-import module.common.data.entity.ErrorMessage
 import module.common.data.entity.UserInfo
 import module.common.data.respository.user.UserRepository
-import module.common.utils.GsonUtils
 
 /**
  *@author: baizf

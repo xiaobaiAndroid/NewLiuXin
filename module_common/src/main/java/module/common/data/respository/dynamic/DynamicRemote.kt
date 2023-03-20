@@ -1,12 +1,16 @@
 package module.common.data.respository.dynamic
 
 import module.common.data.DataResult
+import module.common.data.api.URLHelper
 import module.common.data.entity.CliqueCategory
 import module.common.data.entity.Dynamic
+import module.common.data.entity.ImgTxtData
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
 import module.common.data.response.CliqueCategoryResp
 import module.common.data.response.DynamicListResp
+import module.common.data.response.ImgTxtDataResp
+import module.common.type.LanguageType
 import module.common.utils.GsonUtils
 import module.common.utils.GsonUtils.parseObject
 import module.common.utils.GsonUtils.toJson
@@ -29,7 +33,7 @@ internal class DynamicRemote {
                 .await()
 
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = parseObject(
                     json,
@@ -92,12 +96,12 @@ internal class DynamicRemote {
                .toAwaitString()
                .await()
            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-               dataResult.setStatus(DataResult.TOKEN_PAST)
+               dataResult.status = DataResult.TOKEN_PAST
            } else {
                val resp = parseObject(json, DynamicListResp::class.java)
                dataResult.message = resp.message.info
                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
-                   dataResult.setT(resp.data.rows)
+                   dataResult.t = resp.data.rows
                    dataResult.status = DataResult.SUCCESS
                }
            }
@@ -110,6 +114,41 @@ internal class DynamicRemote {
            e.printStackTrace()
        }
        return dataResult
+    }
+
+    suspend fun getImgTxtData(token: String?, dynamicId: String?): DataResult<ImgTxtData?> {
+        val dataResult = DataResult<ImgTxtData?>()
+        try {
+            val url = URLHelper.instance.getFullUrl(URLUtils.IMGTXT_DATA, LanguageType.CN.value)
+            val jsonObject = JSONObject()
+            jsonObject.put("id",dynamicId)
+            val json = RxHttp.postJson(url + token)
+                .addAll(jsonObject.toString())
+                .toAwaitString()
+                .await()
+
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(
+                    json,
+                    ImgTxtDataResp::class.java
+                )
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.status = DataResult.SUCCESS
+                    dataResult.t = resp.data
+                }
+            }
+        }catch (e: HttpStatusCodeException){
+            e.printStackTrace()
+            if(e.statusCode == 401){
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
     }
 
 

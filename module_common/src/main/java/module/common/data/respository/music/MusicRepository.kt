@@ -24,7 +24,7 @@ class MusicRepository private constructor() {
         if (dataResult.status == DataResult.TOKEN_PAST) {
             val refreshToken: String? = UserRepository.instance.refreshToken(context)
             if (refreshToken == null) {
-                dataResult.setStatus(DataResult.NEED_LOGIN)
+                dataResult.status = DataResult.NEED_LOGIN
             } else {
                 dataResult = mRemote.getCategories(token)
             }

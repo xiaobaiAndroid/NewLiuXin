@@ -53,7 +53,7 @@ class UserRemote {
                 .await()
             LogUtils.printI("http",json)
             if (json.contains("{\"code\":\"401\",\"detail\":\"授权过期\"}")) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = GsonUtils.parseObject(json, LoginResp::class.java)
                 dataResult.message = resp.message.info
@@ -126,7 +126,7 @@ class UserRemote {
 
             LogUtils.printI("http",json)
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val type: Type = object : TypeToken<BaseResp<UserInfo>>() {}.type
                 val resp: BaseResp<UserInfo> = GsonConvert.fromJson(json, type)
@@ -153,7 +153,7 @@ class UserRemote {
             dataResult.status = DataResult.SUCCESS
             dataResult.message = info
             val uploadSign = resp.data
-            dataResult.setT(uploadSign)
+            dataResult.t = uploadSign
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -182,7 +182,7 @@ class UserRemote {
                 .await()
 
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = parseObject(json, ProtocolResp::class.java)
                 dataResult.message = resp.message.info
@@ -212,7 +212,7 @@ class UserRemote {
 
 
             if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-                dataResult.setStatus(DataResult.TOKEN_PAST)
+                dataResult.status = DataResult.TOKEN_PAST
             } else {
                 val resp = parseObject(json, LoginResp::class.java)
                 dataResult.message = resp.message.info

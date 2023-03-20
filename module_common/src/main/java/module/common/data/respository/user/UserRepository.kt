@@ -2,14 +2,12 @@ package module.common.data.respository.user
 
 import android.content.Context
 import module.common.data.DataResult
-import module.common.data.api.CommonResp
 import module.common.data.entity.Contacts
 import module.common.data.entity.Protocol
 import module.common.data.entity.UploadSign
 import module.common.data.entity.UserInfo
 import module.common.data.request.ReqParams
 import module.common.data.response.VerificationCodeResp
-import module.common.utils.GsonUtils
 
 /**
  * @describe: 用户仓库
@@ -36,7 +34,7 @@ class UserRepository private constructor() {
                 it.isLogin = UserInfo.LoginStatus.LOGIN
                 mLocal.saveOfUpdate(context, it)
                 val remoteUserInfo: UserInfo = getRemoteUserInfo(context, it)
-                dataResult.setT(remoteUserInfo)
+                dataResult.t = remoteUserInfo
             }
         }
         return dataResult
@@ -141,7 +139,7 @@ class UserRepository private constructor() {
         if (dataResult.status == DataResult.TOKEN_PAST) {
             val refreshToken: String? = refreshToken(context)
             if (refreshToken == null) {
-                dataResult.setStatus(DataResult.NEED_LOGIN)
+                dataResult.status = DataResult.NEED_LOGIN
             } else {
                 dataResult =
                     mRemote.getUserExtendInfo(getToken(context), params)
@@ -164,7 +162,7 @@ class UserRepository private constructor() {
         if (dataResult.status == DataResult.TOKEN_PAST) {
             val refreshToken: String? = refreshToken(context)
             if (refreshToken == null) {
-                dataResult.setStatus(DataResult.NEED_LOGIN)
+                dataResult.status = DataResult.NEED_LOGIN
             } else {
                 dataResult = mRemote.updateUserExtendInfo(getToken(context), map, language)
             }

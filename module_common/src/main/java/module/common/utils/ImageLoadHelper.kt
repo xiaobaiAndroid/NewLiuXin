@@ -1,6 +1,7 @@
 package module.common.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -83,7 +84,7 @@ object ImageLoadHelper {
             .into(imageView)
     }
 
-    fun load(imageView: ImageView, url: String) {
+    fun load(imageView: ImageView, url: String?) {
         LogUtils.printI("url=$url")
         Glide.with(imageView.context)
             .load(url)
@@ -118,11 +119,12 @@ object ImageLoadHelper {
     fun loadFitCenterListener(
         context: Context?,
         image_url: String?,
-        imageViewTarget: ImageViewTarget<Drawable>
+        imageViewTarget: ImageViewTarget<Bitmap>
     ) {
         Glide.with(context!!)
-            .load(image_url)
+            .asBitmap()
             .fitCenter()
+            .load(image_url)
             .into(imageViewTarget)
     }
 
@@ -193,7 +195,7 @@ object ImageLoadHelper {
     //    }
     fun loadListener(
         imageView: ImageView,
-        image_url: String,
+        image_url: String?,
         listener: RequestListener<Drawable?>?
     ) {
         LogUtils.printI("image_url=$image_url")

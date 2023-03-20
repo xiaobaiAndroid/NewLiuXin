@@ -1,10 +1,8 @@
 package module.login.code
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import module.common.base.BaseViewModel
 import module.common.data.DataResult
-import module.common.data.db.AppDatabase
 import module.common.data.entity.UserInfo
 import module.common.data.response.VerificationCodeResp
 import module.common.data.respository.user.UserRepository

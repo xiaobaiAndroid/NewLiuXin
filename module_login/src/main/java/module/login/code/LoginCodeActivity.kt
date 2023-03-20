@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import kotlinx.coroutines.Dispatchers
@@ -175,7 +174,7 @@ class LoginCodeActivity : BaseActivity<LoginActivityLoginCodeBinding, LoginCodeV
                 withContext(Dispatchers.Main){
                     if(dataResult.status == DataResult.SUCCESS){
                         ToastUtils.setMessage(this@LoginCodeActivity,resources.getString(R.string.login_send_code_success))
-                        vcode = dataResult.t.data.vcode
+                        vcode = dataResult.t?.data?.vcode
                     }else{
                         ToastUtils.setMessage(this@LoginCodeActivity,dataResult.message)
                     }

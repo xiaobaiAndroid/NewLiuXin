@@ -109,13 +109,13 @@ public class ARouterHelper {
     public static final String IMGTEXT_MODIFY = "/publish/ImgtextModifyActivity";
 
     /*图文详情*/
-    public static final String IMGTXT_DETAIL = "/clique/ImgTxtDetailActivity";
+    public static final String IMGTXT_DETAIL = "/dynamic/ImgTxtDetailActivity";
 
     /*视频页面*/
-    public static final String VIDEO = "/clique/VideoActivity";
+    public static final String VIDEO = "/dynamic/VideoActivity";
 
     /*我的生活圈：搜索*/
-    public static final String DYNAMIC_SEARCH = "/clique/SearchActivity";
+    public static final String DYNAMIC_SEARCH = "/dynamic/SearchActivity";
 
     /*商品详情*/
 //    public static final String GOODS_DETAIL = "/app/GoodsActivity";
@@ -164,10 +164,10 @@ public class ARouterHelper {
     public static final String RECHARGE_PROTOCOL = "/web/ProtocolActivity";
 
     /*排行榜*/
-    public static final String RANKING = "/clique/RankingActivity";
+    public static final String RANKING = "/dynamic/RankingActivity";
 
     /*排行列表*/
-    public static final String RANKING_LIST_HOME = "/clique/ListHomeActivity";
+    public static final String RANKING_LIST_HOME = "/dynamic/ListHomeActivity";
 
     /*搜索好友*/
     public static final String SEARCH_FRIEND = "/app/SearchFriendActivity";

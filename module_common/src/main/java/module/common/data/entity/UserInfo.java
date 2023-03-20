@@ -21,87 +21,87 @@ public class UserInfo implements Parcelable {
      * refresh_token : eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzODQ0ODk2MDk0OTkxMjc4MDgiLCJhdWQiOiJSRUZSRVNIX1RPS0VOIiwiaWF0IjoxNTgzMjgzNDc2LCJzdWIiOiIxODY2NDg2ODQ1MyIsImV4cCI6MTU4NDU3OTQ3Nn0.RbYZNdAktiudHWEnae6qR_5GNwdh4qafMW_xtTBmJSY
      * isFirst : 0
      */
-    
+
     private String userId;
 
     private String userName;
 
-    
+
     private String nickName;
-    
+
     private String intro;
-    
+
     private String avatar;
 
-    
+
     private String mobile;
 
     //    	性别，1男，2女
-    
+
     private int sex;
 
-    
+
     private String photo;
 
-    
+
     private String birthday;
 
-    
+
     private String job;
 
-    
+
     private String colleges;
 
-    
+
     private String lat;
-    
+
     private String lng;
 
-    
+
     private String provinceCode;
 
-    
+
     private String provinceName;
 
-    
+
     private String cityCode;
 
-    
+
     private String cityName;
 
-    
+
     private String countyCode;
 
-    
+
     private String countyName;
 
-    
+
     private String fullAddress;
 
-    
+
     private int praiseNum;
 
-    
+
     private int likeNum;
 
-    
+
     private int fansNum;
 
-    
+
     private String storeId;
 
-    
+
     private String access_token;
-    
+
     private String refresh_token;
 
     private int isFirst;
 
-    
+
     private int isLogin;
 
     /*注册时间*/
-    
+
     private String registerDate;
 
 
