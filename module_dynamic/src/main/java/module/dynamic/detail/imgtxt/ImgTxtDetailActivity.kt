@@ -229,15 +229,15 @@ class ImgTxtDetailActivity :
         ImageLoadHelper.loadCircle(binding.avatarIV, imgTxt.avatar)
         binding.nicknameTV.text = StringUtils.packNull(imgTxt.nickName)
 
-        binding.banner.setAdapter(ImgTxtBannerAdapter(imgTxt.mediaSourceList, object : Listener {
+        val imgTxtBannerAdapter = ImgTxtBannerAdapter(imgTxt.mediaSourceList, object : Listener {
             override fun changeSize(width: Int, height: Int) {
-                if (binding.banner.layoutParams.height != height) {
-                    binding.banner.layoutParams.height = height
-                    binding.banner.requestLayout()
-                }
+                binding.banner.layoutParams.height = height
+                binding.banner.requestLayout()
             }
 
-        }))
+        })
+
+        binding.banner.setAdapter(imgTxtBannerAdapter)
             .addBannerLifecycleObserver(this).indicator = CircleIndicator(this)
 
 
