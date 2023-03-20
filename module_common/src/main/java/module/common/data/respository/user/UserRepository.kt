@@ -2,11 +2,10 @@ package module.common.data.respository.user
 
 import android.content.Context
 import module.common.data.DataResult
-import module.common.data.entity.Contacts
-import module.common.data.entity.Protocol
-import module.common.data.entity.UploadSign
-import module.common.data.entity.UserInfo
+import module.common.data.entity.*
+import module.common.data.request.AttentionReq
 import module.common.data.request.ReqParams
+import module.common.data.request.UpdateAttentionReq
 import module.common.data.response.VerificationCodeResp
 
 /**
@@ -92,12 +91,12 @@ class UserRepository private constructor() {
     }
 
     suspend fun refreshToken(context: Context): String? {
-        return mLocal.getLoginUserInfo(context)?.let { userInfo ->
-            val dataResult: DataResult<UserInfo?> = mRemote.refreshToken(userInfo.refresh_token)
+        return mLocal.getLoginUserInfo(context).let { userInfo ->
+            val dataResult: DataResult<Token> = mRemote.refreshToken(userInfo.refresh_token)
             if (dataResult.status == DataResult.SUCCESS) {
-                dataResult.t?.let { newUserInfo ->
-                    userInfo.refresh_token = newUserInfo.refresh_token
-                    userInfo.access_token = newUserInfo.access_token
+                dataResult.t?.let { token ->
+                    userInfo.refresh_token = token.refresh_token
+                    userInfo.access_token = token.access_token
                     mLocal.saveOfUpdate(context, userInfo)
                     return userInfo.access_token
                 }
@@ -181,6 +180,30 @@ class UserRepository private constructor() {
         recommendPhone: String
     ): DataResult<String> {
         return mRemote.register(username,code,recommendPhone)
+    }
+
+    suspend fun attention(context: Context, req: UpdateAttentionReq): DataResult<String> {
+        val userInfo = getUserInfo(context)
+        req.userId = userInfo.userId
+        var dataResult = mRemote.attention(getToken(context), req)
+        if(dataResult.status == DataResult.TOKEN_PAST){
+            refreshToken(context)?.let {
+                mRemote.attention(it, req)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun getAttentionStatusById(context: Context, likeUserId: String?): DataResult<Int> {
+        val userInfo: UserInfo = getUserInfo(context)
+        val token = getToken(context)
+        var dataResult = mRemote.getAttentionStatusById(token, userInfo.userId, likeUserId)
+        if(dataResult.status == DataResult.TOKEN_PAST){
+            refreshToken(context)?.let{
+                dataResult = mRemote.getAttentionStatusById(token, userInfo.userId, likeUserId)
+            }
+        }
+        return dataResult
     }
 
     companion object {

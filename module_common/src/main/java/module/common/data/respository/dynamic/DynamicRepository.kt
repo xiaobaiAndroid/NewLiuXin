@@ -6,6 +6,7 @@ import module.common.data.entity.CliqueCategory
 import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
 import module.common.data.entity.UserInfo
+import module.common.data.request.AttentionReq
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
 import module.common.data.request.EndorseReq

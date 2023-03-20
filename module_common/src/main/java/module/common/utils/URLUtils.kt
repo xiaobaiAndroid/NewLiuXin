@@ -161,10 +161,10 @@ object URLUtils {
     val COLLECT_DYNAMIC = "circle/mediaFav/favorite?" + TOKEN_KEY + "="
 
     /*获取关注状态*/
-    val ATTENTION_STATUS = HOST_CN + "circle/mediaLike/getLikeStatus?" + TOKEN_KEY + "="
+    val ATTENTION_STATUS = "circle/mediaLike/getLikeStatus?" + TOKEN_KEY + "="
 
     /*关注*/
-    val ATTENTION = HOST_CN + "circle/mediaLike/like?" + TOKEN_KEY + "="
+    val ATTENTION = "circle/mediaLike/like?" + TOKEN_KEY + "="
 
     /*关注用户*/
     val ATTENTION_USER = "circle/mediaLike/like?" + TOKEN_KEY + "="
@@ -185,7 +185,7 @@ object URLUtils {
     val RECOMMEND_GOODS = HOST_CN + "shop/goods/page/querySell?" + TOKEN_KEY + "="
 
     /*刷新token*/
-    const val REFRESH_TOKEN = HOST_CN + "system/user/token/refresh"
+    const val REFRESH_TOKEN = "system/user/token/refresh"
 
     /*我的动态数据*/
     val MY_DYNAMIC = "circle/myMedia/getMyMediaData?" + TOKEN_KEY + "="

@@ -211,6 +211,35 @@ class ImgTxtDetailActivity :
                 ToastUtils.setMessage(this, it.message)
             }
         }
+
+        viewModel.attentionDataResultLD.observe(this){
+            binding.attentionTV.isEnabled = true
+            dynamic ?: return@observe
+            if(it.status == DataResult.SUCCESS){
+                if (dynamic!!.attentionUserStatus == CommonStatus.YET) {
+                    dynamic!!.attentionUserStatus = CommonStatus.NOT
+                    ToastUtils.setMessage(this, resources.getString(R.string.clique_attention_cancel))
+                } else {
+                    dynamic!!.attentionUserStatus = CommonStatus.YET
+                    ToastUtils.setMessage(this, resources.getString(R.string.clique_yet_attention))
+                }
+                updateAttentionStatusView()
+            }else{
+                ToastUtils.setMessage(this,it.message)
+            }
+        }
+        viewModel.attentionStateLD.observe(this){attentionState->
+            dynamic?.attentionUserStatus = attentionState
+            updateAttentionStatusView()
+        }
+    }
+
+    private fun updateAttentionStatusView() {
+        if (dynamic?.attentionUserStatus == CommonStatus.NOT) {
+            binding.attentionTV.text = resources.getString(R.string.clique_mark)
+        } else {
+            binding.attentionTV.text = resources.getString(R.string.clique_yet_attention)
+        }
     }
 
     override fun initData(savedInstanceState: Bundle?) {

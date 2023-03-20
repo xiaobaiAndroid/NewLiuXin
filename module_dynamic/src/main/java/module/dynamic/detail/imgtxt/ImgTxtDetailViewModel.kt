@@ -15,9 +15,11 @@ import module.common.data.entity.ImgTxtData
 import module.common.data.request.CommentListReq
 import module.common.data.request.EndorseReq
 import module.common.data.request.RecommendGoodsReq
+import module.common.data.request.UpdateAttentionReq
 import module.common.data.respository.comment.CommentRepository
 import module.common.data.respository.dynamic.DynamicRepository
 import module.common.data.respository.goods.GoodsRepository
+import module.common.data.respository.user.UserRepository
 import module.common.data.status.CommonStatus
 import module.common.event.entity.EGiveGift
 
@@ -41,6 +43,15 @@ class ImgTxtDetailViewModel: BaseViewModel() {
     val collectDataResultLD: MutableLiveData<DataResult<String>> by lazy {
         MutableLiveData<DataResult<String>>()
     }
+
+    val attentionDataResultLD: MutableLiveData<DataResult<String>> by lazy {
+        MutableLiveData<DataResult<String>>()
+    }
+
+    val attentionStateLD: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
+    }
+
 
     val commentsDataResultLD: MutableLiveData<DataResult<MutableList<Comment>>> by lazy {
         MutableLiveData<DataResult<MutableList<Comment>>>()
@@ -74,8 +85,12 @@ class ImgTxtDetailViewModel: BaseViewModel() {
 
     }
 
-    fun getAttentionStatusById(userId: String?) {
-
+    fun getAttentionStatusById(likeUserId: String?) = viewModelScope.launch(Dispatchers.IO) {
+        val dataResult: DataResult<Int> =
+            UserRepository.instance.getAttentionStatusById(mContext,likeUserId)
+        withContext(Dispatchers.Main){
+            attentionStateLD.value = dataResult.t
+        }
     }
 
     fun getRecommendGoods(categoryId: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -121,8 +136,18 @@ class ImgTxtDetailViewModel: BaseViewModel() {
         }
     }
 
-    fun attention(dynamic: Dynamic?) {
-
+    fun attention(dynamic: Dynamic?)  =  viewModelScope.launch(Dispatchers.IO){
+        val req = UpdateAttentionReq()
+        req.likeUserId = dynamic?.userId
+        if (dynamic?.attentionUserStatus == CommonStatus.YET) {
+            req.state = CommonStatus.NOT.toString() + ""
+        } else {
+            req.state = CommonStatus.YET.toString() + ""
+        }
+        val dataResult: DataResult<String> = UserRepository.instance.attention(mContext,req)
+        withContext(Dispatchers.Main){
+            attentionDataResultLD.value = dataResult
+        }
     }
 
     fun getCurrentPage(): Int {

@@ -10,7 +10,7 @@ class URLHelper private constructor(){
     }
 
 
-    fun getFullUrl(url: String, language: Int): String{
+    fun getFullUrl(url: String, language: Int = LanguageType.CN.value): String{
         var host: String
         if(language == LanguageType.CN.value){
             host = URLUtils.HOST_CN
