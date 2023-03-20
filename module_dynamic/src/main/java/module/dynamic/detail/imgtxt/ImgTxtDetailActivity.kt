@@ -186,6 +186,31 @@ class ImgTxtDetailActivity :
             }
             binding.endorseCountLL.isEnabled = true
         }
+
+        viewModel.collectDataResultLD.observe(this){
+            binding.collectNumberLL.isEnabled = true
+            if(it.status == DataResult.SUCCESS){
+                viewModel.imgTxtResultLD.value?.t?.let {imgTxt->
+                    var number = imgTxt.favoriteNum.toInt()
+                    if (imgTxt.favoriteStatus == CommonStatus.YET) {
+                        imgTxt.favoriteStatus = CommonStatus.NOT
+                        number -= 1
+                        imgTxt.favoriteNum = number.toString()
+                        ToastUtils.setMessage(this, resources.getString(R.string.clique_yet_cancel))
+                    } else {
+                        imgTxt.favoriteStatus = CommonStatus.YET
+                        number += 1
+                        imgTxt.favoriteNum = number.toString()
+                        ToastUtils.setMessage(this, resources.getString(R.string.clique_collect_success))
+                    }
+                    binding.collectCountTV.text = imgTxt.favoriteNum
+
+                    setCollectViewStatus(imgTxt)
+                }
+            }else{
+                ToastUtils.setMessage(this, it.message)
+            }
+        }
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -229,14 +254,7 @@ class ImgTxtDetailActivity :
 
         setLikeStatus(imgTxt)
 
-        if (imgTxt.favoriteStatus == CommonStatus.YET) {
-            IconUtils.setColor(
-                binding.collectIV,
-                resources.getColor(module.common.R.color.cl_e5004f)
-            )
-        } else {
-            IconUtils.setColor(binding.collectIV, 0)
-        }
+        setCollectViewStatus(imgTxt)
 
         binding.dateTV.text = DateUtils.dateToString(Date(imgTxt.createTime), DateUtils.FORMAT_3)
         binding.audioPlayTV.text = StringUtils.packNull(imgTxt.resourceName)
@@ -244,6 +262,14 @@ class ImgTxtDetailActivity :
         binding.audioPlayLL.visibility = View.GONE
         imgTxt.musicUrl?.let {
             mAudioPlayer.prepare(it,true)
+        }
+    }
+
+    private fun setCollectViewStatus(imgTxt: ImgTxtData) {
+        if (imgTxt.favoriteStatus == CommonStatus.YET) {
+            binding.collectIV.setImageResource(R.drawable.dynamic_ic_collect_normal)
+        } else {
+            binding.collectIV.setImageResource(R.drawable.dynamic_ic_collect_select)
         }
     }
 
@@ -284,12 +310,12 @@ class ImgTxtDetailActivity :
         }
 
         binding.collectNumberLL.setOnClickListener {
-            binding.collectNumberLL.isClickable = false
+            binding.collectNumberLL.isEnabled = false
             viewModel.collect(dynamic)
         }
 
         binding.attentionTV.setOnClickListener {
-            binding.attentionTV.isClickable = false
+            binding.attentionTV.isEnabled = false
             viewModel.attention(dynamic)
         }
 

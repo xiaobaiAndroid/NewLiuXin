@@ -38,6 +38,10 @@ class ImgTxtDetailViewModel: BaseViewModel() {
         MutableLiveData<DataResult<String>>()
     }
 
+    val collectDataResultLD: MutableLiveData<DataResult<String>> by lazy {
+        MutableLiveData<DataResult<String>>()
+    }
+
     val commentsDataResultLD: MutableLiveData<DataResult<MutableList<Comment>>> by lazy {
         MutableLiveData<DataResult<MutableList<Comment>>>()
     }
@@ -102,8 +106,19 @@ class ImgTxtDetailViewModel: BaseViewModel() {
         }
     }
 
-    fun collect(dynamic: Dynamic?) {
-
+    fun collect(dynamic: Dynamic?)  = viewModelScope.launch(Dispatchers.IO){
+        val endorseReq = EndorseReq()
+        endorseReq.mediaId = dynamic!!.id
+        val imgTxtData = imgTxtResultLD.value?.t
+        if (imgTxtData?.favoriteStatus == CommonStatus.YET) {
+            endorseReq.state = CommonStatus.NOT.toString() + ""
+        } else {
+            endorseReq.state = CommonStatus.YET.toString() + ""
+        }
+        val dataResult: DataResult<String> = DynamicRepository.instance.collect(mContext,endorseReq)
+        withContext(Dispatchers.Main){
+            collectDataResultLD.value = dataResult
+        }
     }
 
     fun attention(dynamic: Dynamic?) {

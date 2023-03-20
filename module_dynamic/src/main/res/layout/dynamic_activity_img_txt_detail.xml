@@ -335,7 +335,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_10"
-                    android:src="@drawable/clique_ic_collect" />
+                    android:src="@drawable/dynamic_ic_collect_select" />
 
                 <TextView
                     android:id="@+id/collectCountTV"

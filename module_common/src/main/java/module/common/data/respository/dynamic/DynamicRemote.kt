@@ -1,5 +1,6 @@
 package module.common.data.respository.dynamic
 
+import com.google.gson.JsonSyntaxException
 import module.common.data.DataResult
 import module.common.data.api.URLHelper
 import module.common.data.entity.CliqueCategory
@@ -22,6 +23,7 @@ import org.json.JSONObject
 import rxhttp.toAwaitString
 import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.param.RxHttp
+import java.io.IOException
 
 internal class DynamicRemote {
 
@@ -174,6 +176,29 @@ internal class DynamicRemote {
                     dataResult.status = DataResult.SUCCESS
                 }
             }
+        }catch (e: HttpStatusCodeException){
+            e.printStackTrace()
+            if(e.statusCode == 401){
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun collect(token: String?, endorseReq: EndorseReq): DataResult<String> {
+        val dataResult = DataResult<String>()
+        try {
+            val url = URLHelper.instance.getFullUrl(URLUtils.COLLECT_DYNAMIC, LanguageType.CN.value)
+            val json = RxHttp.postJson(url + token)
+                .addAll(GsonUtils.toJson(endorseReq))
+                .toAwaitString()
+                .await()
+            val resp = parseObject(json, EndorseResp::class.java)
+            val info = resp.message.info ?: ""
+            dataResult.status = DataResult.SUCCESS
+            dataResult.message = info
         }catch (e: HttpStatusCodeException){
             e.printStackTrace()
             if(e.statusCode == 401){

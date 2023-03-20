@@ -80,4 +80,10 @@ class DynamicRepository private constructor() {
         return mRemote.endorse(userInfo.access_token, endorseReq)
     }
 
+    suspend fun collect(context: Context,endorseReq: EndorseReq): DataResult<String> {
+        val userInfo: UserInfo = UserRepository.instance.getUserInfo(context)
+        endorseReq.userId = userInfo.userId
+        return mRemote.collect(userInfo.access_token, endorseReq)
+    }
+
 }
