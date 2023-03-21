@@ -14,7 +14,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
 class ShareHelper {
 
     companion object{
-        const val APP_KEY = "wx2686f55c694547d9"
 
 
         /**
@@ -24,7 +23,6 @@ class ShareHelper {
         fun video(context:Context,shareEntity:ShareEntity){
 //            LogUtils.i("share------video="+ GsonUtils.toJson(shareEntity))
 
-            val wxapi = WXAPIFactory.createWXAPI(context, APP_KEY)
             //初始化一个WXVideoObject，填写url
             //初始化一个WXVideoObject，填写url
             val video = WXVideoObject()
@@ -45,9 +43,7 @@ class ShareHelper {
             req.message = msg
             req.scene = shareEntity.scene
 
-            //调用api接口，发送数据到微信
-            //调用api接口，发送数据到微信
-            wxapi.sendReq(req)
+            WxShareBroker.instance.sendReq(req)
         }
 
         private fun buildTransaction(type: String?): String {
@@ -59,8 +55,6 @@ class ShareHelper {
          * @date: 2020/5/4
          */
         fun web(context: Context?, shareEntity: ShareEntity) {
-
-            val wxapi = WXAPIFactory.createWXAPI(context, APP_KEY)
 
             //初始化一个WXWebpageObject，填写url
             val webpage = WXWebpageObject()
@@ -80,8 +74,7 @@ class ShareHelper {
             req.message = msg
             req.scene = shareEntity.scene
 
-            //调用api接口，发送数据到微信
-            wxapi.sendReq(req)
+            WxShareBroker.instance.sendReq(req)
         }
 
 
@@ -91,7 +84,6 @@ class ShareHelper {
          * @param scene 分享到朋友圈还是对话
          */
         fun shareBitmap(context: Context,scene:Int,bitmap: Bitmap){
-            val wxapi = WXAPIFactory.createWXAPI(context, APP_KEY)
 
             //初始化 WXImageObject 和 WXMediaMessage 对象
             val imgObj = WXImageObject(bitmap)
@@ -109,8 +101,8 @@ class ShareHelper {
             req.transaction = buildTransaction("img")
             req.message = msg
             req.scene = scene
-//调用api接口，发送数据到微信
-            wxapi.sendReq(req)
+
+            WxShareBroker.instance.sendReq(req)
         }
     }
 

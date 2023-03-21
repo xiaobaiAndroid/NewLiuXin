@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
+import com.lxj.xpopup.enums.PopupAnimation
+import com.lxj.xpopup.interfaces.SimpleCallback
 import com.youth.banner.indicator.CircleIndicator
+import lib.share.ShareEntity
 import module.audioplayer_lib.AudioPlayerEngine
+import module.comment.CommentAdapter
 import module.common.base.BaseActivity
 import module.common.data.DataResult
 import module.common.data.entity.Comment
@@ -22,6 +28,8 @@ import module.common.view.GridSpaceDecoration
 import module.dynamic.R
 import module.dynamic.databinding.DynamicActivityImgTxtDetailBinding
 import module.dynamic.detail.imgtxt.ImgTxtBannerAdapter.*
+import module.comment.CommentListView
+import module.dynamic.detail.imgtxt.view.MoreOperationView
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -396,35 +404,9 @@ class ImgTxtDetailActivity :
         }
 
         binding.commentCountBottomTV.setOnClickListener {
-//            commentListPopup = XPopup.Builder(this)
-//                .hasShadowBg(false)
-//                .enableDrag(false)
-//                .moveUpToKeyboard(false)
-//                .popupAnimation(PopupAnimation.TranslateFromBottom)
-//                .setPopupCallback(object : SimpleCallback() {
-//                    override fun onBackPressed(popupView: BasePopupView?): Boolean {
-//                        commentListPopup!!.dismiss()
-//                        return true
-//                    }
-//
-//                })
-//                .asCustom(CommentListView(this, dynamic))
-//                .show()
+            showCommentView()
         }
 
-        binding.audioPlayLL.setOnClickListener {
-//            if (AudioPlayerHelper.instance.isPlaying()) {
-//                AudioPlayerHelper.instance.pause()
-//                audioPlayTV.visibility = View.GONE
-//            } else {
-//                if (AudioPlayerHelper.instance.isCompletion()) {
-//                    createAudioPlayer()
-//                } else {
-//                    AudioPlayerHelper.instance.start()
-//                }
-//                audioPlayTV.visibility = View.VISIBLE
-//            }
-        }
 
         binding.loadMoreTV.setOnClickListener {
             binding.loadMoreTV.isClickable = false
@@ -440,23 +422,48 @@ class ImgTxtDetailActivity :
         }
     }
 
+    private fun showCommentView() {
+        commentListPopup?.let {
+            it.show()
+        } ?: run {
+            commentListPopup = XPopup.Builder(this)
+                .hasShadowBg(false)
+                .enableDrag(false)
+                .isViewMode(true)
+                .moveUpToKeyboard(false)
+                .popupAnimation(PopupAnimation.TranslateFromBottom)
+                .customHostLifecycle(lifecycle)
+                .setPopupCallback(object : SimpleCallback() {
+                    override fun onBackPressed(popupView: BasePopupView?): Boolean {
+                        commentListPopup!!.dismiss()
+                        return true
+                    }
+
+                })
+                .asCustom(CommentListView(this, dynamic))
+                .show()
+        }
+    }
+
     /**
      * @describe: 显示更多操作的view
      * @date: 2020/3/8
      */
     private fun showMoreOperationView() {
 
-//        val imageUrls = dynamic.coverUrl.split(",")
-//        val shareEntity = ShareEntity()
-//        shareEntity.title = dynamic.title
-//        shareEntity.contentType = ShareEntity.Type.MINI_APP
-//        shareEntity.content = dynamic.description
-//        shareEntity.showBitmapUrl = imageUrls[0]
-//        shareEntity.videoUrl = dynamic.mediaUrl
-//        XPopup.Builder(this)
-//            .hasShadowBg(false)
-//            .asCustom(MoreOperationView(this, dynamic,shareIV, shareEntity))
-//            .show()
+        val imageUrls = dynamic?.coverUrl?.split(",")
+        val shareEntity = ShareEntity()
+        shareEntity.title = dynamic?.title
+        shareEntity.url = "https://liuxinchina.net/androidApp/imageMediaId="+ dynamic?.id
+        shareEntity.contentType = ShareEntity.Type.WEB
+        shareEntity.content = dynamic?.description
+        shareEntity.showBitmapUrl = imageUrls?.get(0)
+        shareEntity.videoUrl = dynamic?.mediaUrl
+        XPopup.Builder(this)
+            .hasShadowBg(false)
+            .hasStatusBar(true)
+            .asCustom(MoreOperationView(this, dynamic,binding.shareIV, shareEntity))
+            .show()
     }
 
 

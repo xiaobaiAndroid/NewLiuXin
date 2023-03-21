@@ -70,13 +70,16 @@ abstract class BaseFragment<T : ViewBinding,V: BaseViewModel> : Fragment() {
         if (savedInstanceState != null) {
             isLogin = savedInstanceState.getBoolean("isLogin")
         }
-        if (isAlone) {
-            initView()
-            initData()
-        } else {
-            isViewInitiated = true
-            prepareFetchData()
-        }
+
+        initView()
+        initData()
+//        if (isAlone) {
+//            initView()
+//            initData()
+//        } else {
+//            isViewInitiated = true
+//            prepareFetchData()
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

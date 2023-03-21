@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import module.common.base.BaseListViewModel
 import module.common.base.BaseViewModel
 import module.common.base.CommonListResp
 import module.common.data.DataResult
@@ -27,10 +28,9 @@ import module.common.event.entity.EGiveGift
  *@author: baizf
  *@date: 2023/3/19
  */
-class ImgTxtDetailViewModel: BaseViewModel() {
+class ImgTxtDetailViewModel:BaseViewModel() {
 
     private val req = CommentListReq()
-
 
     val imgTxtResultLD: MutableLiveData<DataResult<ImgTxtData?>> by lazy {
         MutableLiveData<DataResult<ImgTxtData?>>()
@@ -70,9 +70,7 @@ class ImgTxtDetailViewModel: BaseViewModel() {
     }
 
     fun getComments(dynamicId: String?) = viewModelScope.launch(Dispatchers.IO) {
-        val queryObj = CommentListReq.QueryObj()
-        queryObj.mediaId = dynamicId
-        req.queryObj = queryObj
+        req.queryObj?.mediaId = dynamicId
         val dataResult: DataResult<CommonListResp<Comment>> =
             CommentRepository.instance.getComments(mContext,req)
         val result = DataResult<MutableList<Comment>>()

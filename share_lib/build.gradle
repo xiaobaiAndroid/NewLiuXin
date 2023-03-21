@@ -42,7 +42,7 @@ dependencies {
 
     /*微信SDK*/
 //    https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html#jump2
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.20'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.20'
 
     implementation libs.coreKtx
     implementation libs.appcompat

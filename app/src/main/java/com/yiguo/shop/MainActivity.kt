@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.yiguo.shop.databinding.ActivityMainBinding
+import lib.share.WxShareBroker
 import module.common.base.BaseActivity
 import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
@@ -18,6 +19,12 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
     override fun createViewModel(): MainViewModel {
         return viewModels<MainViewModel>().value
+    }
+
+    companion object{
+        val wxShareBroker: WxShareBroker by lazy {
+            WxShareBroker.instance
+        }
     }
 
     override fun getBindingView() = ActivityMainBinding.inflate(layoutInflater)
@@ -68,6 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        wxShareBroker.init(this)
     }
 
     override fun disposeMessageEvent(event: MessageEvent?) {
@@ -76,6 +84,11 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
             binding.ctl.currentTab = defaultPosition
             binding.viewPager.setCurrentItem(defaultPosition,false)
         }
+    }
+
+    override fun onDestroy() {
+        wxShareBroker.destroy()
+        super.onDestroy()
     }
 
 }
