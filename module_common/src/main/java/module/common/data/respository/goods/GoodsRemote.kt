@@ -1,9 +1,8 @@
 package module.common.data.respository.goods
 
-import com.google.gson.JsonSyntaxException
 import module.common.base.CommonListResp
 import module.common.data.DataResult
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 import module.common.data.entity.Comment
 import module.common.data.entity.Goods
 import module.common.data.request.CliqueCategoryReq
@@ -14,19 +13,16 @@ import module.common.data.response.CommentListResp
 import module.common.data.response.RecommendGoodsResp
 import module.common.utils.GsonUtils
 import module.common.utils.GsonUtils.parseObject
-import module.common.utils.GsonUtils.toJson
 import module.common.utils.URLUtils
-import okhttp3.Response
 import rxhttp.toAwaitString
 import rxhttp.wrapper.exception.HttpStatusCodeException
 import rxhttp.wrapper.param.RxHttp
-import java.io.IOException
 
 internal class GoodsRemote {
 
 
-    suspend fun getCategoryData(token: String?, req: CliqueCategoryReq): DataResult<List<CliqueCategory>?> {
-        val dataResult = DataResult<List<CliqueCategory>?>()
+    suspend fun getCategoryData(token: String?, req: CliqueCategoryReq): DataResult<List<DynamicCategory>?> {
+        val dataResult = DataResult<List<DynamicCategory>?>()
         try {
             val json = RxHttp.postJson(URLUtils.CLIQUE_CATEGORY + token)
                 .addAll(GsonUtils.toJson(req))

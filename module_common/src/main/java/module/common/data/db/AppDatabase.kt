@@ -7,15 +7,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import module.common.data.db.dao.ConfigDao
-import module.common.data.db.dao.MusicDao
-import module.common.data.db.dao.UserInfoDao
-import module.common.data.db.dao.VideoDao
+import module.common.data.db.dao.*
 import module.common.data.db.entity.*
 
 @Database(
     version = 1,
-    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class],
+    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class, DynamicCategoryTable::class],
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -26,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserInfoDao
 
     abstract fun musicDao(): MusicDao
+    abstract fun dynamicCategoryDao(): DynamicCategoryDao
 
 
     companion object {
@@ -36,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"
+                    "db_liuxin"
                 )
 //                    .addMigrations(MIGRATION_3_4)
                     .build()

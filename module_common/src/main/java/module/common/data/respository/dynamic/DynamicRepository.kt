@@ -2,11 +2,10 @@ package module.common.data.respository.dynamic
 
 import android.content.Context
 import module.common.data.DataResult
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
 import module.common.data.entity.UserInfo
-import module.common.data.request.AttentionReq
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.DynamicListReq
 import module.common.data.request.EndorseReq
@@ -29,18 +28,33 @@ class DynamicRepository private constructor() {
     }
 
 
-   suspend fun getCategoryData(
-       context: Context,
-       req: CliqueCategoryReq
-    ): DataResult<List<CliqueCategory>?> {
-       var dataResult: DataResult<List<CliqueCategory>?> =
-           mRemote.getCategoryData(UserRepository.instance.getToken(context), req)
-       if (dataResult.status == DataResult.TOKEN_PAST) {
-           UserRepository.instance.refreshToken(context)?.let {
-               dataResult = mRemote.getCategoryData(it, req)
-           }
-       }
-       return dataResult
+    suspend fun getCategoryData(
+        context: Context,
+        req: CliqueCategoryReq
+    ): DataResult<List<DynamicCategory>?> {
+        val userId = UserRepository.instance.getUserInfo(context).userId ?: ""
+
+        val list: List<DynamicCategory> = mLocal.getCategoryData(context, userId, req.type.toInt())
+        if (list.isEmpty()) {
+            var dataResult: DataResult<List<DynamicCategory>?> =
+                mRemote.getCategoryData(UserRepository.instance.getToken(context), req)
+            if (dataResult.status == DataResult.TOKEN_PAST) {
+                UserRepository.instance.refreshToken(context)?.let {
+                    dataResult = mRemote.getCategoryData(it, req)
+                }
+            }
+            if (dataResult.status == DataResult.SUCCESS) {
+                dataResult.t?.let {
+                    mLocal.saveCategoryData(context, userId, req.type.toInt(),it)
+                }
+            }
+            return dataResult
+        } else {
+            var dataResult = DataResult<List<DynamicCategory>?>()
+            dataResult.status = DataResult.SUCCESS
+            dataResult.t = list
+            return dataResult
+        }
     }
 
     suspend fun getDynamicData(
@@ -50,9 +64,14 @@ class DynamicRepository private constructor() {
         req: DynamicListReq
     ): DataResult<List<Dynamic>?> {
         var dataResult: DataResult<List<Dynamic>?> =
-            mRemote.getDynamicData(UserRepository.instance.getToken(mContext), typeId, cityCode, req)
+            mRemote.getDynamicData(
+                UserRepository.instance.getToken(mContext),
+                typeId,
+                cityCode,
+                req
+            )
         if (dataResult.status == DataResult.TOKEN_PAST) {
-            UserRepository.instance.refreshToken(mContext)?.let{
+            UserRepository.instance.refreshToken(mContext)?.let {
                 dataResult = mRemote.getDynamicData(
                     UserRepository.instance.getToken(mContext),
                     typeId,
@@ -67,8 +86,8 @@ class DynamicRepository private constructor() {
     suspend fun getImgTxtData(context: Context, dynamicId: String?): DataResult<ImgTxtData?> {
         var token = UserRepository.instance.getToken(context)
         var dataResult = mRemote.getImgTxtData(token, dynamicId)
-        if(dataResult.status == DataResult.TOKEN_PAST){
-            UserRepository.instance.refreshToken(context)?.let{
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
                 dataResult = mRemote.getImgTxtData(token, dynamicId)
             }
         }
@@ -81,7 +100,7 @@ class DynamicRepository private constructor() {
         return mRemote.endorse(userInfo.access_token, endorseReq)
     }
 
-    suspend fun collect(context: Context,endorseReq: EndorseReq): DataResult<String> {
+    suspend fun collect(context: Context, endorseReq: EndorseReq): DataResult<String> {
         val userInfo: UserInfo = UserRepository.instance.getUserInfo(context)
         endorseReq.userId = userInfo.userId
         return mRemote.collect(userInfo.access_token, endorseReq)

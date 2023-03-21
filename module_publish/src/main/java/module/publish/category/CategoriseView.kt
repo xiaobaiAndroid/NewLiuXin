@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lxj.xpopup.core.BottomPopupView
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 import module.common.event.MessageEvent
 import module.common.view.LinearDividerDecoration
 import module.publish.R
@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.EventBus
  * @date: 2020/3/13
  * @author: baizhengfu
  */
-class CategoriseView(context: Context, private val categorises: MutableList<CliqueCategory>) :
+class CategoriseView(context: Context, private val categorises: MutableList<DynamicCategory>) :
     BottomPopupView(context) {
 
 

@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
 import module.common.base.BaseActivity
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 import module.common.data.entity.Music
 import module.common.data.request.PublishReq
 import module.common.utils.ARouterHelper
@@ -37,7 +37,7 @@ class PublishActivity : BaseActivity<LiveActivityPublishBinding, PublishViewMode
 
     var popupView: BasePopupView? = null
 
-    var categoryList:MutableList<CliqueCategory>? = null
+    var categoryList:MutableList<DynamicCategory>? = null
 
     var music: Music? = null
 

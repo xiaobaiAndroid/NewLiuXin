@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.common.base.BaseViewModel
 import module.common.data.DataResult
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.respository.dynamic.DynamicRepository
 import module.dynamic.view.category.CategoryMultiItem
@@ -40,7 +40,7 @@ class DynamicCategoryHomeViewModel: BaseViewModel() {
         val req = CliqueCategoryReq()
         req.id = CliqueCategoryReq.IdType.HOME
         req.type = type
-        val dataResult: DataResult<List<CliqueCategory>?> = DynamicRepository.instance.getCategoryData(mContext,req)
+        val dataResult: DataResult<List<DynamicCategory>?> = DynamicRepository.instance.getCategoryData(mContext,req)
         dataResult.t?.let {categoryList->
             val list = mutableListOf<CategoryMultiItem>()
 

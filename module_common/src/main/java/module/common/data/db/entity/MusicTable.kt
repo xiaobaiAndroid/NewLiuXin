@@ -3,8 +3,8 @@ package module.common.data.db.entity
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import module.common.data.db.DBTableNames.MUSIC_TABLE_NAME
 
-const val MUSIC_TABLE_NAME = "music_table"
 
 /**
  *@author: baizf

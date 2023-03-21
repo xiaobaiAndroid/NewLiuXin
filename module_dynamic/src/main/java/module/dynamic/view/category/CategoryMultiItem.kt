@@ -1,9 +1,9 @@
 package module.dynamic.view.category
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import module.common.data.entity.CliqueCategory
+import module.common.data.entity.DynamicCategory
 
-class CategoryMultiItem(override val itemType: Int, val cliqueCategory: CliqueCategory) : MultiItemEntity {
+class CategoryMultiItem(override val itemType: Int, val cliqueCategory: DynamicCategory) : MultiItemEntity {
 
     /*是否选中*/
     var isSelected = false

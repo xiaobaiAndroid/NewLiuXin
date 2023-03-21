@@ -10,7 +10,6 @@ import module.common.data.request.CliqueCategoryReq
 import module.common.data.request.ReqParams
 import module.common.data.request.UpdateAttentionReq
 import module.common.data.response.*
-import module.common.type.LanguageType
 import module.common.utils.GsonConvert
 import module.common.utils.GsonUtils
 import module.common.utils.GsonUtils.parseObject
@@ -32,10 +31,10 @@ class UserRemote {
     suspend fun getLifeCliqueCategoryData(
         token: String,
         req: CliqueCategoryReq
-    ): DataResult<List<CliqueCategory>> {
+    ): DataResult<List<DynamicCategory>> {
         return RxHttp.postJson(URLUtils.CLIQUE_CATEGORY + token)
             .addAll(GsonUtils.toJson(req))
-            .toAwait<DataResult<List<CliqueCategory>>>()
+            .toAwait<DataResult<List<DynamicCategory>>>()
             .await()
     }
 

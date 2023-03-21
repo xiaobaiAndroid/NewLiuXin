@@ -3,7 +3,7 @@ package module.common.data.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import module.common.data.db.entity.MUSIC_TABLE_NAME
+import module.common.data.db.DBTableNames
 import module.common.data.db.entity.MusicTable
 
 /**
@@ -13,10 +13,10 @@ import module.common.data.db.entity.MusicTable
 @Dao
 interface MusicDao {
 
-    @Query("SELECT * FROM $MUSIC_TABLE_NAME WHERE musicId= :musicId AND userId= :userId")
+    @Query("SELECT * FROM ${DBTableNames.MUSIC_TABLE_NAME} WHERE musicId= :musicId AND userId= :userId")
     suspend fun queryById(userId: String, musicId: String): List<MusicTable>
 
-    @Query("SELECT * FROM $MUSIC_TABLE_NAME WHERE userId= :userId ORDER BY addDate DESC")
+    @Query("SELECT * FROM ${DBTableNames.MUSIC_TABLE_NAME} WHERE userId= :userId ORDER BY addDate DESC")
     suspend fun queryAll(userId: String):MutableList<MusicTable>
 
     @Insert
