@@ -15,6 +15,7 @@ dependencyResolutionManagement {
 
 //        https://github.com/youth5201314/banner
         maven { url "https://s01.oss.sonatype.org/content/groups/public" }
+
     }
 
     versionCatalogs {
@@ -44,3 +45,5 @@ include ':module_map'
 include ':module_camera'
 include ':module_dynamic'
 include ':module_comment'
+include ':module_gift'
+include ':svga_lib'

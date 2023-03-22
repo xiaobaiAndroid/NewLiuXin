@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'module.dynamic'
+    namespace 'module.gift'
     compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
@@ -15,7 +15,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
     }
 
     buildTypes {
@@ -35,31 +34,11 @@ android {
     buildFeatures{
         viewBinding true
     }
-
-    //指定NDK版本
-    ndkVersion "21.0.6113669"
 }
 
 dependencies {
 
     implementation project(path: ':module_common')
 
-    implementation libs.xpopup
-    implementation libs.flycoTabLayout
-
-    implementation libs.smartRefreshLayoutCore
-    implementation libs.smartRefreshLayoutHeader
-    implementation libs.smartRefreshLayoutFooter
-
-    implementation libs.roundedimageview
-
-    implementation libs.banner
-    implementation project(path: ':audioplayer_lib')
-    implementation project(path: ':share_lib')
-    implementation project(path: ':module_comment')
-    implementation project(path: ':module_gift')
-    implementation project(path: ':svga_lib')
-
     kapt libs.lifecycleCompiler
-    
 }

@@ -1,0 +1,13 @@
+<resources>
+    <string name="gift_select_gift">选择礼物</string>
+    <string name="gift_recharge">充值</string>
+    <string name="gift_format_balance">余额：%s浏币</string>
+    <string name="gift_number">数量</string>
+    <string name="gift_give">赠送</string>
+    <string name="gift_formant_price">%s浏币</string>
+    <string name="gift_select_send_gift">选择要赠送的礼物</string>
+    <string name="gift_format_tenthousand_balance">余额：%s万浏币</string>
+    <string name="gift_delete">删除</string>
+    <string name="gift_cancel">取消</string>
+    <string name="gift_input_gift_number">请输入要赠送礼物的数量</string>
+</resources>

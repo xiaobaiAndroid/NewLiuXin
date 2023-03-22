@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import module.common.base.BaseListViewModel
 import module.common.base.BaseViewModel
 import module.common.base.CommonListResp
 import module.common.data.DataResult
@@ -13,16 +12,13 @@ import module.common.data.entity.Comment
 import module.common.data.entity.Dynamic
 import module.common.data.entity.Goods
 import module.common.data.entity.ImgTxtData
-import module.common.data.request.CommentListReq
-import module.common.data.request.EndorseReq
-import module.common.data.request.RecommendGoodsReq
-import module.common.data.request.UpdateAttentionReq
+import module.common.data.request.*
 import module.common.data.respository.comment.CommentRepository
 import module.common.data.respository.dynamic.DynamicRepository
+import module.common.data.respository.gift.GiftRepository
 import module.common.data.respository.goods.GoodsRepository
 import module.common.data.respository.user.UserRepository
 import module.common.data.status.CommonStatus
-import module.common.event.entity.EGiveGift
 
 /**
  *@author: baizf
@@ -48,8 +44,8 @@ class ImgTxtDetailViewModel:BaseViewModel() {
         MutableLiveData<DataResult<String>>()
     }
 
-    val attentionStateLD: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
+    val attentionStateLD: MutableLiveData<Int?> by lazy {
+        MutableLiveData<Int?>()
     }
 
 
@@ -61,12 +57,27 @@ class ImgTxtDetailViewModel:BaseViewModel() {
         MutableLiveData<DataResult<MutableList<Goods>?>>()
     }
 
+    val giveGiftResultLD: MutableLiveData<DataResult<String?>> by lazy {
+        MutableLiveData<DataResult<String?>>()
+    }
+
     fun comment(content: String, dynamic: Dynamic?) = viewModelScope.launch(Dispatchers.IO) {
 
     }
 
-    fun giveGift(userId: String?, eGiveGift: EGiveGift, selectedNumber: String?) {
-
+    /*
+    * @describe: 赠送礼物
+    * @date: 2023/3/22
+    */
+    fun giveGift(dynamicUserId: String?, giftId: String?, selectedNumber: Int) = viewModelScope.launch(Dispatchers.IO) {
+        val giveGiftReq = GiveGiftReq()
+        giveGiftReq.giftNum = selectedNumber.toString()
+        giveGiftReq.giftId = giftId
+        giveGiftReq.toUId = dynamicUserId
+        val dataResult: DataResult<String?> = GiftRepository.instance.giveGift(mContext,giveGiftReq)
+        withContext(Dispatchers.Main){
+            giveGiftResultLD.value = dataResult
+        }
     }
 
     fun getComments(dynamicId: String?) = viewModelScope.launch(Dispatchers.IO) {

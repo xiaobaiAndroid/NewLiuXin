@@ -1,10 +1,10 @@
 package module.dynamic.detail.imgtxt
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lxj.xpopup.XPopup
@@ -13,25 +13,28 @@ import com.lxj.xpopup.enums.PopupAnimation
 import com.lxj.xpopup.interfaces.SimpleCallback
 import com.youth.banner.indicator.CircleIndicator
 import lib.share.ShareEntity
+import lib.svga.SVGAHelper
 import module.audioplayer_lib.AudioPlayerEngine
 import module.comment.CommentAdapter
+import module.comment.CommentListView
+import module.comment.input.InputContentView
 import module.common.base.BaseActivity
 import module.common.data.DataResult
 import module.common.data.entity.Comment
 import module.common.data.entity.Dynamic
+import module.common.data.entity.Gift
 import module.common.data.entity.ImgTxtData
 import module.common.data.status.CommonStatus
 import module.common.event.MessageEvent
-import module.common.event.entity.EGiveGift
 import module.common.utils.*
 import module.common.view.GridSpaceDecoration
 import module.dynamic.R
 import module.dynamic.databinding.DynamicActivityImgTxtDetailBinding
-import module.dynamic.detail.imgtxt.ImgTxtBannerAdapter.*
-import module.comment.CommentListView
+import module.dynamic.detail.imgtxt.ImgTxtBannerAdapter.Listener
 import module.dynamic.detail.imgtxt.view.MoreOperationView
+import module.gift.EGiveGift
+import module.gift.GiftHomeView
 import java.util.*
-import kotlin.collections.ArrayList
 
 /*
 * @describe:
@@ -56,6 +59,9 @@ class ImgTxtDetailActivity :
     var commentListPopup: BasePopupView? = null
 
     private lateinit var mAudioPlayer: AudioPlayerEngine
+
+    private var mEGiveGift: EGiveGift?=null
+
     override fun createViewModel(): ImgTxtDetailViewModel {
         return viewModels<ImgTxtDetailViewModel>().value
     }
@@ -72,8 +78,14 @@ class ImgTxtDetailActivity :
             val content = event.obj as String
             viewModel.comment(content, dynamic)
         } else if (MessageEvent.Type.PLAY_VIDEO_SVGA === event.type) {
-            val eGiveGift = event.obj as EGiveGift
-            viewModel.giveGift(dynamic?.userId, eGiveGift, eGiveGift.selectedNumber)
+            mEGiveGift = event.obj as EGiveGift
+            mEGiveGift?.let {
+//                viewModel.giveGift(dynamic?.userId, it.selectGift.id, it.selectedNumber)
+
+                SVGAHelper.play( binding.svgaFL, it.selectGift.giftSvgaUrl)
+            }
+            LogUtils.printI(GsonUtils.toJson(mEGiveGift))
+
             giftPopup?.dismiss()
         } else if (MessageEvent.Type.DELETE_DYNAMIC === event.type) {
             onBackPressed()
@@ -237,9 +249,52 @@ class ImgTxtDetailActivity :
             }
         }
         viewModel.attentionStateLD.observe(this){attentionState->
-            dynamic?.attentionUserStatus = attentionState
+            attentionState?.let {
+                dynamic?.attentionUserStatus = attentionState
+            }
             updateAttentionStatusView()
         }
+
+        viewModel.giveGiftResultLD.observe(this){ dataResult->
+            if (dataResult.status == DataResult.SUCCESS) {
+                mEGiveGift?.let {
+                    playGiftAnimation(it)
+                }
+            } else if (dataResult.status == DataResult.NOT_MONEY) {
+                ToastUtils.setMessage(this,resources.getString(R.string.clique_not_money))
+            } else {
+                ToastUtils.setMessage(this,dataResult.message)
+            }
+        }
+    }
+
+    private fun playGiftAnimation(eGiveGift: EGiveGift) {
+        val gift = eGiveGift.selectGift
+        if (gift.giftType == Gift.Type.SVGA) {
+            SVGAHelper.play(binding.rootView, gift.giftSvgaUrl)
+        } else if (gift.giftType == Gift.Type.GIF) {
+
+        } else if (gift.giftType == Gift.Type.PNG) {
+
+            //开启雪花飘落效果
+//            floatView.visibility = View.VISIBLE
+//            floatView.start(shareIV,eGiveGift.selectGift.giftUrl,40)
+
+        }
+//        giftNumberPV = XPopup.Builder(this)
+//            .hasShadowBg(false)
+//            .popupAnimation(PopupAnimation.ScaleAlphaFromRightTop)
+//            .isCenterHorizontal(true)
+//            .atView(moreOperationIV)
+//            .offsetY(resources.getDimension(R.dimen.dp_60).toInt()) //弹窗在y方向的偏移量
+//            .offsetX(-resources.getDimension(R.dimen.dp_60).toInt())
+//            .popupPosition(PopupPosition.Bottom)
+//            .asCustom(GiftNumberView(this, eGiveGift.selectedNumber))
+//            .show()
+
+//        handler.postDelayed({
+//            giftNumberPV?.dismiss()
+//        }, 2000)
     }
 
     private fun updateAttentionStatusView() {
@@ -332,13 +387,13 @@ class ImgTxtDetailActivity :
         }
 
         binding.commentButtonTV.setOnClickListener {
-//            XPopup.Builder(this)
-//                .hasShadowBg(false)
-//                .enableDrag(false)
-//                .autoOpenSoftInput(true)
-//                .popupAnimation(PopupAnimation.TranslateFromBottom)
-//                .asCustom(InputContentView(this))
-//                .show()
+            XPopup.Builder(this)
+                .hasShadowBg(false)
+                .enableDrag(false)
+                .autoOpenSoftInput(true)
+                .popupAnimation(PopupAnimation.TranslateFromBottom)
+                .asCustom(InputContentView(this))
+                .show()
         }
 
         binding.endorseCountLL.setOnClickListener {
@@ -357,46 +412,19 @@ class ImgTxtDetailActivity :
         }
 
         binding.giftIV.setOnClickListener {
-//            giftListView = GiftListView(this)
-//            giftPopup = XPopup.Builder(this)
-//                .hasShadowBg(false)
-//                .enableDrag(false)
-//                .popupAnimation(PopupAnimation.TranslateFromBottom)
-//                .setPopupCallback(object : XPopupCallback {
-//                    override fun onBackPressed(popupView: BasePopupView?): Boolean {
-//                        giftListView?.destory()
-//                        return true
-//                    }
-//
-//                    override fun onDrag(
-//                        popupView: BasePopupView?,
-//                        value: Int,
-//                        percent: Float,
-//                        upOrLeft: Boolean
-//                    ) {
-//                    }
-//
-//                    override fun onDismiss(popupView: BasePopupView?) {
-//                    }
-//
-//                    override fun onKeyBoardStateChanged(popupView: BasePopupView?, height: Int) {
-//                    }
-//
-//                    override fun beforeShow(popupView: BasePopupView?) {
-//                    }
-//
-//                    override fun onCreated(popupView: BasePopupView?) {
-//                    }
-//
-//                    override fun beforeDismiss(popupView: BasePopupView?) {
-//                    }
-//
-//                    override fun onShow(popupView: BasePopupView?) {
-//                    }
-//
-//                })
-//                .asCustom(giftListView)
-//                .show()
+            giftPopup?.let {
+                giftPopup?.show()
+            } ?: kotlin.run {
+                giftPopup = XPopup.Builder(this)
+                    .isViewMode(true)
+                    .hasShadowBg(false)
+                    .enableDrag(false)
+                    .customHostLifecycle(lifecycle)
+                    .popupAnimation(PopupAnimation.TranslateFromBottom)
+                    .asCustom(GiftHomeView(this, dynamic?.userId))
+                    .show()
+            }
+
         }
 
         binding.moreOperationIV.setOnClickListener {
@@ -420,6 +448,7 @@ class ImgTxtDetailActivity :
                 mAudioPlayer.resume()
             }
         }
+
     }
 
     private fun showCommentView() {

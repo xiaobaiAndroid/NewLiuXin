@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/cl_ffffff"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/numberTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dp_16"
+        android:lines="1"
+        android:textColor="@color/cl_000000"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:background="@drawable/gift_bg_number_input"
+        app:layout_constraintRight_toLeftOf="@id/giveTV"
+        android:layout_marginRight="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/giveTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_40"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/cl_ffffff"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/numberTV"
+        app:layout_constraintTop_toTopOf="@id/numberTV"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@drawable/gift_bg_give"
+        android:text="@string/gift_give"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:gravity="center"
+        />
+
+
+    <View
+        android:id="@+id/line1V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/cl_eeeeee"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/numberTV"
+        android:layout_marginTop="@dimen/dp_16"
+        />
+
+    <TextView
+        android:id="@+id/oneTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/twoTV"
+        app:layout_constraintTop_toBottomOf="@id/line1V"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="1"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/twoTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/oneTV"
+        app:layout_constraintRight_toLeftOf="@id/threeTV"
+        app:layout_constraintTop_toTopOf="@id/oneTV"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="2"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/threeTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/twoTV"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/oneTV"
+        android:clickable="true"
+        android:text="3"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+    <View
+        android:id="@+id/line2V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/cl_eeeeee"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/oneTV"
+        android:layout_marginTop="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/fourTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/fiveTV"
+        app:layout_constraintTop_toBottomOf="@id/line2V"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="4"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/fiveTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/fourTV"
+        app:layout_constraintRight_toLeftOf="@id/sixTV"
+        app:layout_constraintTop_toTopOf="@id/fourTV"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="5"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/sixTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/fiveTV"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/fourTV"
+        android:clickable="true"
+        android:text="6"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+    <View
+        android:id="@+id/line3V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/cl_eeeeee"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fourTV"
+        android:layout_marginTop="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/sevenTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/eightTV"
+        app:layout_constraintTop_toBottomOf="@id/line3V"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="7"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/eightTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/sevenTV"
+        app:layout_constraintRight_toLeftOf="@id/nineTV"
+        app:layout_constraintTop_toTopOf="@id/sevenTV"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="8"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/nineTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/fiveTV"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/sevenTV"
+        android:clickable="true"
+        android:text="9"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <View
+        android:id="@+id/line4V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/cl_eeeeee"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sevenTV"
+        android:layout_marginTop="@dimen/dp_12"
+        />
+
+
+    <TextView
+        android:id="@+id/cancelTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/zeroTV"
+        app:layout_constraintTop_toBottomOf="@id/line4V"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="@string/gift_cancel"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/zeroTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/cancelTV"
+        app:layout_constraintRight_toLeftOf="@id/deleteTV"
+        app:layout_constraintTop_toTopOf="@id/cancelTV"
+        app:layout_constraintBottom_toBottomOf="@id/cancelTV"
+        app:layout_constraintHorizontal_weight="1"
+        android:clickable="true"
+        android:text="0"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/deleteTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_56"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/zeroTV"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/cancelTV"
+        app:layout_constraintBottom_toBottomOf="@id/cancelTV"
+        android:clickable="true"
+        android:text="@string/gift_delete"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

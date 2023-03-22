@@ -394,6 +394,13 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/svgaFL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
 <!--    <com.liuchat.gift.view.float.FloatView-->
 <!--        android:id="@+id/floatView"-->
 <!--        android:layout_width="0dp"-->

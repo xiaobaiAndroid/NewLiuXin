@@ -36,7 +36,9 @@ class MessageEvent(var type: Type) {
        DYNAMIC_SELECT_CATEGORY,
        PLAY_VIDEO_SVGA,
        DELETE_DYNAMIC,
-       SEND_COMMENT
+       SEND_COMMENT,
+       RESET_SELECT_GIFT,
+       SHOW_GIFT_NUMBER_POPUP
    }
 
 }
