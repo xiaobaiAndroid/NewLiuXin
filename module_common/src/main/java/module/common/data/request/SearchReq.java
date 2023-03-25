@@ -11,6 +11,10 @@ import module.common.base.BaseListReq;
  */
 public class SearchReq extends BaseListReq<SearchReq.QueryObj> {
 
+    public SearchReq(QueryObj queryObj) {
+        super(queryObj);
+    }
+
     public static class QueryObj{
         private String title;
 

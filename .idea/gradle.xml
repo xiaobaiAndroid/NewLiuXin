@@ -25,9 +25,11 @@
             <option value="$PROJECT_DIR$/module_map" />
             <option value="$PROJECT_DIR$/module_publish" />
             <option value="$PROJECT_DIR$/module_user" />
+            <option value="$PROJECT_DIR$/module_video" />
             <option value="$PROJECT_DIR$/share_lib" />
             <option value="$PROJECT_DIR$/svga_lib" />
             <option value="$PROJECT_DIR$/upload_lib" />
+            <option value="$PROJECT_DIR$/videoplayer_lib" />
             <option value="$PROJECT_DIR$/web_lib" />
           </set>
         </option>

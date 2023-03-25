@@ -1,6 +1,5 @@
 package module.dynamic.detail.imgtxt
 
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -31,7 +30,7 @@ import module.common.view.GridSpaceDecoration
 import module.dynamic.R
 import module.dynamic.databinding.DynamicActivityImgTxtDetailBinding
 import module.dynamic.detail.imgtxt.ImgTxtBannerAdapter.Listener
-import module.dynamic.detail.imgtxt.view.MoreOperationView
+import module.dynamic.detail.more.MoreOperationView
 import module.gift.EGiveGift
 import module.gift.GiftHomeView
 import java.util.*
@@ -80,18 +79,13 @@ class ImgTxtDetailActivity :
         } else if (MessageEvent.Type.PLAY_VIDEO_SVGA === event.type) {
             mEGiveGift = event.obj as EGiveGift
             mEGiveGift?.let {
-//                viewModel.giveGift(dynamic?.userId, it.selectGift.id, it.selectedNumber)
-
-                SVGAHelper.play( binding.svgaFL, it.selectGift.giftSvgaUrl)
+                viewModel.giveGift(dynamic?.userId, it.selectGift.id, it.selectedNumber)
             }
-            LogUtils.printI(GsonUtils.toJson(mEGiveGift))
-
             giftPopup?.dismiss()
         } else if (MessageEvent.Type.DELETE_DYNAMIC === event.type) {
             onBackPressed()
         }
     }
-
 
     override fun initView(savedInstanceState: Bundle?) {
         StatusBarUtils.setMarginStatusBarHeight(this, binding.actionBarCL)
@@ -271,7 +265,7 @@ class ImgTxtDetailActivity :
     private fun playGiftAnimation(eGiveGift: EGiveGift) {
         val gift = eGiveGift.selectGift
         if (gift.giftType == Gift.Type.SVGA) {
-            SVGAHelper.play(binding.rootView, gift.giftSvgaUrl)
+            SVGAHelper.play(binding.svgaFL, gift.giftSvgaUrl)
         } else if (gift.giftType == Gift.Type.GIF) {
 
         } else if (gift.giftType == Gift.Type.PNG) {

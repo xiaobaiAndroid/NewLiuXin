@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <lib.videoplayer.MyPlayerView
+        android:id="@+id/myVideoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/contentTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/unfoldTV" />
+
+    <TextView
+        android:id="@+id/unfoldTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_8"
+        android:text="@string/video_unfold"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintBottom_toBottomOf="@id/contentTV"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_16"
+        />
+
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toTopOf="@id/contentTV"
+        app:layout_constraintLeft_toLeftOf="@id/contentTV"
+        app:layout_constraintRight_toRightOf="@id/contentTV" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/avatarIV"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:riv_oval="true"
+        app:riv_corner_radius="@dimen/dp_32"
+        app:layout_constraintBottom_toTopOf="@id/titleTV"
+        app:layout_constraintLeft_toLeftOf="@id/contentTV" />
+
+    <TextView
+        android:id="@+id/nicknameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIV"
+        app:layout_constraintLeft_toRightOf="@id/avatarIV"
+        app:layout_constraintTop_toTopOf="@id/avatarIV" />
+
+    <TextView
+        android:id="@+id/markTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_bg_mark"
+        android:drawableLeft="@drawable/video_ic_mark"
+        android:drawablePadding="@dimen/dp_2"
+        android:text="@string/video_mark"
+        android:textColor="@color/cl_e5004f"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintBottom_toBottomOf="@id/avatarIV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/avatarIV" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_50"
+        >
+
+        <include
+            android:id="@+id/rightOperation"
+            layout="@layout/video_layout_right_operation" />
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

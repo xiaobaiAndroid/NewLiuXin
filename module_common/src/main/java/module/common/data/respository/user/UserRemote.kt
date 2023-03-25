@@ -126,10 +126,11 @@ class UserRemote {
         }catch (e: HttpStatusCodeException){
             e.printStackTrace()
             if(e.statusCode == 401){
-                dataResult.status = DataResult.TOKEN_PAST
+                dataResult.status = DataResult.NEED_LOGIN
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            dataResult.status = DataResult.NEED_LOGIN
         }
         return dataResult
 

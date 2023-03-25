@@ -50,7 +50,7 @@ class DynamicCategoryHomeFragment: BaseFragment<DynamicFragmentDynamicHomeBindin
     }
 
     override fun initView() {
-
+        binding.categoryVP.isSaveEnabled = false
     }
 
 }

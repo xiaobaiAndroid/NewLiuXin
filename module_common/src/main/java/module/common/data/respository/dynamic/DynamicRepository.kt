@@ -45,7 +45,7 @@ class DynamicRepository private constructor() {
             }
             if (dataResult.status == DataResult.SUCCESS) {
                 dataResult.t?.let {
-                    mLocal.saveCategoryData(context, userId, req.type.toInt(),it)
+                    mLocal.saveCategoryData(context, userId, req.type.toInt(), it)
                 }
             }
             return dataResult
@@ -57,27 +57,15 @@ class DynamicRepository private constructor() {
         }
     }
 
-    suspend fun getDynamicData(
+    suspend fun getRecommendDynamicData(
         mContext: Context,
-        typeId: String?,
-        cityCode: String?,
         req: DynamicListReq
-    ): DataResult<List<Dynamic>?> {
-        var dataResult: DataResult<List<Dynamic>?> =
-            mRemote.getDynamicData(
-                UserRepository.instance.getToken(mContext),
-                typeId,
-                cityCode,
-                req
-            )
+    ): DataResult<MutableList<Dynamic>?> {
+        var dataResult: DataResult<MutableList<Dynamic>?> =
+            mRemote.getRecommendDynamicData(UserRepository.instance.getToken(mContext), req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(mContext)?.let {
-                dataResult = mRemote.getDynamicData(
-                    UserRepository.instance.getToken(mContext),
-                    typeId,
-                    cityCode,
-                    req
-                )
+                dataResult = mRemote.getRecommendDynamicData(UserRepository.instance.getToken(mContext), req)
             }
         }
         return dataResult
@@ -104,6 +92,49 @@ class DynamicRepository private constructor() {
         val userInfo: UserInfo = UserRepository.instance.getUserInfo(context)
         endorseReq.userId = userInfo.userId
         return mRemote.collect(userInfo.access_token, endorseReq)
+    }
+
+   suspend fun getFriendDynamicData(
+        context: Context,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        var dataResult: DataResult<MutableList<Dynamic>?> =
+            mRemote.getFriendDynamicData(UserRepository.instance.getToken(context), req)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.getFriendDynamicData(UserRepository.instance.getToken(context), req)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun getCityDynamicData(
+        context: Context,
+        cityCode: String,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        var dataResult: DataResult<MutableList<Dynamic>?> =
+            mRemote.getCityDynamicData(UserRepository.instance.getToken(context), cityCode,req)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.getCityDynamicData(UserRepository.instance.getToken(context), cityCode,req)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun getOtherDynamicData(
+        context: Context,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        var dataResult: DataResult<MutableList<Dynamic>?> =
+            mRemote.getOtherDynamicData(UserRepository.instance.getToken(context),req)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.getOtherDynamicData(UserRepository.instance.getToken(context),req)
+            }
+        }
+        return dataResult
     }
 
 }

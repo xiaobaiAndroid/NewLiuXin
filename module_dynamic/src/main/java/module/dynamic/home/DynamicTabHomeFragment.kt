@@ -86,6 +86,7 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         }
         fragmentAdapter = DynamicTabHomeAdapter(requireActivity(),viewModel.cityCodeLD.value)
         binding.categoryVP.adapter = fragmentAdapter
+        binding.categoryVP.isSaveEnabled = false
     }
 
 

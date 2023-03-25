@@ -7,6 +7,7 @@ import android.graphics.Bitmap
  * @date: 2020/3/9
  * @author: Mr Bai
  */
+
 class ShareEntity {
     var title: String? = null
     var content: String? = null

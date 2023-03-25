@@ -105,9 +105,8 @@ internal class WalletRemote {
         val dataResult = DataResult<MutableList<Gift>?>()
 
         try {
-            val queryObj = GiftsReq.QueryObj(giftTypeId)
             val giftsReq = GiftsReq()
-            giftsReq.queryObj = queryObj
+            giftsReq.queryObj.giftTypeId = giftTypeId
 
             val json = RxHttp.postJson(URLUtils.GIFT_LIST + token)
                 .addAll(GsonUtils.toJson(giftsReq))

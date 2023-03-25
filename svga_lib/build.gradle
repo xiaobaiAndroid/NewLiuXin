@@ -38,5 +38,4 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.github.yyued:SVGAPlayer-Android:2.6.1'
 
-    api "com.airbnb.android:lottie:6.0.0"
 }

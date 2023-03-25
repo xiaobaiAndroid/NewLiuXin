@@ -3,21 +3,41 @@
 
     <application>
         <activity
+            android:name=".detail.video.VideoDetailHomeActivity"
+            android:exported="false"
+            android:configChanges="orientation|locale|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            >
+
+            <intent-filter>
+                <action android:name="dynamic.detail.video.VideoDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.yiguo.shop"
+                    android:path="/VideoDetailActivity"
+                    android:port="8888"
+                    android:scheme="liuxin" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".detail.imgtxt.ImgTxtDetailActivity"
             android:configChanges="orientation|locale|screenSize|keyboardHidden"
             android:exported="false"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="dynamic.detail.imgtxt.ImgTxtDetailActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.yiguo.shop"
                     android:path="/ImgTxtDetailActivity"
                     android:port="8888"
                     android:scheme="liuxin" />
             </intent-filter>
-
         </activity>
     </application>
 

@@ -319,10 +319,10 @@ object URLUtils {
     /*验证码登录*/
     const val LOGIN_CODE = HOST_CN + "system/user/mobile/login"
 
-    val IMGTXT_DATA = "circle/mediaComment/getImageTextData?"+ TOKEN_KEY + "="
+    val IMGTXT_DATA = "circle/mediaComment/getImageTextData?$TOKEN_KEY="
 
 
     /*产品分享*/
     val GOODS_SHARE: String? = "http://www.dmbg.net/shareApp.html?goodsId="
-    val CLIQUE_MEDIA_LIST = "circle/media/page/query/referrer?" + TOKEN_KEY + "="
+    val CLIQUE_MEDIA_LIST = "circle/media/page/query/referrer?$TOKEN_KEY="
 }

@@ -10,6 +10,10 @@ import module.common.base.BaseListReq;
  */
 public class MyDynamicReq extends BaseListReq<MyDynamicReq.QueryObj> {
 
+    public MyDynamicReq(QueryObj queryObj) {
+        super(queryObj);
+    }
+
     public static class QueryObj{
 
         private String userId;

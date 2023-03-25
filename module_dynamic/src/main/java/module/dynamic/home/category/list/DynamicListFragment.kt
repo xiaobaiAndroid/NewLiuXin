@@ -82,7 +82,7 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
             }
         }
 
-        binding.srl.autoRefresh(100)
+        binding.srl.autoRefresh(10)
     }
 
     override fun initView() {
@@ -128,23 +128,20 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
         dynamicAdapter.setOnItemClickListener { _, _, position ->
             lastPosition = position
             if (mediaType == MediaType.IN_VIDEO) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val dynamics = viewModel.getOriginalDynamicData(dynamicAdapter.data)
-                    withContext(Dispatchers.Main) {
-                        val bundle = Bundle()
-                        bundle.putInt("pageNumber", viewModel.getCurrentPage())
-                        bundle.putInt("playPosition", lastPosition)
-                        bundle.putString("typeId", typeId)
-                        bundle.putBoolean("isLoadMore", true)
-                        bundle.putParcelableArrayList("dynamics", dynamics)
-                        ARouterHelper.openPath(activity, ARouterHelper.VIDEO_DETAIL, bundle)
-                    }
-                }
+                val dynamicMultiEntity = dynamicAdapter.data[position]
+                ActivityLauncher.launchVideoDetail(
+                    requireActivity(),
+                    dynamicMultiEntity.dynamic,
+                    viewModel.getCurrentPage(),
+                    lastPosition,
+                    typeId,
+                    true
+                )
 
             } else {
                 val multiEntity = dynamicAdapter.getItem(position)
                 multiEntity.dynamic?.let {
-                    ActivityLauncher.launchImgTxtDetail(requireActivity(),it,typeId)
+                    ActivityLauncher.launchImgTxtDetail(requireActivity(), it, typeId)
                 }
 
             }

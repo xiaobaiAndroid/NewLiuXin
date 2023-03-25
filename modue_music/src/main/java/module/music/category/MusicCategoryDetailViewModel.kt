@@ -29,10 +29,8 @@ class MusicCategoryDetailViewModel: BaseViewModel() {
 
 
     fun setMusicType(musicType: String){
-        val queryObj = MusicsReq.QueryObj()
-        queryObj.musicType = Integer.valueOf(musicType)
+        req.queryObj.musicType = Integer.valueOf(musicType)
         req.pageSize = 30
-        req.queryObj = queryObj
     }
 
     fun getData(context: Context) = viewModelScope.launch(Dispatchers.IO) {

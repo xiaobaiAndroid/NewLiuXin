@@ -7,7 +7,11 @@ import module.common.base.BaseListReq;
  * @date: 2020/6/16
  * @author: Mr Bai
  */
-public class ShopGoodsReq extends BaseListReq {
+public class ShopGoodsReq extends BaseListReq<ShopGoodsReq.QueryObj> {
+
+    public ShopGoodsReq(ShopGoodsReq.QueryObj queryObj) {
+        super(queryObj);
+    }
 
     public static class QueryObj{
         private String storeId;

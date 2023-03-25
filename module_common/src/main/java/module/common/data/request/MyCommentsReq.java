@@ -9,6 +9,10 @@ import module.common.base.BaseListReq;
  */
 public class MyCommentsReq extends BaseListReq<MyCommentsReq.QueryObj> {
 
+    public MyCommentsReq(QueryObj queryObj) {
+        super(queryObj);
+    }
+
     public static class QueryObj{
 
     }

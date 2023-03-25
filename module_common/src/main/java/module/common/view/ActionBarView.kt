@@ -2,10 +2,12 @@ package module.common.view
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import module.common.R
 import module.common.databinding.LayoutActionbarBinding
@@ -21,7 +23,7 @@ class ActionBarView(context: Context,attrs:AttributeSet) : FrameLayout(context,a
 
     val binding: LayoutActionbarBinding
     init {
-        binding = LayoutActionbarBinding.inflate(LayoutInflater.from(context), this)
+        binding = LayoutActionbarBinding.inflate(LayoutInflater.from(context), this,true)
 //        backIB.setColorFilter(resources.getColor(R.color.cl_cccccc), PorterDuff.Mode.SRC_IN)
         setBackgroundColor(resources.getColor(R.color.cl_ffffff))
     }
@@ -32,8 +34,9 @@ class ActionBarView(context: Context,attrs:AttributeSet) : FrameLayout(context,a
         binding.backIB.setOnClickListener {
             activity.onBackPressed()
         }
-//        StatusBarUtils.setMarginStatusBarHeight(activity,binding.toolbarCL)
+        StatusBarUtils.setMarginStatusBarHeight(activity,binding.toolbarCL)
     }
+
 
     /**
      * @describe: 设置返回的键的颜色
@@ -70,6 +73,25 @@ class ActionBarView(context: Context,attrs:AttributeSet) : FrameLayout(context,a
             binding.backIB.visibility = View.GONE
         }else{
             binding.backIB.visibility = View.VISIBLE
+        }
+    }
+
+    fun addMoreOperationView(moreView: View) {
+        val layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        moreView.layoutParams = layoutParams
+        binding.moreFL.addView(moreView)
+    }
+
+    fun setDarkNight(darkNight: Boolean) {
+        if(darkNight){
+            binding.titleTV.setTextColor(Color.WHITE)
+            setBackImageColor(Color.WHITE)
+        }else{
+            binding.titleTV.setTextColor(Color.BLACK)
+            setBackImageColor(Color.BLACK)
         }
     }
 }

@@ -104,8 +104,6 @@ class ImgTxtDetailViewModel:BaseViewModel() {
 
     fun getRecommendGoods(categoryId: String) = viewModelScope.launch(Dispatchers.IO) {
         val recommendGoodsReq = RecommendGoodsReq()
-        val queryObj = RecommendGoodsReq.QueryObj()
-        recommendGoodsReq.queryObj = queryObj
         val dataResult: DataResult<MutableList<Goods>?> =
             GoodsRepository.instance.getRecommendGoods(mContext,recommendGoodsReq)
         withContext(Dispatchers.Main){

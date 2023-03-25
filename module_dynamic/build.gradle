@@ -59,6 +59,8 @@ dependencies {
     implementation project(path: ':module_comment')
     implementation project(path: ':module_gift')
     implementation project(path: ':svga_lib')
+    implementation project(path: ':videoplayer_lib')
+
 
     kapt libs.lifecycleCompiler
     

@@ -7,7 +7,7 @@ import module.common.base.BaseListReq
  * @date: 2020/3/17
  * @author: Mr Bai
  */
-class RecommendGoodsReq : BaseListReq<RecommendGoodsReq.QueryObj?>() {
+class RecommendGoodsReq : BaseListReq<RecommendGoodsReq.QueryObj>(QueryObj()) {
     class QueryObj {
         /*	分类id*/
 //        var cateId: String? = null

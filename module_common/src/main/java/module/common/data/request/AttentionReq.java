@@ -9,6 +9,10 @@ import module.common.base.BaseListReq;
  */
 public class AttentionReq extends BaseListReq<AttentionReq.QueryObj> {
 
+    public AttentionReq(QueryObj queryObj) {
+        super(queryObj);
+    }
+
     public static class QueryObj{
         private String userId;
 

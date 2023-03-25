@@ -2,7 +2,7 @@ package module.common.data.request
 
 import module.common.base.BaseListReq
 
-class AlbumsReq: BaseListReq<AlbumsReq.Companion.QueryObject>() {
+class AlbumsReq: BaseListReq<AlbumsReq.Companion.QueryObject>(QueryObject()) {
 
     companion object{
 

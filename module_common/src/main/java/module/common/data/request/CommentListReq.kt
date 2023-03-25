@@ -7,11 +7,7 @@ import module.common.base.BaseListReq
  * @date: 2020/3/10
  * @author: Mr Bai
  */
-class CommentListReq : BaseListReq<CommentListReq.QueryObj?>() {
-
-    init {
-        queryObj = QueryObj()
-    }
+class CommentListReq : BaseListReq<CommentListReq.QueryObj>(QueryObj()) {
 
     class QueryObj {
         /**

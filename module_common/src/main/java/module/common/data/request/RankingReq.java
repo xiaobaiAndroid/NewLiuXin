@@ -9,6 +9,10 @@ import module.common.base.BaseListReq;
  */
 public class RankingReq extends BaseListReq<RankingReq.QueryObj> {
 
+    public RankingReq(QueryObj queryObj) {
+        super(queryObj);
+    }
+
     public static class QueryObj{
 
 //        时间类型1-昨日 2-上周 3-上月

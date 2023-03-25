@@ -3,13 +3,13 @@ package module.dynamic.home.category.list
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.common.base.BaseViewModel
 import module.common.data.DataResult
 import module.common.data.entity.Dynamic
+import module.common.data.entity.DynamicCategory
 import module.common.data.request.DynamicListReq
 import module.common.data.respository.dynamic.DynamicRepository
 import module.common.type.MediaType
@@ -49,20 +49,30 @@ class DynamicListViewModel : BaseViewModel() {
         mediaType: String?,
         cityCode: String?
     ) = viewModelScope.launch(Dispatchers.IO) {
-            mediaType ?: return@launch
-            req.setQueryObj(DynamicListReq.QueryObj(mediaType))
-            val dataResult: DataResult<List<Dynamic>?> =
-                DynamicRepository.instance.getDynamicData(mContext, typeId, cityCode, req)
-            val list = convertDynamicData(mediaType, dataResult.t)
+        mediaType ?: return@launch
+        req.queryObj.type = mediaType.toInt()
 
-            withContext(Dispatchers.Main){
-                val result = DataResult<MutableList<DynamicMultiEntity>?>()
-                result.status = dataResult.status
-                result.t = list
-                result.message = dataResult.message
-                dynamicDataResultLD.value = result
-            }
+        var dataResult: DataResult<MutableList<Dynamic>?>
+        if (DynamicCategory.Type.RECOMMEND == typeId) {
+            dataResult = DynamicRepository.instance.getRecommendDynamicData(mContext, req)
+        } else if (DynamicCategory.Type.FRIEND == typeId) {
+            dataResult = DynamicRepository.instance.getFriendDynamicData(mContext, req)
+        } else if (DynamicCategory.Type.CITY == typeId) {
+            dataResult = DynamicRepository.instance.getCityDynamicData(mContext, cityCode ?: "0", req)
+        } else {
+            req.queryObj.typeId = typeId
+            dataResult = DynamicRepository.instance.getOtherDynamicData(mContext, req)
         }
+        val list = convertDynamicData(mediaType, dataResult.t)
+
+        withContext(Dispatchers.Main) {
+            val result = DataResult<MutableList<DynamicMultiEntity>?>()
+            result.status = dataResult.status
+            result.t = list
+            result.message = dataResult.message
+            dynamicDataResultLD.value = result
+        }
+    }
 
     private fun convertDynamicData(
         mediaType: String,
@@ -98,8 +108,7 @@ class DynamicListViewModel : BaseViewModel() {
     }
 
 
-
-    fun getOriginalDynamicData(list: MutableList<DynamicMultiEntity>):ArrayList<Dynamic> {
+    fun getOriginalDynamicData(list: MutableList<DynamicMultiEntity>): ArrayList<Dynamic> {
         val dynamics = ArrayList<Dynamic>()
         for (dynamicMultiEntity in list) {
             dynamicMultiEntity.dynamic?.let { dynamics.add(it) }

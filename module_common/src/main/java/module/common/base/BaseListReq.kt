@@ -5,10 +5,7 @@ package module.common.base
  * @date: 2019/8/22
  * @author: Mr Bai
  */
-open class BaseListReq<T> {
+open class BaseListReq<T>(val queryObj: T) {
     var pageNumber = 1
     var pageSize = 10
-    var queryObj: T? = null
-
-
 }

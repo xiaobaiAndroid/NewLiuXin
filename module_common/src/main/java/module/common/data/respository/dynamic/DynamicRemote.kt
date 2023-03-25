@@ -15,7 +15,6 @@ import module.common.data.response.ImgTxtDataResp
 import module.common.type.LanguageType
 import module.common.utils.GsonUtils
 import module.common.utils.GsonUtils.parseObject
-import module.common.utils.GsonUtils.toJson
 import module.common.utils.URLUtils
 import org.json.JSONObject
 import rxhttp.toAwaitString
@@ -25,7 +24,10 @@ import rxhttp.wrapper.param.RxHttp
 internal class DynamicRemote {
 
 
-    suspend fun getCategoryData(token: String?, req: CliqueCategoryReq): DataResult<List<DynamicCategory>?> {
+    suspend fun getCategoryData(
+        token: String?,
+        req: CliqueCategoryReq
+    ): DataResult<List<DynamicCategory>?> {
         val dataResult = DataResult<List<DynamicCategory>?>()
         try {
             val json = RxHttp.postJson(URLUtils.CLIQUE_CATEGORY + token)
@@ -46,9 +48,9 @@ internal class DynamicRemote {
                     dataResult.t = resp.data
                 }
             }
-        }catch (e: HttpStatusCodeException){
+        } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
-            if(e.statusCode == 401){
+            if (e.statusCode == 401) {
                 dataResult.status = DataResult.TOKEN_PAST
             }
         } catch (e: Exception) {
@@ -57,64 +59,144 @@ internal class DynamicRemote {
         return dataResult
     }
 
-   suspend fun getDynamicData(
+    suspend fun getRecommendDynamicData(
         token: String?,
-        typeId: String?,
-        cityCode: String?,
         req: DynamicListReq
-    ): DataResult<List<Dynamic>?> {
-       val dataResult = DataResult<List<Dynamic>?>()
-       try {
-           var url: String? = null
-           var reqJson = toJson(req)
-           if (DynamicCategory.Type.RECOMMEND == typeId) {
-               url = URLUtils.DYNAMIC_RECOMMEND_LIST
-           } else if (DynamicCategory.Type.FRIEND == typeId) {
-               url = URLUtils.DYNAMIC_FRIEND_LIST
-           } else if (DynamicCategory.Type.CITY == typeId) {
-               url = URLUtils.DYNAMIC_CITY_LIST
-               val queryObj = JSONObject()
-               queryObj.put("type", req.queryObj.type)
-               queryObj.put("cityCode", cityCode)
-               val jsonObject = JSONObject(reqJson)
-               jsonObject.put("queryObj", queryObj)
-               jsonObject.put("pageNumber", req.pageNumber)
-               jsonObject.put("pageSize", req.pageSize)
-               reqJson = jsonObject.toString()
-           } else {
-               url = URLUtils.DYNAMIC_OTHER_LIST
-               val queryObj = JSONObject()
-               queryObj.put("type", req.queryObj.type)
-               queryObj.put("typeId", typeId)
-               val jsonObject = JSONObject(reqJson)
-               jsonObject.put("queryObj", queryObj)
-               jsonObject.put("pageNumber", req.pageNumber)
-               jsonObject.put("pageSize", req.pageSize)
-               reqJson = jsonObject.toString()
-           }
-           val json = RxHttp.postJson(url + token)
-               .addAll(reqJson)
-               .toAwaitString()
-               .await()
-           if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
-               dataResult.status = DataResult.TOKEN_PAST
-           } else {
-               val resp = parseObject(json, DynamicListResp::class.java)
-               dataResult.message = resp.message.info
-               if (resp.message.code == DataResult.SERVICE_SUCCESS) {
-                   dataResult.t = resp.data.rows
-                   dataResult.status = DataResult.SUCCESS
-               }
-           }
-       } catch (e: HttpStatusCodeException){
-           e.printStackTrace()
-           if(e.statusCode == 401){
-               dataResult.status = DataResult.TOKEN_PAST
-           }
-       } catch (e: java.lang.Exception) {
-           e.printStackTrace()
-       }
-       return dataResult
+    ): DataResult<MutableList<Dynamic>?> {
+        val dataResult = DataResult<MutableList<Dynamic>?>()
+        try {
+            val json = RxHttp.postJson(URLUtils.DYNAMIC_RECOMMEND_LIST + token)
+                .addAll(GsonUtils.toJson(req))
+                .toAwaitString()
+                .await()
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(json, DynamicListResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.t = resp.data.rows
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+
+    suspend fun getFriendDynamicData(
+        token: String?,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        val dataResult = DataResult<MutableList<Dynamic>?>()
+        try {
+            val json = RxHttp.postJson(URLUtils.DYNAMIC_FRIEND_LIST + token)
+                .addAll(GsonUtils.toJson(req))
+                .toAwaitString()
+                .await()
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(json, DynamicListResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.t = resp.data.rows
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun getCityDynamicData(
+        token: String?, cityCode: String,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        val dataResult = DataResult<MutableList<Dynamic>?>()
+        try {
+            val queryObj = JSONObject()
+            queryObj.put("type", req.queryObj.type)
+            queryObj.put("cityCode", cityCode)
+            val jsonObject = JSONObject(GsonUtils.toJson(req))
+            jsonObject.put("queryObj", queryObj)
+            jsonObject.put("pageNumber", req.pageNumber)
+            jsonObject.put("pageSize", req.pageSize)
+
+            val json = RxHttp.postJson(URLUtils.DYNAMIC_CITY_LIST + token)
+                .addAll(jsonObject.toString())
+                .toAwaitString()
+                .await()
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(json, DynamicListResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.t = resp.data.rows
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun getOtherDynamicData(
+        token: String?,
+        req: DynamicListReq
+    ): DataResult<MutableList<Dynamic>?> {
+        val dataResult = DataResult<MutableList<Dynamic>?>()
+        try {
+            val queryObj = JSONObject()
+            queryObj.put("type", req.queryObj.type)
+            queryObj.put("typeId", req.queryObj.typeId)
+            val jsonObject = JSONObject(GsonUtils.toJson(req))
+            jsonObject.put("queryObj", queryObj)
+            jsonObject.put("pageNumber", req.pageNumber)
+            jsonObject.put("pageSize", req.pageSize)
+            val json = RxHttp.postJson(URLUtils.DYNAMIC_OTHER_LIST + token)
+                .addAll(jsonObject.toString())
+                .toAwaitString()
+                .await()
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(json, DynamicListResp::class.java)
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.t = resp.data.rows
+                    dataResult.status = DataResult.SUCCESS
+                }
+            }
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
     }
 
     suspend fun getImgTxtData(token: String?, dynamicId: String?): DataResult<ImgTxtData?> {
@@ -122,7 +204,7 @@ internal class DynamicRemote {
         try {
             val url = URLHelper.instance.getFullUrl(URLUtils.IMGTXT_DATA, LanguageType.CN.value)
             val jsonObject = JSONObject()
-            jsonObject.put("id",dynamicId)
+            jsonObject.put("id", dynamicId)
             val json = RxHttp.postJson(url + token)
                 .addAll(jsonObject.toString())
                 .toAwaitString()
@@ -141,9 +223,9 @@ internal class DynamicRemote {
                     dataResult.t = resp.data
                 }
             }
-        }catch (e: HttpStatusCodeException){
+        } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
-            if(e.statusCode == 401){
+            if (e.statusCode == 401) {
                 dataResult.status = DataResult.TOKEN_PAST
             }
         } catch (e: Exception) {
@@ -173,9 +255,9 @@ internal class DynamicRemote {
                     dataResult.status = DataResult.SUCCESS
                 }
             }
-        }catch (e: HttpStatusCodeException){
+        } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
-            if(e.statusCode == 401){
+            if (e.statusCode == 401) {
                 dataResult.status = DataResult.TOKEN_PAST
             }
         } catch (e: Exception) {
@@ -196,9 +278,9 @@ internal class DynamicRemote {
             val info = resp.message.info ?: ""
             dataResult.status = DataResult.SUCCESS
             dataResult.message = info
-        }catch (e: HttpStatusCodeException){
+        } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
-            if(e.statusCode == 401){
+            if (e.statusCode == 401) {
                 dataResult.status = DataResult.TOKEN_PAST
             }
         } catch (e: Exception) {

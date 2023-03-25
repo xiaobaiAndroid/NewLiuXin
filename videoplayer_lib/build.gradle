@@ -1,0 +1,87 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'lib.videoplayer'
+    compileSdk rootProject.ext.compileSdkVersion
+
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        externalNativeBuild {
+            cmake {
+                //cFlags: 指定 C++ 编译器的标志
+                //启用 C++11标准、RTTI（运行时类型信息）支持和 C++ 异常
+                //RTTI说明：https://www.cnblogs.com/zhuyf87/archive/2013/03/15/2960899.html
+                cppFlags "-std=c++17", "-fexceptions", "-frtti"
+            }
+        }
+
+        ndk{
+            abiFilters "armeabi-v7a", "arm64-v8a"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+//    buildFeatures{
+//        viewBinding true
+//    }
+
+    //指定NDK版本
+    ndkVersion "21.0.6113669"
+}
+
+dependencies {
+
+    implementation libs.coreKtx
+    implementation libs.appcompat
+    implementation libs.material
+
+    //https://github.com/CarGuo/GSYVideoPlayer
+    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.3.5-release-jitpack'
+    //根据你的需求ijk模式的so
+    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-arm64:v8.3.5-release-jitpack'
+    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv7a:v8.3.5-release-jitpack'
+    //更多ijk的编码支持
+//    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:v8.3.5-release-jitpack'
+
+//    https://github.com/google/ExoPlayer
+    api 'com.google.android.exoplayer:exoplayer-core:2.18.5'
+//    api 'com.google.android.exoplayer:exoplayer-ui:2.18.5'
+//    api 'com.google.android.exoplayer:exoplayer-dash:2.18.5'
+//    api 'com.google.android.exoplayer:exoplayer-hls:2.18.5'
+//    api 'com.google.android.exoplayer:exoplayer-rtsp:2.18.5'
+
+    compileOnly 'org.checkerframework:checker-qual:3.13.0'
+
+//    https://github.com/Jzvd/JZVideo
+    api 'cn.jzvd:jiaozivideoplayer:7.7.0'
+
+
+}
