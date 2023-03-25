@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.common.base.BaseFragment
 import module.common.data.DataResult
+import module.common.data.entity.Dynamic
+import module.common.event.MessageEvent
 import module.common.type.MediaType
 import module.common.utils.ActivityLauncher
 import module.common.utils.DensityUtil
@@ -146,5 +148,29 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
             }
         }
 
+    }
+
+    override fun disposeMessageEvent(event: MessageEvent?) {
+        super.disposeMessageEvent(event)
+        if(event?.type === MessageEvent.Type.UPDATE_DYNAMIC_DATA){
+            val updateDynamic = event.obj  as Dynamic?
+            updateDynamic?.let {
+                for (index in dynamicAdapter.data.indices){
+                    val entity = dynamicAdapter.getItem(index)
+                    entity.dynamic?.apply {
+                        if (id == updateDynamic.id) {
+                            attentionUserStatus = updateDynamic.attentionUserStatus
+                            commentNum = updateDynamic.commentNum
+                            praiseStatus = updateDynamic.praiseStatus
+                            praiseNum = updateDynamic.praiseNum
+                            favoriteStatus = updateDynamic.favoriteStatus
+                            favoriteNum = updateDynamic.favoriteNum
+                            dynamicAdapter.notifyItemChanged(index)
+                            return@let
+                        }
+                    }
+                }
+            }
+        }
     }
 }

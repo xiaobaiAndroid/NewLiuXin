@@ -32,6 +32,10 @@ class VideoDetailViewModel: BaseViewModel() {
         MutableLiveData<DataResult<String?>>()
     }
 
+    val attentionStateLD: MutableLiveData<Int?> by lazy {
+        MutableLiveData<Int?>()
+    }
+
     fun updateEndorseStatus(dynamic: Dynamic) = viewModelScope.launch {
         withContext(Dispatchers.IO){
             val params = ReqParams(language)
@@ -60,20 +64,24 @@ class VideoDetailViewModel: BaseViewModel() {
         }
     }
 
-    fun updateAttentionStatus(dynamic: Dynamic)= viewModelScope.launch {
+    fun updateAttentionStatus(likeUserId: String?, status: Int)= viewModelScope.launch {
         withContext(Dispatchers.IO){
             val req = UpdateAttentionReq()
-            req.likeUserId = dynamic.userId
-            if (dynamic.attentionUserStatus == CommonStatus.YET) {
-                req.state = CommonStatus.NOT.toString() + ""
-            } else {
-                req.state = CommonStatus.YET.toString() + ""
-            }
+            req.likeUserId = likeUserId
+            req.state = status.toString()
 
             val dataResult: DataResult<String> = UserRepository.instance.attention(mContext,req)
             withContext(Dispatchers.Main){
                 attentionResultLD.value = dataResult
             }
+        }
+    }
+
+    fun getAttentionStatusById(likeUserId: String?) = viewModelScope.launch(Dispatchers.IO) {
+        val dataResult: DataResult<Int> =
+            UserRepository.instance.getAttentionStatusById(mContext,likeUserId)
+        withContext(Dispatchers.Main){
+            attentionStateLD.value = dataResult.t
         }
     }
 }

@@ -38,7 +38,8 @@ class MessageEvent(var type: Type) {
        DELETE_DYNAMIC,
        SEND_COMMENT,
        RESET_SELECT_GIFT,
-       SHOW_GIFT_NUMBER_POPUP
+       SHOW_GIFT_NUMBER_POPUP,
+       UPDATE_DYNAMIC_DATA
    }
 
 }

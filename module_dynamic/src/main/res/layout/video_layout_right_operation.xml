@@ -13,8 +13,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
         >
 
         <ImageView
@@ -42,9 +44,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
         >
 
         <ImageView
@@ -73,9 +77,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_10"
         >
 
         <ImageView
@@ -104,9 +110,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_10"
         >
 
         <ImageView
@@ -134,9 +142,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dp_30"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_10"
         >
 
         <ImageView

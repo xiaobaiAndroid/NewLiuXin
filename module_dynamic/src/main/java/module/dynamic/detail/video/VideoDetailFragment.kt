@@ -14,14 +14,19 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.enums.PopupAnimation
 import module.comment.CommentListView
 import module.common.base.BaseFragment
+import module.common.data.DataResult
 import module.common.data.entity.Dynamic
 import module.common.data.entity.Video
 import module.common.data.status.CommonStatus
+import module.common.event.MessageEvent
 import module.common.status.EndorseStatus
 import module.common.utils.ImageLoadHelper
 import module.common.utils.LogUtils
+import module.common.utils.ToastUtils
+import module.dynamic.R
 import module.dynamic.databinding.DynamicFragmentVideoDetailBinding
 import module.gift.GiftHomeView
+import org.greenrobot.eventbus.EventBus
 
 /**
  *@author: baizf
@@ -62,10 +67,11 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
         LogUtils.printI("fragment position=$position --- mediaUrl=${mDynamic.mediaUrl}")
         binding.myVideoPlayer.player!!.setMediaItem(mediaItem)
         binding.myVideoPlayer.player!!.prepare()
+
+        viewModel.getAttentionStatusById(mDynamic.userId)
     }
 
     override fun initView() {
-
 
         binding.myVideoPlayer.apply {
             setShowFastForwardButton(false)
@@ -133,20 +139,79 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
             }
         }
 
+
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.attentionResultLD.observe(this){
+            binding.markTV.isEnabled = true
+            if(it.status == DataResult.SUCCESS){
+                if (mDynamic.attentionUserStatus == CommonStatus.YET) {
+                    mDynamic.attentionUserStatus = CommonStatus.NOT
+                } else {
+                    mDynamic.attentionUserStatus = CommonStatus.YET
+                }
+                setAttentionStatusView(mDynamic.attentionUserStatus)
+                sendUpdateDynamicMessage()
+            }else{
+                ToastUtils.setMessage(requireContext(),it.message)
+            }
+
+        }
+        viewModel.collectResultLD.observe(this){
+            binding.rightOperation.collectLL.isEnabled = true
+            if(it.status == DataResult.SUCCESS){
+                sendUpdateDynamicMessage()
+            }else{
+                ToastUtils.setMessage(requireContext(),it.message)
+            }
+        }
+        viewModel.endorseResultLD.observe(this){
+            binding.rightOperation.endorseLL.isEnabled = true
+            if(it.status == DataResult.SUCCESS){
+                sendUpdateDynamicMessage()
+            }else{
+                ToastUtils.setMessage(requireContext(),it.message)
+            }
+        }
+
+        viewModel.attentionStateLD.observe(this){
+            it?.let {status->
+                mDynamic.attentionUserStatus =status
+                setAttentionStatusView(mDynamic.attentionUserStatus)
+            }
+
+        }
+    }
+
+    private fun sendUpdateDynamicMessage() {
+        val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_DYNAMIC_DATA)
+        messageEvent.obj = mDynamic
+        EventBus.getDefault().post(messageEvent)
     }
 
 
     private fun updateAttentionStatus() {
-        if(mDynamic.attentionUserStatus == CommonStatus.YET){
-            mDynamic.attentionUserStatus = CommonStatus.NOT
-        }else{
-            mDynamic.attentionUserStatus = CommonStatus.YET
+        binding.markTV.isEnabled = false
+        if (mDynamic.attentionUserStatus == CommonStatus.YET) {
+            viewModel.updateAttentionStatus(mDynamic.userId, CommonStatus.NOT)
+        } else {
+            viewModel.updateAttentionStatus(mDynamic.userId, CommonStatus.YET)
         }
 
-        viewModel.updateAttentionStatus(mDynamic)
+    }
+
+    private fun setAttentionStatusView(status: Int) {
+        if (mDynamic.attentionUserStatus == CommonStatus.YET) {
+            binding.markTV.text = resources.getString(R.string.clique_yet_attention)
+        } else {
+            binding.markTV.text = resources.getString(R.string.clique_mark)
+        }
     }
 
     private fun updateEndorseStatus() {
+        binding.rightOperation.endorseLL.isEnabled = false
         if (mDynamic.praiseStatus == EndorseStatus.STA_YES.value) {
             mDynamic.praiseStatus = EndorseStatus.STA_NO.value
             mDynamic.praiseNum = (mDynamic.praiseNum!!.toInt() - 1).toString()
@@ -154,7 +219,6 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
             mDynamic.praiseStatus = EndorseStatus.STA_YES.value
             mDynamic.praiseNum = (mDynamic.praiseNum!!.toInt() + 1).toString()
         }
-//        videoAdapter.notifyItemChanged(position, PayloadInfo.ENDORSE)
         viewModel.updateEndorseStatus(mDynamic)
     }
 
@@ -191,6 +255,7 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
 
 
     private fun updateCollectStatus() {
+        binding.rightOperation.collectLL.isEnabled = false
         if (mDynamic.favoriteStatus == EndorseStatus.STA_YES.value) {
             mDynamic.favoriteStatus = EndorseStatus.STA_NO.value
             mDynamic.favoriteNum = (mDynamic.favoriteNum!!.toInt() - 1).toString()
@@ -198,7 +263,6 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
             mDynamic.favoriteStatus = EndorseStatus.STA_YES.value
             mDynamic.favoriteNum = (mDynamic.favoriteNum!!.toInt() + 1).toString()
         }
-//        videoAdapter.notifyItemChanged(position, PayloadInfo.COLLECT)
         viewModel.updateCollectStatus(mDynamic)
     }
 

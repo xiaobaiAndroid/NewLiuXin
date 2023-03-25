@@ -78,6 +78,8 @@ public class Dynamic implements Parcelable {
     private String favoriteNum;
     private String commentNum;
     private int praiseStatus;
+
+    //收藏状态
     private int favoriteStatus;
     private String goodsUrl;
     private String goodsTitle;
