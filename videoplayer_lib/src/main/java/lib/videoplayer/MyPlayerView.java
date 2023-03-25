@@ -227,7 +227,7 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
     int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT;
     int controllerShowTimeoutMs = MyPlayerControlView.DEFAULT_SHOW_TIMEOUT_MS;
     boolean controllerHideOnTouch = true;
-    boolean controllerAutoShow = true;
+    boolean controllerAutoShow = false;
     boolean controllerHideDuringAds = true;
     int showBuffering = SHOW_BUFFERING_NEVER;
     if (attrs != null) {

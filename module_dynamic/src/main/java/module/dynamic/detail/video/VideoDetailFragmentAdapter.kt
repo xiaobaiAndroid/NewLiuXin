@@ -12,6 +12,9 @@ import module.common.data.entity.Dynamic
  */
 class VideoDetailFragmentAdapter(fragmentActivity: FragmentActivity, val dynamics: MutableList<Dynamic>): FragmentStateAdapter(fragmentActivity) {
 
+    var mCityCode: String? = null
+    var mTypeId: String? = null
+
     override fun getItemCount(): Int {
         return dynamics.size
     }
@@ -21,6 +24,8 @@ class VideoDetailFragmentAdapter(fragmentActivity: FragmentActivity, val dynamic
         val bundle = Bundle()
         bundle.putParcelable("dynamic", dynamics[position])
         bundle.putInt("position", position)
+        bundle.putString("cityCode", mCityCode)
+        bundle.putString("typeId", mTypeId)
         videoDetailFragment.arguments = bundle
         return videoDetailFragment
     }

@@ -357,6 +357,7 @@ class ImgTxtDetailActivity :
         } else {
             binding.collectIV.setImageResource(R.drawable.dynamic_ic_collect_select)
         }
+        binding.collectCountTV.text = imgTxt.favoriteNum
     }
 
     private fun setLikeStatus(imgTxt: ImgTxtData) {
@@ -365,6 +366,7 @@ class ImgTxtDetailActivity :
         } else {
             binding.endorseIV.setImageResource(R.drawable.dynamic_ic_like_normal)
         }
+        binding.endorseCountTV.text = imgTxt.praiseNum
     }
 
 

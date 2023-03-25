@@ -105,7 +105,8 @@ class VideoDetailHomeActivity :
         mTypeId = intent.getStringExtra("typeId")
         mCityCode = intent.getStringExtra("cityCode")
 
-
+        videoAdapter.mTypeId = mTypeId
+        videoAdapter.mCityCode = mCityCode
 
         isLoadMore = intent.getBooleanExtra("isLoadMore", false)
 

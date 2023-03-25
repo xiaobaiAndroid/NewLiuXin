@@ -20,6 +20,7 @@ import module.common.data.entity.Video
 import module.common.data.status.CommonStatus
 import module.common.event.MessageEvent
 import module.common.status.EndorseStatus
+import module.common.utils.IconUtils
 import module.common.utils.ImageLoadHelper
 import module.common.utils.LogUtils
 import module.common.utils.ToastUtils
@@ -32,61 +33,79 @@ import org.greenrobot.eventbus.EventBus
  *@author: baizf
  *@date: 2023/3/24
  */
-internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBinding,VideoDetailViewModel>() {
+internal class VideoDetailFragment :
+    BaseFragment<DynamicFragmentVideoDetailBinding, VideoDetailViewModel>() {
 
 
     override fun createViewModel(): VideoDetailViewModel {
         return viewModels<VideoDetailViewModel>().value
     }
 
-    private val mAFPort:VideoDetailActFraPort by activityViewModels()
+    private val mAFPort: VideoDetailActFraPort by activityViewModels()
 
-    private  var position: Int = -1
-    private lateinit var mDynamic: Dynamic
+    private var position: Int = -1
 
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): DynamicFragmentVideoDetailBinding {
-        return DynamicFragmentVideoDetailBinding.inflate(inflater, container,false)
+        return DynamicFragmentVideoDetailBinding.inflate(inflater, container, false)
     }
 
     override fun initData() {
-        mDynamic = requireArguments().getParcelable<Dynamic?>("dynamic") ?: Dynamic()
+        viewModel.dynamicLD.value =
+            requireArguments().getParcelable<Dynamic?>("dynamic") ?: Dynamic()
         position = requireArguments().getInt("position")
+
+        viewModel.cityCodeLD.value = requireArguments().getString("cityCode")
+        viewModel.typeIdLD.value = requireArguments().getString("typeId")
 
         LogUtils.printI("fragment position=$position --- initView")
 
-        val mediaItem = MediaItem.fromUri(mDynamic.mediaUrl ?: "")
 
-        binding.myVideoPlayer.coverIV?.let {
-            it.visibility = View.VISIBLE
-            ImageLoadHelper.loadFitCenter(it, mDynamic.coverUrl)
+        viewModel.dynamicLD.value?.apply {
+            val mediaItem = MediaItem.fromUri(mediaUrl ?: "")
+
+            binding.myVideoPlayer.coverIV?.let {
+                it.visibility = View.VISIBLE
+                ImageLoadHelper.loadFitCenter(it, coverUrl)
+            }
+
+            LogUtils.printI("fragment position=$position --- mediaUrl=${mediaUrl}")
+            binding.myVideoPlayer.player!!.setMediaItem(mediaItem)
+            binding.myVideoPlayer.player!!.prepare()
+
+            viewModel.getAttentionStatusById(userId)
+            setEndorseStatusView(praiseStatus, praiseNum ?: "0")
+            setCollectStatusView(favoriteStatus, favoriteNum ?: "0")
+        }
+    }
+
+    private fun setCollectStatusView(favoriteStatus: Int, favoriteNum: String) {
+        if (favoriteStatus == CommonStatus.YET) {
+            binding.rightOperation.collectIV.setImageResource(R.drawable.dynamic_ic_collect_select)
+        } else {
+            binding.rightOperation.collectIV.setImageResource(R.drawable.video_ic_collect_normal)
         }
 
-        LogUtils.printI("fragment position=$position --- mediaUrl=${mDynamic.mediaUrl}")
-        binding.myVideoPlayer.player!!.setMediaItem(mediaItem)
-        binding.myVideoPlayer.player!!.prepare()
-
-        viewModel.getAttentionStatusById(mDynamic.userId)
+        binding.rightOperation.collectTV.text = favoriteNum
     }
+
+    private fun setEndorseStatusView(praiseStatus: Int, praiseNum: String) {
+        if (praiseStatus == CommonStatus.YET) {
+            binding.rightOperation.endorseIV.setImageResource(R.drawable.dynamic_ic_like_selected)
+        } else {
+            binding.rightOperation.endorseIV.setImageResource(R.drawable.video_ic_praise_normal)
+        }
+        binding.rightOperation.endorseTV.text = praiseNum
+    }
+
 
     override fun initView() {
 
-        binding.myVideoPlayer.apply {
-            setShowFastForwardButton(false)
-            setShowNextButton(false)
-            setShowPreviousButton(false)
-            setShowShuffleButton(false)
-            setShowRewindButton(false)
-            setShowVrButton(false)
-            controllerAutoShow = false
-            setShowMultiWindowTimeBar(false)
-        }
-
         binding.myVideoPlayer.player = ExoPlayer.Builder(requireActivity()).build()
         binding.myVideoPlayer.player?.repeatMode = Player.REPEAT_MODE_ONE
-        binding.myVideoPlayer.player?.addListener(object: Player.Listener{
+        binding.myVideoPlayer.player?.addListener(object : Player.Listener {
             override fun onPlayerError(error: PlaybackException) {
                 super.onPlayerError(error)
                 val cause = error.cause
@@ -118,21 +137,21 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
             updateAttentionStatus()
         }
         binding.rightOperation.endorseLL.setOnClickListener {
-           updateEndorseStatus()
+            updateEndorseStatus()
         }
         binding.rightOperation.collectLL.setOnClickListener {
             updateCollectStatus()
         }
 
 
-        mAFPort.currentPlayPositionLD.observe(this){
+        mAFPort.currentPlayPositionLD.observe(this) {
             binding.myVideoPlayer.player?.let { player ->
-                if(it != position){
-                    if(player.isPlaying){
+                if (it != position) {
+                    if (player.isPlaying) {
                         player.pause()
                     }
-                }else{
-                    if(!player.isPlaying){
+                } else {
+                    if (!player.isPlaying) {
                         player.play()
                     }
                 }
@@ -144,66 +163,61 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
     }
 
     private fun setupObserver() {
-        viewModel.attentionResultLD.observe(this){
+        viewModel.attentionResultLD.observe(this) {
             binding.markTV.isEnabled = true
-            if(it.status == DataResult.SUCCESS){
-                if (mDynamic.attentionUserStatus == CommonStatus.YET) {
-                    mDynamic.attentionUserStatus = CommonStatus.NOT
-                } else {
-                    mDynamic.attentionUserStatus = CommonStatus.YET
-                }
-                setAttentionStatusView(mDynamic.attentionUserStatus)
-                sendUpdateDynamicMessage()
-            }else{
-                ToastUtils.setMessage(requireContext(),it.message)
+            if (it.status != DataResult.SUCCESS) {
+                ToastUtils.setMessage(requireContext(), it.message)
             }
 
         }
-        viewModel.collectResultLD.observe(this){
+        viewModel.collectResultLD.observe(this) {
             binding.rightOperation.collectLL.isEnabled = true
-            if(it.status == DataResult.SUCCESS){
+            if (it.status == DataResult.SUCCESS) {
                 sendUpdateDynamicMessage()
-            }else{
-                ToastUtils.setMessage(requireContext(),it.message)
+                viewModel.dynamicLD.value?.let { dynamic->
+                    setCollectStatusView(dynamic.favoriteStatus,dynamic.favoriteNum)
+                }
+            } else {
+                ToastUtils.setMessage(requireContext(), it.message)
             }
         }
-        viewModel.endorseResultLD.observe(this){
+        viewModel.endorseResultLD.observe(this) {
             binding.rightOperation.endorseLL.isEnabled = true
-            if(it.status == DataResult.SUCCESS){
+            if (it.status == DataResult.SUCCESS) {
                 sendUpdateDynamicMessage()
-            }else{
-                ToastUtils.setMessage(requireContext(),it.message)
+                viewModel.dynamicLD.value?.let { dynamic->
+                    setEndorseStatusView(dynamic.praiseStatus,dynamic.praiseNum)
+                }
+            } else {
+                ToastUtils.setMessage(requireContext(), it.message)
             }
         }
 
-        viewModel.attentionStateLD.observe(this){
-            it?.let {status->
-                mDynamic.attentionUserStatus =status
-                setAttentionStatusView(mDynamic.attentionUserStatus)
+        viewModel.attentionStateLD.observe(this) {
+            it?.let { status ->
+                setAttentionStatusView(status)
+                sendUpdateDynamicMessage()
             }
-
         }
     }
 
     private fun sendUpdateDynamicMessage() {
         val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_DYNAMIC_DATA)
-        messageEvent.obj = mDynamic
+        messageEvent.obj = viewModel.dynamicLD.value
         EventBus.getDefault().post(messageEvent)
     }
 
 
     private fun updateAttentionStatus() {
-        binding.markTV.isEnabled = false
-        if (mDynamic.attentionUserStatus == CommonStatus.YET) {
-            viewModel.updateAttentionStatus(mDynamic.userId, CommonStatus.NOT)
-        } else {
-            viewModel.updateAttentionStatus(mDynamic.userId, CommonStatus.YET)
-        }
 
+        viewModel.dynamicLD.value?.let {
+            binding.markTV.isEnabled = false
+            viewModel.updateAttentionStatus(it)
+        }
     }
 
     private fun setAttentionStatusView(status: Int) {
-        if (mDynamic.attentionUserStatus == CommonStatus.YET) {
+        if (status == CommonStatus.YET) {
             binding.markTV.text = resources.getString(R.string.clique_yet_attention)
         } else {
             binding.markTV.text = resources.getString(R.string.clique_mark)
@@ -211,15 +225,11 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
     }
 
     private fun updateEndorseStatus() {
-        binding.rightOperation.endorseLL.isEnabled = false
-        if (mDynamic.praiseStatus == EndorseStatus.STA_YES.value) {
-            mDynamic.praiseStatus = EndorseStatus.STA_NO.value
-            mDynamic.praiseNum = (mDynamic.praiseNum!!.toInt() - 1).toString()
-        } else {
-            mDynamic.praiseStatus = EndorseStatus.STA_YES.value
-            mDynamic.praiseNum = (mDynamic.praiseNum!!.toInt() + 1).toString()
+        viewModel.dynamicLD.value?.let {
+            binding.rightOperation.endorseLL.isEnabled = false
+            viewModel.updateEndorseStatus(it)
         }
-        viewModel.updateEndorseStatus(mDynamic)
+
     }
 
 
@@ -244,33 +254,28 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
 
 
     protected fun showGiftPopup() {
-        val giftListView = GiftHomeView(requireActivity(),  mDynamic.userId)
-        XPopup.Builder(requireActivity())
-            .isViewMode(true)
-            .hasShadowBg(false)
-            .enableDrag(false)
-            .asCustom(giftListView)
-            .show()
+//        val giftListView = GiftHomeView(requireActivity(), mDynamic.userId)
+//        XPopup.Builder(requireActivity())
+//            .isViewMode(true)
+//            .hasShadowBg(false)
+//            .enableDrag(false)
+//            .asCustom(giftListView)
+//            .show()
     }
 
 
     private fun updateCollectStatus() {
-        binding.rightOperation.collectLL.isEnabled = false
-        if (mDynamic.favoriteStatus == EndorseStatus.STA_YES.value) {
-            mDynamic.favoriteStatus = EndorseStatus.STA_NO.value
-            mDynamic.favoriteNum = (mDynamic.favoriteNum!!.toInt() - 1).toString()
-        } else {
-            mDynamic.favoriteStatus = EndorseStatus.STA_YES.value
-            mDynamic.favoriteNum = (mDynamic.favoriteNum!!.toInt() + 1).toString()
+        viewModel.dynamicLD.value?.let {dynamic->
+            binding.rightOperation.collectLL.isEnabled = false
+            viewModel.updateCollectStatus(dynamic)
         }
-        viewModel.updateCollectStatus(mDynamic)
     }
 
 
     override fun onPause() {
         super.onPause()
         binding.myVideoPlayer.player?.let {
-            if(it.isPlaying){
+            if (it.isPlaying) {
                 it.pause()
             }
         }
@@ -280,7 +285,7 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
     override fun onResume() {
         super.onResume()
         binding.myVideoPlayer.player?.let {
-            if(!it.isPlaying){
+            if (!it.isPlaying) {
                 it.play()
             }
         }

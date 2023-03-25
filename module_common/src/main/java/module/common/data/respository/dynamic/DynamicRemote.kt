@@ -278,6 +278,7 @@ internal class DynamicRemote {
             val info = resp.message.info ?: ""
             dataResult.status = DataResult.SUCCESS
             dataResult.message = info
+            dataResult.t = resp.data.toString()
         } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
             if (e.statusCode == 401) {

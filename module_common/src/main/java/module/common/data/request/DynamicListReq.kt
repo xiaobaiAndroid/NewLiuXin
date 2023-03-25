@@ -14,5 +14,7 @@ class DynamicListReq: BaseListReq<DynamicListReq.QueryObj>(QueryObj()) {
         var typeId: String? = null
         var mediaStatus = 0
 
+        var id: String? = null
+
     }
 }

@@ -7,6 +7,6 @@ import module.common.data.api.BaseResp;
  * @date: 2020/3/9
  * @author: Mr Bai
  */
-public class EndorseResp extends BaseResp<Object> {
+public class EndorseResp extends BaseResp<Integer> {
 
 }
