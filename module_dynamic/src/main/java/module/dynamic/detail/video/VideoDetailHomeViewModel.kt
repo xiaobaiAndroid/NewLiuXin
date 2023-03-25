@@ -35,10 +35,21 @@ class VideoDetailHomeViewModel: BaseViewModel() {
 
     var isLoading = false
 
-    fun getVideos() = viewModelScope.launch {
+    fun getVideos(typeId: String?, cityCode: String?) = viewModelScope.launch {
         isLoading = true
         withContext(Dispatchers.IO){
-            val dataResult = DynamicRepository.instance.getRecommendDynamicData(mContext,req)
+            val dataResult: DataResult<MutableList<Dynamic>?>
+            if (DynamicCategory.Type.RECOMMEND == typeId) {
+                dataResult = DynamicRepository.instance.getRecommendDynamicData(mContext, req)
+            } else if (DynamicCategory.Type.FRIEND == typeId) {
+                dataResult = DynamicRepository.instance.getFriendDynamicData(mContext, req)
+            } else if (DynamicCategory.Type.CITY == typeId) {
+                dataResult = DynamicRepository.instance.getCityDynamicData(mContext, cityCode ?: "0", req)
+            } else {
+                req.queryObj.typeId = typeId
+                dataResult = DynamicRepository.instance.getOtherDynamicData(mContext, req)
+            }
+
             withContext(Dispatchers.Main){
                 videosResultLD.value = dataResult
                 isLoading = false
@@ -72,6 +83,10 @@ class VideoDetailHomeViewModel: BaseViewModel() {
 
     fun setNextPage() {
         req.pageNumber += 1
+    }
+
+    fun setPageNumber(pageNumber: Int) {
+        req.pageNumber  = pageNumber
     }
 
 }

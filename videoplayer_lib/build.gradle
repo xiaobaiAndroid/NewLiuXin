@@ -64,10 +64,10 @@ dependencies {
     implementation libs.material
 
     //https://github.com/CarGuo/GSYVideoPlayer
-    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.3.5-release-jitpack'
-    //根据你的需求ijk模式的so
-    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-arm64:v8.3.5-release-jitpack'
-    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv7a:v8.3.5-release-jitpack'
+//    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.3.5-release-jitpack'
+//    //根据你的需求ijk模式的so
+//    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-arm64:v8.3.5-release-jitpack'
+//    api 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-armv7a:v8.3.5-release-jitpack'
     //更多ijk的编码支持
 //    implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:v8.3.5-release-jitpack'
 
@@ -80,8 +80,6 @@ dependencies {
 
     compileOnly 'org.checkerframework:checker-qual:3.13.0'
 
-//    https://github.com/Jzvd/JZVideo
-    api 'cn.jzvd:jiaozivideoplayer:7.7.0'
 
 
 }

@@ -16,7 +16,15 @@
     <ImageView android:id="@id/exo_artwork"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:scaleType="fitXY"/>
+      android:scaleType="fitCenter"/>
+
+
+    <ImageView
+        android:id="@+id/coverIV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        />
 
 
     <ProgressBar android:id="@id/exo_buffering"

@@ -146,6 +146,7 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
   @Nullable private final View surfaceView;
   private final boolean surfaceViewIgnoresVideoAspectRatio;
   @Nullable private final ImageView artworkView;
+  @Nullable public final ImageView coverIV;
   @Nullable private final View bufferingView;
   @Nullable private final TextView errorMessageView;
   @Nullable private final MyPlayerControlView controller;
@@ -197,6 +198,7 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
       surfaceView = null;
       surfaceViewIgnoresVideoAspectRatio = false;
       artworkView = null;
+      coverIV = null;
       bufferingView = null;
       errorMessageView = null;
       controller = null;
@@ -335,10 +337,13 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
 
     // Artwork view.
     artworkView = findViewById(R.id.exo_artwork);
+
     this.useArtwork = useArtwork && artworkView != null;
     if (defaultArtworkId != 0) {
       defaultArtwork = ContextCompat.getDrawable(getContext(), defaultArtworkId);
     }
+
+    coverIV = findViewById(R.id.coverIV);
 
     // Buffering view.
     //缓冲布局
@@ -1230,8 +1235,12 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
     return setDrawableArtwork(new BitmapDrawable(getResources(), bitmap));
   }
 
+  /*
+  * @describe: 设置插图
+  * @date: 2023/3/25
+  */
   @RequiresNonNull("artworkView")
-  private boolean setDrawableArtwork(@Nullable Drawable drawable) {
+  public boolean setDrawableArtwork(@Nullable Drawable drawable) {
     if (drawable != null) {
       int drawableWidth = drawable.getIntrinsicWidth();
       int drawableHeight = drawable.getIntrinsicHeight();
@@ -1246,10 +1255,21 @@ public class MyPlayerView extends FrameLayout implements AdViewProvider {
     return false;
   }
 
-  private void hideArtwork() {
+  public void hideArtwork() {
     if (artworkView != null) {
       artworkView.setImageResource(android.R.color.transparent); // Clears any bitmap reference.
       artworkView.setVisibility(INVISIBLE);
+    }
+  }
+
+  /*
+  * @describe: 隐藏封面
+  * @date: 2023/3/25
+  */
+  public void hideCover() {
+    if (coverIV != null) {
+      coverIV.setImageResource(android.R.color.transparent); // Clears any bitmap reference.
+      coverIV.setVisibility(INVISIBLE);
     }
   }
 

@@ -1,6 +1,7 @@
 package module.dynamic.detail.video
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import module.common.data.entity.Dynamic
 import module.common.data.entity.Video
 import module.common.data.status.CommonStatus
 import module.common.status.EndorseStatus
+import module.common.utils.ImageLoadHelper
 import module.common.utils.LogUtils
 import module.dynamic.databinding.DynamicFragmentVideoDetailBinding
 import module.gift.GiftHomeView
@@ -47,7 +49,15 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
     override fun initData() {
         mDynamic = requireArguments().getParcelable<Dynamic?>("dynamic") ?: Dynamic()
         position = requireArguments().getInt("position")
+
+        LogUtils.printI("fragment position=$position --- initView")
+
         val mediaItem = MediaItem.fromUri(mDynamic.mediaUrl ?: "")
+
+        binding.myVideoPlayer.coverIV?.let {
+            it.visibility = View.VISIBLE
+            ImageLoadHelper.loadFitCenter(it, mDynamic.coverUrl)
+        }
 
         LogUtils.printI("fragment position=$position --- mediaUrl=${mDynamic.mediaUrl}")
         binding.myVideoPlayer.player!!.setMediaItem(mediaItem)
@@ -55,7 +65,7 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
     }
 
     override fun initView() {
-        LogUtils.printI("fragment position=$position --- initView")
+
 
         binding.myVideoPlayer.apply {
             setShowFastForwardButton(false)
@@ -82,6 +92,19 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
                         LogUtils.printE("videoplayer unknown PlaybackException")
                     }
                 }
+
+            }
+
+            override fun onRenderedFirstFrame() {
+                super.onRenderedFirstFrame()
+                binding.myVideoPlayer.hideCover()
+                LogUtils.printE("videoplayer listener onRenderedFirstFrame")
+            }
+
+            override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+                super.onPlayWhenReadyChanged(playWhenReady, reason)
+                LogUtils.printE("videoplayer listener onPlayWhenReadyChanged")
+
             }
         })
 
@@ -109,6 +132,7 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
                 }
             }
         }
+
     }
 
 
@@ -119,7 +143,6 @@ internal class VideoDetailFragment: BaseFragment<DynamicFragmentVideoDetailBindi
             mDynamic.attentionUserStatus = CommonStatus.YET
         }
 
-//        videoAdapter.notifyItemChanged(position, PayloadInfo.ATTENTION)
         viewModel.updateAttentionStatus(mDynamic)
     }
 

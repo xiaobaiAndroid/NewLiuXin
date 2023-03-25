@@ -1,9 +1,5 @@
 package module.dynamic.home.category.list
 
-import android.content.Intent
-import android.net.Uri
-import android.net.wifi.aware.WifiAwareDataPathSecurityConfig.Builder
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -16,12 +12,10 @@ import kotlinx.coroutines.withContext
 import module.common.base.BaseFragment
 import module.common.data.DataResult
 import module.common.type.MediaType
-import module.common.utils.ARouterHelper
 import module.common.utils.ActivityLauncher
 import module.common.utils.DensityUtil
 import module.common.utils.ToastUtils
 import module.common.view.GridSpaceDecoration
-import module.dynamic.BuildConfig
 import module.dynamic.databinding.DynamicFramentListBinding
 
 /**
@@ -128,15 +122,20 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
         dynamicAdapter.setOnItemClickListener { _, _, position ->
             lastPosition = position
             if (mediaType == MediaType.IN_VIDEO) {
-                val dynamicMultiEntity = dynamicAdapter.data[position]
-                ActivityLauncher.launchVideoDetail(
-                    requireActivity(),
-                    dynamicMultiEntity.dynamic,
-                    viewModel.getCurrentPage(),
-                    lastPosition,
-                    typeId,
-                    true
-                )
+                lifecycleScope.launch(Dispatchers.Default){
+                    val dynamics = viewModel.getOriginalDynamicData(dynamicAdapter.data)
+                    withContext(Dispatchers.Main){
+                        ActivityLauncher.launchVideoDetail(
+                            requireActivity(),
+                            dynamics,
+                            viewModel.getCurrentPage(),
+                            lastPosition,
+                            typeId,
+                            cityCode,
+                            true
+                        )
+                    }
+                }
 
             } else {
                 val multiEntity = dynamicAdapter.getItem(position)

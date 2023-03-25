@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.ComponentActivity
-import androidx.fragment.app.FragmentActivity
 import module.common.data.entity.Dynamic
 import java.util.ArrayList
 
@@ -35,10 +33,11 @@ object ActivityLauncher {
 
     fun launchVideoDetail(
         context: Context,
-        dynamic: Dynamic?,
+        dynamics: ArrayList<Dynamic>?,
         currentPage: Int,
         position: Int,
         typeId: String?,
+        cityCode: String?,
         loadMore: Boolean = true
     ) {
 
@@ -46,8 +45,9 @@ object ActivityLauncher {
         bundle.putInt("pageNumber", currentPage)
         bundle.putInt("playPosition", position)
         bundle.putString("typeId", typeId)
+        bundle.putString("cityCode", cityCode)
         bundle.putBoolean("isLoadMore", loadMore)
-        bundle.putParcelable("dynamic", dynamic)
+        bundle.putParcelableArrayList("dynamics", dynamics)
         val intent = Intent("dynamic.detail.video.VideoDetailActivity")
         intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/VideoDetailActivity")
         intent.putExtras(bundle)

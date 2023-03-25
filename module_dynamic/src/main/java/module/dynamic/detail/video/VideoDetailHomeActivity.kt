@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.lxj.xpopup.core.BasePopupView
 import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
 import lib.share.ShareEntity
 import module.common.base.BaseActivity
 import module.common.data.DataResult
@@ -40,7 +41,10 @@ class VideoDetailHomeActivity :
     var eGiveGift: EGiveGift? = null
 
     /*视频分类的id*/
-    var typeId: String? = null
+    private var mTypeId: String? = null
+    private var mCityCode: String? = null
+
+
 
     private val mAFPort: VideoDetailActFraPort by viewModels()
 
@@ -75,12 +79,16 @@ class VideoDetailHomeActivity :
             showMoreOperationView()
         }
 
+        binding.smartRefreshLayout.setRefreshHeader(ClassicsHeader(this))
         binding.smartRefreshLayout.setRefreshFooter(ClassicsFooter(this))
         binding.smartRefreshLayout.setOnLoadMoreListener {
-            viewModel.resetCurrentPage()
             if (!viewModel.isLoading) {
-                viewModel.getVideos()
+                viewModel.getVideos(mTypeId,mCityCode)
             }
+        }
+        binding.smartRefreshLayout.setOnRefreshListener {
+            viewModel.resetCurrentPage()
+            viewModel.getVideos(mTypeId,mCityCode)
         }
         initViewPager()
 
@@ -90,17 +98,22 @@ class VideoDetailHomeActivity :
 
     override fun initData(savedInstanceState: Bundle?) {
         val pageNumber = intent.getIntExtra("pageNumber", 1)
+        viewModel.setPageNumber(pageNumber)
+
         mAFPort.currentPlayPositionLD.value = intent.getIntExtra("playPosition", 0)
         isLoadMore = intent.getBooleanExtra("isLoadMore", false)
-        typeId = intent.getStringExtra("typeId")
+        mTypeId = intent.getStringExtra("typeId")
+        mCityCode = intent.getStringExtra("cityCode")
+
+
 
         isLoadMore = intent.getBooleanExtra("isLoadMore", false)
 
-        intent.getParcelableExtra<Dynamic?>("dynamic")?.let {
-            videoAdapter.addData(it)
+        intent.getParcelableArrayListExtra<Dynamic?>("dynamics")?.let {
+            videoAdapter.addAllData(0,it)
         }
-        viewModel.getVideos()
 
+        binding.contentVP.setCurrentItem( mAFPort.currentPlayPositionLD.value ?: 0,false)
     }
 
 
@@ -123,13 +136,15 @@ class VideoDetailHomeActivity :
                     }
                 }
 
-//                list?.let {
-//                    if (list.size > viewModel.getPageSize()) {
-//                        videoAdapter.loadMoreModule.loadMoreComplete()
-//                    } else {
-//                        videoAdapter.loadMoreModule.loadMoreEnd()
-//                    }
-//                } ?: videoAdapter.loadMoreModule.loadMoreEnd()
+                list?.let {
+                    if(binding.smartRefreshLayout.isLoading){
+                        if (list.size > viewModel.getPageSize()) {
+                            binding.smartRefreshLayout.finishLoadMore()
+                        } else {
+                            binding.smartRefreshLayout.finishLoadMoreWithNoMoreData()
+                        }
+                    }
+                } ?:binding.smartRefreshLayout.finishLoadMoreWithNoMoreData()
                 viewModel.setNextPage()
             } else {
                 ToastUtils.setMessage(this, dataResult.message)
@@ -137,7 +152,7 @@ class VideoDetailHomeActivity :
                     if (binding.smartRefreshLayout.isRefreshing)
                         binding.smartRefreshLayout.finishRefresh()
                 } else {
-//                    videoAdapter.loadMoreModule.loadMoreFail()
+                    binding.smartRefreshLayout.finishLoadMore()
                 }
 
             }
@@ -148,10 +163,11 @@ class VideoDetailHomeActivity :
 
 
     private fun initViewPager() {
-
+        videoAdapter.stateRestorationPolicy
         binding.contentVP.orientation = ViewPager2.ORIENTATION_VERTICAL
         binding.contentVP.adapter = videoAdapter
-        binding.contentVP.offscreenPageLimit = 3
+        //缓冲两个页面
+        binding.contentVP.offscreenPageLimit = 2
         //取消动画
         binding.contentVP.setPageTransformer { page, position -> }
 
@@ -165,7 +181,7 @@ class VideoDetailHomeActivity :
                     //加载下一页
                     if (position > (videoAdapter.dynamics.size - 4)) {
                         if (!viewModel.isLoading) {
-                            viewModel.getVideos()
+                            viewModel.getVideos(mTypeId,mCityCode)
                         }
                     }
                 }

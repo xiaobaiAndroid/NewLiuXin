@@ -7,5 +7,5 @@ package module.common.base
  */
 open class BaseListReq<T>(val queryObj: T) {
     var pageNumber = 1
-    var pageSize = 10
+    var pageSize = 20
 }
