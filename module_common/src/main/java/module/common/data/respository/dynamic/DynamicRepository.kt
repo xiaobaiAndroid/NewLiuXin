@@ -7,6 +7,7 @@ import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
 import module.common.data.entity.UserInfo
 import module.common.data.request.CliqueCategoryReq
+import module.common.data.request.CommentReq
 import module.common.data.request.DynamicListReq
 import module.common.data.request.EndorseReq
 import module.common.data.respository.user.UserRepository
@@ -132,6 +133,17 @@ class DynamicRepository private constructor() {
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(context)?.let {
                 dataResult = mRemote.getOtherDynamicData(UserRepository.instance.getToken(context),req)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun comment(context: Context, req: CommentReq): DataResult<String?> {
+        var dataResult: DataResult<String?> =
+            mRemote.comment(UserRepository.instance.getToken(context),req)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.comment(UserRepository.instance.getToken(context),req)
             }
         }
         return dataResult

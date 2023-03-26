@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import module.common.base.BaseFragment
 import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
+import module.common.utils.ActivityLauncher
 import module.common.utils.StatusBarUtils
 import module.dynamic.R
 import module.dynamic.databinding.DynamicFramentTabHomeBinding
@@ -82,7 +83,7 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         }
 
         binding.locationCL.setOnClickListener {
-            ARouterHelper.openBottomToTop(activity, ARouterHelper.CHOOSE_CITY)
+            ActivityLauncher.launchChooseCity(requireActivity())
         }
         fragmentAdapter = DynamicTabHomeAdapter(requireActivity(),viewModel.cityCodeLD.value)
         binding.categoryVP.adapter = fragmentAdapter

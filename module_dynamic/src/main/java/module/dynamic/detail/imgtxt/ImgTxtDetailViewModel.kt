@@ -8,10 +8,7 @@ import kotlinx.coroutines.withContext
 import module.common.base.BaseViewModel
 import module.common.base.CommonListResp
 import module.common.data.DataResult
-import module.common.data.entity.Comment
-import module.common.data.entity.Dynamic
-import module.common.data.entity.Goods
-import module.common.data.entity.ImgTxtData
+import module.common.data.entity.*
 import module.common.data.request.*
 import module.common.data.respository.comment.CommentRepository
 import module.common.data.respository.dynamic.DynamicRepository
@@ -19,6 +16,8 @@ import module.common.data.respository.gift.GiftRepository
 import module.common.data.respository.goods.GoodsRepository
 import module.common.data.respository.user.UserRepository
 import module.common.data.status.CommonStatus
+import module.common.utils.ToastUtils
+import module.dynamic.R
 
 /**
  *@author: baizf
@@ -62,7 +61,24 @@ class ImgTxtDetailViewModel:BaseViewModel() {
     }
 
     fun comment(content: String, dynamic: Dynamic?) = viewModelScope.launch(Dispatchers.IO) {
+        val commentReq = CommentReq()
+        commentReq.content = content
+        commentReq.replyUserId = dynamic!!.userId
+        commentReq.mediaId = dynamic.id
+        val userInfo: UserInfo = UserRepository.instance.getUserInfo(mContext)
+        commentReq.userId = userInfo.userId
 
+        val dataResult: DataResult<String?> = DynamicRepository.instance.comment(mContext,commentReq)
+        withContext(Dispatchers.Main){
+            if(dataResult.status == DataResult.SUCCESS){
+                ToastUtils.setMessage(mContext,mContext.resources.getString(R.string.clique_comment_success))
+                resetCurrentPage()
+                getComments(dynamic.id)
+            }else{
+                ToastUtils.setMessage(mContext,dataResult.message)
+            }
+
+        }
     }
 
     /*

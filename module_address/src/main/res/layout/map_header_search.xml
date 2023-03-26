@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/dp_36"
+        style="@style/tv_14_313131"
+        android:background="@drawable/map_bg_search"
+        android:hint="@string/map_search_address"
+        android:gravity="center"
+        android:drawableLeft="@drawable/map_ic_search"
+        android:drawablePadding="@dimen/dp_4"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:lines="1"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/searchTV"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_36"
+        style="@style/tv_14_ffffff"
+        android:background="@drawable/map_bg_start_search"
+        android:text="@string/map_search"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:clickable="true"
+        />
+
+</LinearLayout>

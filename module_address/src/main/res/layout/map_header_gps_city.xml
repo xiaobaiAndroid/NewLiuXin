@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dp_12"
+    android:background="@color/cl_ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_gps_city"
+        android:textColor="@color/cl_13b5b1"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/gpsCityTV"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_bg_gps_city"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="广州市"
+        android:textColor="@color/cl_000000"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:textSize="14sp" />
+</LinearLayout>

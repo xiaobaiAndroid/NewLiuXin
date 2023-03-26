@@ -9,12 +9,15 @@ import module.common.base.BaseViewModel
 import module.common.data.DataResult
 import module.common.data.entity.Dynamic
 import module.common.data.entity.DynamicCategory
+import module.common.data.entity.UserInfo
 import module.common.data.request.*
 import module.common.data.respository.dynamic.DynamicRepository
 import module.common.data.respository.gift.GiftRepository
 import module.common.data.respository.user.UserRepository
 import module.common.data.respository.video.VideoRepository
 import module.common.data.status.CommonStatus
+import module.common.utils.ToastUtils
+import module.dynamic.R
 
 /**
  *@author: baizf
@@ -149,7 +152,5 @@ class VideoDetailViewModel : BaseViewModel() {
         }
     }
 
-    fun comment(content: String, dynamic: Dynamic) {
 
-    }
 }

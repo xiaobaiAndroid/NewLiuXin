@@ -86,4 +86,7 @@ roundedimageview = 'com.makeramen:roundedimageview:2.3.0'
 #https://github.com/youth5201314/banner
 banner ='io.github.youth5201314:banner:2.2.2'
 
+#https://github.com/LuckyCodeer/Android-PickerView
+pickerview = 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.5'
+
 [plugins]

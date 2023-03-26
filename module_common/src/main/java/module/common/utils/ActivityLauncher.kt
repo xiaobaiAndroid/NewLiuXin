@@ -31,6 +31,17 @@ object ActivityLauncher {
 
     }
 
+    fun launchChooseCity(context: Context){
+        val intent = Intent("address.city.ChooseCityActivity")
+        intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/ChooseCityActivity")
+        if (context is Activity) {
+            context.startActivity(intent)
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
+    }
+
     fun launchVideoDetail(
         context: Context,
         dynamics: ArrayList<Dynamic>?,

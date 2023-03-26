@@ -1,0 +1,10 @@
+<resources>
+    <string name="map_locations">定位列表</string>
+    <string name="map_not_permission">未获得定位权限，无法获取地址列表</string>
+    <string name="map_search_address">搜索地点</string>
+    <string name="map_search">搜索</string>
+    <string name="map_gps_city">定位城市</string>
+    <string name="map_not_open_gps">需要打开GPS才能获取当前位置，是否开启？</string>
+    <string name="addr_user_disable_location_permisison">定位权限被关，请手动打开定位权限开关</string>
+    <string name="addr_no_location_permisison" />
+</resources>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cl_ffffff"
+    android:orientation="vertical"
+    tools:context=".city.ChooseCityActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <module.common.view.ActionBarView
+            android:id="@+id/actionBarView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <RelativeLayout
+            android:id="@+id/searchRL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/actionBarView"
+            app:layout_constraintBottom_toBottomOf="@id/actionBarView"
+            android:background="@drawable/map_shape_ccc_corner_bg">
+
+            <EditText
+                android:id="@+id/searchCityET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:drawableStart="@drawable/home_icon_search"
+                android:drawablePadding="6dp"
+                android:hint="城市名/拼音"
+                android:maxLength="20"
+                android:paddingBottom="8dp"
+                android:imeOptions="actionSearch"
+                android:paddingTop="8dp"
+                android:lines="1"
+                android:textColor="@color/cl_000000"
+                android:textColorHint="@color/cl_9c9c9c"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/clearKeyIB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:padding="6dp"
+                android:src="@drawable/map_btn_del"
+                />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/cl_f3f3f3" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cityRV"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <module.address.city.IndexBar
+                    android:id="@+id/indexBar"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/letterTV"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:textColor="@color/cl_000000"
+                android:textSize="20sp"
+                android:text="A"
+                android:gravity="center"
+                android:background="@color/cl_f3f3f3"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/searchFL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cl_ffffff"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchResultRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cl_f3f3f3"/>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

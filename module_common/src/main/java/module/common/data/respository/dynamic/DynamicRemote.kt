@@ -6,12 +6,10 @@ import module.common.data.entity.DynamicCategory
 import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
 import module.common.data.request.CliqueCategoryReq
+import module.common.data.request.CommentReq
 import module.common.data.request.DynamicListReq
 import module.common.data.request.EndorseReq
-import module.common.data.response.CliqueCategoryResp
-import module.common.data.response.DynamicListResp
-import module.common.data.response.EndorseResp
-import module.common.data.response.ImgTxtDataResp
+import module.common.data.response.*
 import module.common.type.LanguageType
 import module.common.utils.GsonUtils
 import module.common.utils.GsonUtils.parseObject
@@ -279,6 +277,29 @@ internal class DynamicRemote {
             dataResult.status = DataResult.SUCCESS
             dataResult.message = info
             dataResult.t = resp.data.toString()
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun comment(token: String?, req: CommentReq): DataResult<String?> {
+        val dataResult = DataResult<String?>()
+        try {
+            val url = URLHelper.instance.getFullUrl(URLUtils.PUBLISH_COMMENT)
+            val json = RxHttp.postJson(url + token)
+                .addAll(GsonUtils.toJson(req))
+                .toAwaitString()
+                .await()
+            val resp = parseObject(json, CommentResp::class.java)
+            val info = resp.message.info ?: ""
+            dataResult.status = DataResult.SUCCESS
+            dataResult.message = info
         } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
             if (e.statusCode == 401) {

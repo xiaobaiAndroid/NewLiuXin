@@ -63,13 +63,7 @@ internal class VideoDetailFragment :
     override fun disposeMessageEvent(event: MessageEvent?) {
         event ?: return
         super.disposeMessageEvent(event)
-        if (MessageEvent.Type.SEND_COMMENT === event.type) {
-            val content = event.obj as String
-            viewModel.dynamicLD.value?.let {
-                viewModel.comment(content, it)
-            }
-
-        } else if (MessageEvent.Type.PLAY_VIDEO_SVGA === event.type) {
+         if (MessageEvent.Type.PLAY_VIDEO_SVGA === event.type) {
             mEGiveGift = event.obj as EGiveGift
             mEGiveGift?.let {
                 viewModel.giveGift(viewModel.dynamicLD.value?.userId, it.selectGift.id, it.selectedNumber)
@@ -88,7 +82,6 @@ internal class VideoDetailFragment :
 
         LogUtils.printI("fragment position=$position --- initView")
 
-
         viewModel.dynamicLD.value?.apply {
             val mediaItem = MediaItem.fromUri(mediaUrl ?: "")
 
@@ -104,6 +97,8 @@ internal class VideoDetailFragment :
             viewModel.getAttentionStatusById(userId)
             setEndorseStatusView(praiseStatus, praiseNum ?: "0")
             setCollectStatusView(favoriteStatus, favoriteNum ?: "0")
+
+            binding.contentTV.text = description
         }
     }
 
@@ -113,7 +108,6 @@ internal class VideoDetailFragment :
         } else {
             binding.rightOperation.collectIV.setImageResource(R.drawable.video_ic_collect_normal)
         }
-
         binding.rightOperation.collectTV.text = favoriteNum
     }
 
@@ -171,6 +165,12 @@ internal class VideoDetailFragment :
         binding.rightOperation.giftLL.setOnClickListener {
             showGiftPopup()
         }
+        binding.rightOperation.commentLL.setOnClickListener {
+            showCommentView()
+        }
+        binding.rightOperation.chatLL.setOnClickListener {
+
+        }
 
         mAFPort.currentPlayPositionLD.observe(this) {
             binding.myVideoPlayer.player?.let { player ->
@@ -185,8 +185,6 @@ internal class VideoDetailFragment :
                 }
             }
         }
-
-
         setupObserver()
     }
 
@@ -277,11 +275,8 @@ internal class VideoDetailFragment :
      * @describe: 显示评论弹出框
      * @date: 2020/3/10
      */
-    fun showCommentView(video: Video) {
-        val dynamic = Dynamic()
-        dynamic.id = video.id
-        dynamic.userId = video.userId
-        val commentListView = CommentListView(requireActivity(), dynamic)
+    fun showCommentView() {
+        val commentListView = CommentListView(requireActivity(), viewModel.dynamicLD.value)
         XPopup.Builder(requireActivity())
             .isViewMode(true)
             .hasShadowBg(false)

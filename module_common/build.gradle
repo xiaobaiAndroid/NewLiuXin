@@ -106,4 +106,6 @@ dependencies {
     api libs.pictureselector
     api libs.pictureselectorUcrop
     api libs.gson
+
+    api libs.pickerview
 }

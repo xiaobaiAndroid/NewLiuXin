@@ -49,6 +49,7 @@ dependencies {
     implementation project(path: ':module_user')
     implementation project(path: ':module_publish')
     implementation project(path: ':module_dynamic')
+    implementation project(path: ':module_address')
     implementation project(path: ':share_lib')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
