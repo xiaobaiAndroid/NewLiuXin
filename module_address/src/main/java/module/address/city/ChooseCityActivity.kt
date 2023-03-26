@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.address.R
 import module.address.databinding.AddrActivityChooseCityBinding
-import module.common.base.BaseActivity
+import module.common.base.CommonListActivityBase
 import module.common.event.MessageEvent
 import module.common.utils.DensityUtil
 import module.common.utils.KeyBoardUtils
@@ -34,7 +33,6 @@ import module.common.utils.ToastUtils
 import module.common.view.LinearDividerDecoration
 import module.map.LocationBroker
 import module.map.LocationHelper
-import module.map.MapPOIProvider
 import org.greenrobot.eventbus.EventBus
 
 /*
@@ -42,7 +40,7 @@ import org.greenrobot.eventbus.EventBus
 * @author: bzf
 * @date: 2023/3/26
 */
-class ChooseCityActivity : BaseActivity<AddrActivityChooseCityBinding, ChooseCityVModel>() {
+class ChooseCityActivity : CommonListActivityBase<AddrActivityChooseCityBinding, ChooseCityVModel>() {
 
     private var cityAdapter = CityAdapter(mutableListOf())
 
@@ -53,6 +51,8 @@ class ChooseCityActivity : BaseActivity<AddrActivityChooseCityBinding, ChooseCit
     private var searchResultAdapter = CityAdapter(mutableListOf())
 
     private lateinit var gpsCityTV:TextView
+
+
 
     private val permissionLaunch = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ map->
         val set = map.entries
@@ -93,6 +93,8 @@ class ChooseCityActivity : BaseActivity<AddrActivityChooseCityBinding, ChooseCit
         linearLayoutManager = LinearLayoutManager(applicationContext)
         binding.cityRV.layoutManager = linearLayoutManager
         binding.cityRV.adapter = cityAdapter
+
+        cityAdapter.setEmptyView(getLoadingView())
 
         val view = layoutInflater.inflate(R.layout.map_header_gps_city,null)
         gpsCityTV = view.findViewById<TextView>(R.id.gpsCityTV)
@@ -136,13 +138,15 @@ class ChooseCityActivity : BaseActivity<AddrActivityChooseCityBinding, ChooseCit
         viewModel.citySuspensionLD.observe(this) {
             it?.let { citySuspensiions ->
                 if (citySuspensiions.isEmpty()) {
-                    cityAdapter.setEmptyView(module.common.R.layout.layout_empty_view)
+                    cityAdapter.setEmptyView(getEmptyView())
                 } else {
                     cityAdapter.setList(citySuspensiions)
                     binding.indexBar.setmSourceDatas(citySuspensiions).invalidate()
                     cityAdapter.setList(citySuspensiions)
                     suspensionDecoration!!.setmDatas(citySuspensiions)
                 }
+
+                cancelLoadingAnimation()
                 startLocation()
             }
         }
@@ -272,11 +276,11 @@ class ChooseCityActivity : BaseActivity<AddrActivityChooseCityBinding, ChooseCit
      * @date:  2017/12/28
      */
     private fun initSearchResultRV() {
-        binding.searchFL.setVisibility(View.GONE)
-        binding.clearKeyIB.setVisibility(View.GONE)
-        binding.searchResultRV.setLayoutManager(LinearLayoutManager(applicationContext))
+        binding.searchFL.visibility = View.GONE
+        binding.clearKeyIB.visibility = View.GONE
+        binding.searchResultRV.layoutManager = LinearLayoutManager(applicationContext)
         searchResultAdapter = CityAdapter(ArrayList())
-        binding.searchResultRV.setAdapter(searchResultAdapter)
+        binding.searchResultRV.adapter = searchResultAdapter
         //设置间隔
         val spaceDecoration = LinearDividerDecoration<ColorDrawable>(cityAdapter
             , ColorDrawable(resources.getColor(module.common.R.color.cl_f1f1f1))
