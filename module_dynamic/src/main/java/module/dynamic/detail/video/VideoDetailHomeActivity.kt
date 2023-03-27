@@ -66,6 +66,23 @@ class VideoDetailHomeActivity :
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+
+        val pageNumber = intent.getIntExtra("pageNumber", 1)
+        viewModel.setPageNumber(pageNumber)
+
+        mAFPort.currentPlayPositionLD.value = intent.getIntExtra("playPosition", 0)
+        isLoadMore = intent.getBooleanExtra("isLoadMore", false)
+        mTypeId = intent.getStringExtra("typeId")
+        mCityCode = intent.getStringExtra("cityCode")
+
+        videoAdapter.mTypeId = mTypeId
+        videoAdapter.mCityCode = mCityCode
+
+        intent.getParcelableArrayListExtra<Dynamic?>("dynamics")?.let {
+            videoAdapter.addAllData(0,it)
+        }
+
+
         val moreView =
             LayoutInflater.from(this).inflate(R.layout.dynamic_layout_more_operation, null)
         binding.actionBarView.addMoreOperationView(moreView)
@@ -79,42 +96,33 @@ class VideoDetailHomeActivity :
             showMoreOperationView()
         }
 
-        binding.smartRefreshLayout.setRefreshHeader(ClassicsHeader(this))
-        binding.smartRefreshLayout.setRefreshFooter(ClassicsFooter(this))
-        binding.smartRefreshLayout.setOnLoadMoreListener {
-            if (!viewModel.isLoading) {
+        if(isLoadMore){
+            binding.smartRefreshLayout.setRefreshHeader(ClassicsHeader(this))
+            binding.smartRefreshLayout.setRefreshFooter(ClassicsFooter(this))
+            binding.smartRefreshLayout.setOnLoadMoreListener {
+                if (!viewModel.isLoading) {
+                    viewModel.getVideos(mTypeId,mCityCode)
+                }
+            }
+            binding.smartRefreshLayout.setOnRefreshListener {
+                viewModel.resetCurrentPage()
                 viewModel.getVideos(mTypeId,mCityCode)
             }
+        }else{
+            binding.smartRefreshLayout.setEnableLoadMore(false)
+            binding.smartRefreshLayout.setEnableRefresh(false)
         }
-        binding.smartRefreshLayout.setOnRefreshListener {
-            viewModel.resetCurrentPage()
-            viewModel.getVideos(mTypeId,mCityCode)
-        }
+
         initViewPager()
+
+        binding.contentVP.setCurrentItem( mAFPort.currentPlayPositionLD.value ?: 0,false)
 
         setupObserve()
     }
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        val pageNumber = intent.getIntExtra("pageNumber", 1)
-        viewModel.setPageNumber(pageNumber)
 
-        mAFPort.currentPlayPositionLD.value = intent.getIntExtra("playPosition", 0)
-        isLoadMore = intent.getBooleanExtra("isLoadMore", false)
-        mTypeId = intent.getStringExtra("typeId")
-        mCityCode = intent.getStringExtra("cityCode")
-
-        videoAdapter.mTypeId = mTypeId
-        videoAdapter.mCityCode = mCityCode
-
-        isLoadMore = intent.getBooleanExtra("isLoadMore", false)
-
-        intent.getParcelableArrayListExtra<Dynamic?>("dynamics")?.let {
-            videoAdapter.addAllData(0,it)
-        }
-
-        binding.contentVP.setCurrentItem( mAFPort.currentPlayPositionLD.value ?: 0,false)
     }
 
 
@@ -167,8 +175,11 @@ class VideoDetailHomeActivity :
         videoAdapter.stateRestorationPolicy
         binding.contentVP.orientation = ViewPager2.ORIENTATION_VERTICAL
         binding.contentVP.adapter = videoAdapter
-        //缓冲两个页面
-        binding.contentVP.offscreenPageLimit = 2
+        if(videoAdapter.dynamics.size > 2){
+            //缓冲两个页面
+            binding.contentVP.offscreenPageLimit = 2
+        }
+
         //取消动画
         binding.contentVP.setPageTransformer { page, position -> }
 

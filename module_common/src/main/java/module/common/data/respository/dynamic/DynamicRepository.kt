@@ -2,14 +2,8 @@ package module.common.data.respository.dynamic
 
 import android.content.Context
 import module.common.data.DataResult
-import module.common.data.entity.DynamicCategory
-import module.common.data.entity.Dynamic
-import module.common.data.entity.ImgTxtData
-import module.common.data.entity.UserInfo
-import module.common.data.request.CliqueCategoryReq
-import module.common.data.request.CommentReq
-import module.common.data.request.DynamicListReq
-import module.common.data.request.EndorseReq
+import module.common.data.entity.*
+import module.common.data.request.*
 import module.common.data.respository.user.UserRepository
 
 class DynamicRepository private constructor() {
@@ -66,7 +60,8 @@ class DynamicRepository private constructor() {
             mRemote.getRecommendDynamicData(UserRepository.instance.getToken(mContext), req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(mContext)?.let {
-                dataResult = mRemote.getRecommendDynamicData(UserRepository.instance.getToken(mContext), req)
+                dataResult =
+                    mRemote.getRecommendDynamicData(UserRepository.instance.getToken(mContext), req)
             }
         }
         return dataResult
@@ -95,7 +90,7 @@ class DynamicRepository private constructor() {
         return mRemote.collect(userInfo.access_token, endorseReq)
     }
 
-   suspend fun getFriendDynamicData(
+    suspend fun getFriendDynamicData(
         context: Context,
         req: DynamicListReq
     ): DataResult<MutableList<Dynamic>?> {
@@ -103,7 +98,8 @@ class DynamicRepository private constructor() {
             mRemote.getFriendDynamicData(UserRepository.instance.getToken(context), req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(context)?.let {
-                dataResult = mRemote.getFriendDynamicData(UserRepository.instance.getToken(context), req)
+                dataResult =
+                    mRemote.getFriendDynamicData(UserRepository.instance.getToken(context), req)
             }
         }
         return dataResult
@@ -115,10 +111,14 @@ class DynamicRepository private constructor() {
         req: DynamicListReq
     ): DataResult<MutableList<Dynamic>?> {
         var dataResult: DataResult<MutableList<Dynamic>?> =
-            mRemote.getCityDynamicData(UserRepository.instance.getToken(context), cityCode,req)
+            mRemote.getCityDynamicData(UserRepository.instance.getToken(context), cityCode, req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(context)?.let {
-                dataResult = mRemote.getCityDynamicData(UserRepository.instance.getToken(context), cityCode,req)
+                dataResult = mRemote.getCityDynamicData(
+                    UserRepository.instance.getToken(context),
+                    cityCode,
+                    req
+                )
             }
         }
         return dataResult
@@ -129,10 +129,11 @@ class DynamicRepository private constructor() {
         req: DynamicListReq
     ): DataResult<MutableList<Dynamic>?> {
         var dataResult: DataResult<MutableList<Dynamic>?> =
-            mRemote.getOtherDynamicData(UserRepository.instance.getToken(context),req)
+            mRemote.getOtherDynamicData(UserRepository.instance.getToken(context), req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(context)?.let {
-                dataResult = mRemote.getOtherDynamicData(UserRepository.instance.getToken(context),req)
+                dataResult =
+                    mRemote.getOtherDynamicData(UserRepository.instance.getToken(context), req)
             }
         }
         return dataResult
@@ -140,10 +141,40 @@ class DynamicRepository private constructor() {
 
     suspend fun comment(context: Context, req: CommentReq): DataResult<String?> {
         var dataResult: DataResult<String?> =
-            mRemote.comment(UserRepository.instance.getToken(context),req)
+            mRemote.comment(UserRepository.instance.getToken(context), req)
         if (dataResult.status == DataResult.TOKEN_PAST) {
             UserRepository.instance.refreshToken(context)?.let {
-                dataResult = mRemote.comment(UserRepository.instance.getToken(context),req)
+                dataResult = mRemote.comment(UserRepository.instance.getToken(context), req)
+            }
+        }
+        return dataResult
+    }
+
+    suspend fun getSearchHistories(context: Context): MutableList<HistorySearch> {
+        val userInfo = UserRepository.instance.getUserInfo(context)
+        return mLocal.getSearchHistories(context,userInfo.userId)
+    }
+
+    suspend fun saveSearchHistory(context: Context,content: String) {
+        val userInfo = UserRepository.instance.getUserInfo(context)
+        return mLocal.saveSearchHistory(context,content,userInfo.userId)
+    }
+
+    suspend fun deleteSearchHistory(context: Context, historySearch: HistorySearch) {
+        return mLocal.deleteSearchHistory(context,historySearch)
+    }
+
+    suspend fun clearHistories(context: Context) {
+        val userInfo = UserRepository.instance.getUserInfo(context)
+        return mLocal.clearHistories(context,userInfo.userId)
+    }
+
+    suspend fun searchByKeyword(context: Context, req: SearchReq): DataResult<MutableList<Dynamic>?> {
+        var dataResult: DataResult<MutableList<Dynamic>?> =
+            mRemote.searchByKeyword(UserRepository.instance.getToken(context), req)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.searchByKeyword(UserRepository.instance.getToken(context), req)
             }
         }
         return dataResult

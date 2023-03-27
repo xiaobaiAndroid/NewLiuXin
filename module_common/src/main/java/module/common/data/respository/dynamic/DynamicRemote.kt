@@ -5,10 +5,7 @@ import module.common.data.api.URLHelper
 import module.common.data.entity.DynamicCategory
 import module.common.data.entity.Dynamic
 import module.common.data.entity.ImgTxtData
-import module.common.data.request.CliqueCategoryReq
-import module.common.data.request.CommentReq
-import module.common.data.request.DynamicListReq
-import module.common.data.request.EndorseReq
+import module.common.data.request.*
 import module.common.data.response.*
 import module.common.type.LanguageType
 import module.common.utils.GsonUtils
@@ -300,6 +297,38 @@ internal class DynamicRemote {
             val info = resp.message.info ?: ""
             dataResult.status = DataResult.SUCCESS
             dataResult.message = info
+        } catch (e: HttpStatusCodeException) {
+            e.printStackTrace()
+            if (e.statusCode == 401) {
+                dataResult.status = DataResult.TOKEN_PAST
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dataResult
+    }
+
+    suspend fun searchByKeyword(token: String?, req: SearchReq): DataResult<MutableList<Dynamic>?> {
+        val dataResult = DataResult<MutableList<Dynamic>?>()
+        try {
+            val url = URLHelper.instance.getFullUrl(URLUtils.DYNAMIC_SEARCH)
+            val json = RxHttp.postJson(url + token)
+                .addAll(GsonUtils.toJson(req))
+                .toAwaitString()
+                .await()
+            if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+                dataResult.status = DataResult.TOKEN_PAST
+            } else {
+                val resp = parseObject(
+                    json,
+                    DynamicListResp::class.java
+                )
+                dataResult.message = resp.message.info
+                if (resp.message.code == DataResult.SERVICE_SUCCESS) {
+                    dataResult.status = DataResult.SUCCESS
+                    dataResult.t = resp.data.rows
+                }
+            }
         } catch (e: HttpStatusCodeException) {
             e.printStackTrace()
             if (e.statusCode == 401) {

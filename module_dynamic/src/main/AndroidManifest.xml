@@ -3,12 +3,22 @@
 
     <application>
         <activity
-            android:name=".detail.video.VideoDetailHomeActivity"
-            android:exported="false"
+            android:name=".search.result.SearchResultActivity"
             android:configChanges="orientation|locale|screenSize|keyboardHidden"
+            android:exported="false"
             android:screenOrientation="portrait"
-            >
-
+            />
+        <activity
+            android:name=".search.DynamicSearchActivity"
+            android:configChanges="orientation|locale|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".detail.video.VideoDetailHomeActivity"
+            android:configChanges="orientation|locale|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="dynamic.detail.video.VideoDetailActivity" />
 
@@ -20,7 +30,6 @@
                     android:port="8888"
                     android:scheme="liuxin" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".detail.imgtxt.ImgTxtDetailActivity"

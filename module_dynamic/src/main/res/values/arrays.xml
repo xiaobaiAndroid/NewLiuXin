@@ -13,7 +13,7 @@
 
 
 
-    <string-array name="clique_hot_search">
+    <string-array name="dynamic_hot_search">
         <item>元旦</item>
         <item>美食</item>
         <item>旅游</item>

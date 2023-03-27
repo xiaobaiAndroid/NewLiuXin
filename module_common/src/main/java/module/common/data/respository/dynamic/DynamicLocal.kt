@@ -3,10 +3,9 @@ package module.common.data.respository.dynamic
 import android.content.Context
 import module.common.data.db.AppDatabase
 import module.common.data.db.entity.DynamicCategoryTable
-import module.common.data.db.entity.MusicTable
+import module.common.data.db.entity.DynamicSearchHistoryTable
 import module.common.data.entity.DynamicCategory
-import module.common.data.entity.Music
-import java.util.*
+import module.common.data.entity.HistorySearch
 
 internal class DynamicLocal {
 
@@ -41,5 +40,50 @@ internal class DynamicLocal {
             localList.add(table)
         }
         dao.insert(localList)
+    }
+
+    suspend fun getSearchHistories(context: Context, userId: String?): MutableList<HistorySearch> {
+        val dao = AppDatabase.getDatabase(context).dynamicSearchHistoryDao()
+        val tables = dao.queryAll(userId ?: "")
+        val list = mutableListOf<HistorySearch>()
+        for (table in tables){
+            val historySearch = HistorySearch()
+            historySearch.historyId = table.historyId
+            historySearch.userId = table.userId
+            historySearch.keyWord = table.keyWord
+            historySearch.updateTime = table.updateTime.toLong()
+            list.add(historySearch)
+        }
+        return list
+    }
+
+   suspend fun saveSearchHistory(context: Context, content: String, userId: String?) {
+        val dao = AppDatabase.getDatabase(context).dynamicSearchHistoryDao()
+       val tables = dao.query(userId ?: "", content)
+       if(tables.isNotEmpty()){
+           tables[0].updateTime = System.currentTimeMillis().toString()
+           dao.update(tables[0])
+       }else{
+           val table = DynamicSearchHistoryTable()
+           table.userId = userId
+           table.keyWord = content
+           table.updateTime = System.currentTimeMillis().toString()
+           dao.insert(mutableListOf(table))
+       }
+    }
+
+   suspend fun deleteSearchHistory(context: Context, historySearch: HistorySearch) {
+        val dao = AppDatabase.getDatabase(context).dynamicSearchHistoryDao()
+        val table = DynamicSearchHistoryTable()
+        table.historyId = historySearch.historyId
+        table.userId = historySearch.userId
+        table.keyWord = historySearch.keyWord
+        table.updateTime = historySearch.updateTime.toString()
+        dao.delete(table)
+    }
+
+    suspend fun clearHistories(context: Context, userId: String?) {
+        val dao = AppDatabase.getDatabase(context).dynamicSearchHistoryDao()
+        dao.deleteAllByUserId(userId ?: "")
     }
 }

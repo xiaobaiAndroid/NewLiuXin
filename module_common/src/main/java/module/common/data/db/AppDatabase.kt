@@ -5,14 +5,15 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import module.common.data.db.dao.*
 import module.common.data.db.entity.*
 
 @Database(
-    version = 1,
-    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class, DynamicCategoryTable::class],
+    version = 2,
+    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class, DynamicCategoryTable::class, DynamicSearchHistoryTable::class],
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -24,6 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun musicDao(): MusicDao
     abstract fun dynamicCategoryDao(): DynamicCategoryDao
+    abstract fun dynamicSearchHistoryDao(): DynamicSearchHistoryDao
 
 
     companion object {
@@ -36,7 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "db_liuxin"
                 )
-//                    .addMigrations(MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 instance
@@ -44,20 +46,27 @@ abstract class AppDatabase : RoomDatabase() {
 
         }
 
-//        val MIGRATION_3_4 = object : Migration(3, 4) {
-//            override fun migrate(database: SupportSQLiteDatabase) {
-//                database.execSQL(
-//                    "CREATE TABLE `$MUSIC_TABLE_NAME` (`localId` VARCHAR(100), `musicId` VARCHAR(100)," +
-//                            " `userId` VARCHAR(100), `musicType`  VARCHAR(100), `musicTypeName` VARCHAR(100), `musicName` VARCHAR(200)," +
-//                            "`musicUrl` VARCHAR(300), `musicTime` VARCHAR(100), `musicLable` VARCHAR(100), `addDate` VARCHAR(100)," +
-//                            "PRIMARY KEY(`localId`))"
-//                )
-//            }
-//        }
+        //手动迁移
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE `${DBTableNames.DYNAMIC_SEARCH_HISTORY_TABLE_NAME}` (`historyId` TEXT PRIMARY KEY UNIQUE NOT NULL, " +
+                            "`keyWord` TEXT NOT NULL, `userId` TEXT, `updateTime` TEXT NOT NULL)")
+            }
+        }
 
 
     }
 
+
+    //自动迁移
+    class MyAutoMigration : AutoMigrationSpec {
+
+        override fun onPostMigrate(db: SupportSQLiteDatabase) {
+            super.onPostMigrate(db)
+
+        }
+    }
 
 
 }

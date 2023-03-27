@@ -68,7 +68,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 .setText(R.id.contentTV, StringUtils.packNull(dynamic.description))
             val pictureIV: ImageView = helper.getView<ImageView>(R.id.pictureIV)
             val pictures = dynamicMultiEntity.pictures
-            ImageLoadHelper.load(pictureIV, pictures!![0])
+            ImageLoadHelper.load(pictureIV, pictures?.get(0))
         }
     }
 
@@ -84,7 +84,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 pictureIV.layoutParams = layoutParams
             }
             val pictures = dynamicMultiEntity.pictures
-            ImageLoadHelper.loadFitCenter(pictureIV, pictures!![0])
+            ImageLoadHelper.loadFitCenter(pictureIV, pictures?.get(0))
         }
     }
 
@@ -100,7 +100,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams.height = pictureSize!!.morePictureSize
                 pictureIV.setLayoutParams(layoutParams)
             }
-            ImageLoadHelper.load(pictureIV, pictures!![0])
+            ImageLoadHelper.load(pictureIV, pictures?.get(0))
             val picture1IV: RoundedImageView = helper.getView(R.id.picture1IV)
             val layoutParams1: ViewGroup.LayoutParams = picture1IV.getLayoutParams()
             if (layoutParams1.width != pictureSize!!.least) {
@@ -108,7 +108,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams1.height = pictureSize!!.least
                 picture1IV.setLayoutParams(layoutParams1)
             }
-            ImageLoadHelper.load(picture1IV, pictures[1])
+            ImageLoadHelper.load(picture1IV, pictures?.get(1))
             val picture2IV: RoundedImageView = helper.getView(R.id.picture2IV)
             val layoutParams2: ViewGroup.LayoutParams = picture2IV.getLayoutParams()
             if (layoutParams2.width != pictureSize!!.least) {
@@ -116,7 +116,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams2.height = pictureSize!!.least
                 picture2IV.setLayoutParams(layoutParams2)
             }
-            ImageLoadHelper.load(picture2IV, pictures[2])
+            ImageLoadHelper.load(picture2IV, pictures?.get(2))
             helper.setText(
                 R.id.pictureNumberTV,
                 kotlin.String.format(
@@ -139,7 +139,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams.height = pictureSize!!.twoPictureSize
                 pictureIV.setLayoutParams(layoutParams)
             }
-            ImageLoadHelper.load(pictureIV, pictures!![0])
+            ImageLoadHelper.load(pictureIV, pictures?.get(0))
             val picture1IV: RoundedImageView = helper.getView(R.id.picture1IV)
             val layoutParams1: ViewGroup.LayoutParams = picture1IV.getLayoutParams()
             if (layoutParams1.width != pictureSize!!.twoPictureSize) {
@@ -147,7 +147,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams1.height = pictureSize!!.twoPictureSize
                 picture1IV.setLayoutParams(layoutParams1)
             }
-            ImageLoadHelper.load(picture1IV, pictures[1])
+            ImageLoadHelper.load(picture1IV, pictures?.get(1))
         }
     }
 
@@ -163,7 +163,7 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
                 layoutParams.height = pictureSize!!.videoPictureSize
                 pictureIV.layoutParams = layoutParams
             }
-            ImageLoadHelper.load(pictureIV, pictures!![0])
+            ImageLoadHelper.load(pictureIV, pictures?.get(0))
         }
     }
 

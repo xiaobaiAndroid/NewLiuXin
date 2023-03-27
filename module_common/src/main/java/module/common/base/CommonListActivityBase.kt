@@ -7,6 +7,8 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import androidx.viewbinding.ViewBinding
+import module.common.R
+import module.common.utils.DensityUtil
 
 /**
  *@author: baizf
@@ -19,9 +21,9 @@ abstract class CommonListActivityBase<T : ViewBinding, V: BaseViewModel>: BaseAc
 
     fun getLoadingView(): View {
         val loadingView  =
-            LayoutInflater.from(this).inflate(module.common.R.layout.layout_loading_view, null)
+            LayoutInflater.from(this).inflate(R.layout.layout_loading_view, null)
 
-        loadingIV = loadingView.findViewById<ImageView>(module.common.R.id.loadingIV)
+        loadingIV = loadingView.findViewById<ImageView>(R.id.loadingIV)
 
         loadingView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
@@ -29,8 +31,9 @@ abstract class CommonListActivityBase<T : ViewBinding, V: BaseViewModel>: BaseAc
                 oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
             ) {
                 loadingView.removeOnLayoutChangeListener(this)
-                val centerX: Float = loadingView.width/2.0f
-                val centerY: Float = loadingView.height/2.0f
+
+                val centerX: Float = loadingIV!!.width/2.0f
+                val centerY: Float = loadingIV!!.height/2.0f
                val rotateAnimation =
                     RotateAnimation(0f, 360f, centerX, centerY).apply {
                         repeatMode = Animation.RESTART

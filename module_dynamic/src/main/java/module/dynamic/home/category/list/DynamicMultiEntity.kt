@@ -5,7 +5,7 @@ import module.common.data.entity.Dynamic
 
 class DynamicMultiEntity(override val itemType: Int) : MultiItemEntity {
     var dynamic: Dynamic? = null
-    var pictures: MutableList<String>? = null
+    var pictures: MutableList<String?>? = null
 
     companion object {
         /*单行：一张图片*/

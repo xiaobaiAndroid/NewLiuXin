@@ -1,5 +1,6 @@
 package module.dynamic.home
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import module.common.utils.ActivityLauncher
 import module.common.utils.StatusBarUtils
 import module.dynamic.R
 import module.dynamic.databinding.DynamicFramentTabHomeBinding
+import module.dynamic.search.DynamicSearchActivity
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -79,7 +81,7 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         }
 
         binding.searchIV.setOnClickListener {
-            ARouterHelper.openBottomToTop(activity, ARouterHelper.DYNAMIC_SEARCH)
+            startActivity(Intent(requireActivity(),DynamicSearchActivity::class.java))
         }
 
         binding.locationCL.setOnClickListener {

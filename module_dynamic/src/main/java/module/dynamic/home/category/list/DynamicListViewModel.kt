@@ -83,7 +83,7 @@ class DynamicListViewModel : BaseViewModel() {
             for (dynamic in dynamics) {
                 val coverUrl = dynamic.coverUrl
                 var dynamicMultiEntity: DynamicMultiEntity? = null
-                var pictureList: MutableList<String>? = null
+                var pictureList: MutableList<String?>? = null
                 if (mediaType == MediaType.IN_VIDEO) {
                     dynamicMultiEntity = DynamicMultiEntity(DynamicMultiEntity.TWO_ROW_VIDEO)
                     pictureList = mutableListOf()

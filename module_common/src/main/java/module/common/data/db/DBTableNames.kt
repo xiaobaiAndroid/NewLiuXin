@@ -10,4 +10,6 @@ object DBTableNames {
 
     const val MUSIC_TABLE_NAME = "music_table"
 
+    const val DYNAMIC_SEARCH_HISTORY_TABLE_NAME = "dynamic_search_history_table"
+
 }
