@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:textSize="@dimen/sp_13"
+    android:textColor="@color/cl_313131"
+    android:background="@drawable/goods_bg_detail_sku_normal"
+    android:gravity="center"
+    android:paddingLeft="@dimen/dp_12"
+    android:paddingRight="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_2"
+    android:paddingBottom="@dimen/dp_2"
+    android:layout_margin="@dimen/dp_6"
+    android:layout_height="wrap_content">
+    
+
+
+</TextView>

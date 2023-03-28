@@ -51,11 +51,11 @@ abstract class TagAdapter<T>(val mTagDatas: MutableList<T>?) {
     abstract fun getView(parent: FlowLayout?, position: Int, entity: T): View?
 
 
-    fun onSelected(position: Int, view: View?) {
+    open fun onSelected(position: Int, view: View?) {
         Log.d("zhy", "onSelected $position")
     }
 
-    fun unSelected(position: Int, view: View?) {
+    open fun unSelected(position: Int, view: View?) {
         Log.d("zhy", "unSelected $position")
     }
 

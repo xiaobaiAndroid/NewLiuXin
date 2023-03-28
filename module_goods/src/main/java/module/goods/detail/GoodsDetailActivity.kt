@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.enums.PopupAnimation
 import module.common.base.BaseActivity
+import module.common.data.DataResult
 import module.common.data.entity.Goods
 import module.common.data.entity.GoodsDetailSku
 import module.common.data.entity.GoodsSkuAttributeValue
@@ -21,6 +24,7 @@ import module.common.type.OrderType
 import module.common.utils.*
 import module.goods.R
 import module.goods.databinding.GoodsActivityGoodsDetailBinding
+import module.goods.detail.sku.SKuSelectView
 import org.greenrobot.eventbus.EventBus
 
 /*
@@ -33,15 +37,16 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
 
     val detailAdapter = DetailAdapter(mutableListOf<DetailMultiEntity>())
 
-    var mGoods: Goods? = null
 
-    var selectedSku: GoodsDetailSku?=null
-    /*购买数量*/
-    var buyNumber: Int=1
+    lateinit var mActFraPort: DetailActFraPort
 
-    var selectedSkuValues= mutableListOf<GoodsSkuAttributeValue>()
+
+    var skuOperationType: SkuOperationType = SkuOperationType.NORMAL
+
+    var skuPopupView: BasePopupView?=null
 
     override fun createViewModel(): GoodsDetailVModel {
+        mActFraPort = viewModels<DetailActFraPort>().value
         return viewModels<GoodsDetailVModel>().value
     }
 
@@ -81,9 +86,8 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
 
         viewModel.goodsDetailLD.observe(this){ list->
             if(list.isNotEmpty()){
-                mGoods = list[0].goods
                 val bannerItem = detailAdapter.getItem(0)
-                bannerItem.goods = mGoods
+                bannerItem.goods = viewModel.goodsLD.value
                 detailAdapter.notifyItemChanged(0)
                 detailAdapter.addData(list)
             }
@@ -94,6 +98,33 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
                 val shopItem = detailAdapter.getItem(2)
                 shopItem.shop = shop
                 detailAdapter.notifyItemChanged(2)
+            }
+        }
+
+        mActFraPort.settleParamsLD.observe(this){
+            val item = detailAdapter.getItem(1)
+            item.slectedSkuContent = it.selectSkuStr
+            detailAdapter.notifyItemChanged(1)
+
+            viewModel.goodsLD.value?.let {goods->
+                if(skuOperationType==SkuOperationType.BUY_NOW){
+                    toOrderSettlement(it.selectedSkuValues,it.selectedSku,it.buyNumber,goods)
+                }else if(skuOperationType==SkuOperationType.ADDCART){
+                    viewModel.addShoppingCart(goods,it.selectedSku?.id,it.buyNumber)
+                }
+            }
+
+        }
+        mActFraPort.closeSkuViewLD.observe(this){
+            skuPopupView?.dismiss()
+            skuPopupView = null
+        }
+
+        viewModel.addShopCartResultLD.observe(this){
+            if(it.status == DataResult.SUCCESS){
+                binding.addShoppingCartTV.isEnabled = true
+            }else{
+                ToastUtils.setMessage(this,it.message)
             }
         }
     }
@@ -120,7 +151,7 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
         detailAdapter.setOnItemChildClickListener { adapter, view, position ->
             val item = detailAdapter.getItem(position)
             if(view.id==R.id.toShopDetailTV){ //到店铺详情
-                ARouterHelper.toShopDetail(this,item?.shop?.storeId)
+                ARouterHelper.toShopDetail(this,item.shop?.storeId)
             }else if(view.id==R.id.skuCL){//选择规格
                 showSkuView(SkuOperationType.NORMAL)
             }else if(view.id==R.id.detailIV){
@@ -133,21 +164,21 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
         }
 
         binding.serviceCL.setOnClickListener {
-            if (mGoods != null) {
+            viewModel.goodsLD.value?.let {goods->
                 val bundle = Bundle()
-                bundle.putString(ARouterHelper.Key.ID, mGoods?.adminId)
+                bundle.putString(ARouterHelper.Key.ID, goods.adminId)
                 val shopItem = detailAdapter.getItem(2)
-                bundle.putString(ARouterHelper.Key.AVATAR, shopItem?.shop?.getStoreLogo())
-                bundle.putString(ARouterHelper.Key.NICKNAME, mGoods?.getStoreName())
+                bundle.putString(ARouterHelper.Key.AVATAR, shopItem?.shop?.storeLogo)
+                bundle.putString(ARouterHelper.Key.NICKNAME, goods.storeName)
                 bundle.putInt(ARouterHelper.Key.TYPE, ChatType.SERVICE.ordinal)
                 ARouterHelper.openPath(this, ARouterHelper.SINGLE_CHAT, bundle)
             }
         }
 
         binding.collectCL.setOnClickListener {
-            if(mGoods!=null){
+            viewModel.goodsLD.value?.let {goods->
                 binding.collectCL.isEnabled = false
-                viewModel.collectGoods(mGoods?.goodsId)
+                viewModel.collectGoods(goods.goodsId)
             }
         }
 
@@ -156,10 +187,10 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
         }
 
         binding.addShoppingCartTV.setOnClickListener {
-            mGoods?.let {goods->
-                selectedSku?.let {
-                    binding.addShoppingCartTV.isClickable = false
-                    viewModel.addShoppingCart(goods,selectedSku?.id,buyNumber)
+            viewModel.goodsLD.value?.let {goods->
+                mActFraPort.settleParamsLD.value?.let {settleParams->
+                    binding.addShoppingCartTV.isEnabled = false
+                    viewModel.addShoppingCart(goods,settleParams.selectedSku?.id,settleParams.buyNumber)
 
                 } ?: kotlin.run {
                     showSkuView(SkuOperationType.ADDCART)
@@ -168,10 +199,9 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
         }
 
         binding.buyNowTV.setOnClickListener {
-            mGoods?.let {goods->
-                selectedSku?.let {
-                    toOrderSettlement(selectedSkuValues,selectedSku,buyNumber,mGoods)
-
+            viewModel.goodsLD.value?.let {goods->
+                mActFraPort.settleParamsLD.value?.let {settleParams->
+                    toOrderSettlement(settleParams.selectedSkuValues,settleParams.selectedSku,settleParams.buyNumber,goods)
                 } ?: kotlin.run {
                     showSkuView(SkuOperationType.BUY_NOW)
                 }
@@ -289,34 +319,18 @@ class GoodsDetailActivity : BaseActivity<GoodsActivityGoodsDetailBinding,GoodsDe
      * @date: 2020/5/3
      */
     private fun showSkuView(type: SkuOperationType) {
-//        val sKuSelectView = SKuSelectView(this, mGoods)
-//        sKuSelectView.mListener = object:SKuSelectView.SkuListener{
-//
-//            override fun confirm(selectedSkuValues:ArrayList<GoodsSkuAttributeValue>, selectedSku: GoodsDetailSku?, buyNumber:Int, skuContent: String?) {
-//                this@GoodsDetailActivity.selectedSkuValues = selectedSkuValues
-//                this@GoodsDetailActivity.selectedSku = selectedSku
-//                this@GoodsDetailActivity.buyNumber = buyNumber
-//                val item = detailAdapter.getItem(1)
-//                item?.slectedSkuContent = skuContent
-//                detailAdapter.notifyItemChanged(1)
-//                if(type==SkuOperationType.BUY_NOW){
-//                    toOrderSettlement(selectedSkuValues,selectedSku,buyNumber,mGoods)
-//                }else if(type==SkuOperationType.ADDCART){
-//
-//                }
-//            }
-//
-//            override fun addCart(selectedSkuValues: ArrayList<GoodsSkuAttributeValue>, selectedSku: GoodsDetailSku?, buyNumber: Int, toString: String?) {
-//                mPresenter.addShoppingCart(mGoods,selectedSku?.id,buyNumber)
-//            }
-//        }
-//
-//        XPopup.Builder(this)
-//            .hasShadowBg(true)
-//            .enableDrag(false)
-//            .popupAnimation(PopupAnimation.TranslateFromBottom)
-//            .asCustom(sKuSelectView)
-//            .show()
+        viewModel.goodsLD.value ?: return
+        skuOperationType = type
+
+        val sKuSelectView = SKuSelectView(this, viewModel.goodsLD.value!!)
+
+        skuPopupView  = XPopup.Builder(this)
+            .isViewMode(true)
+            .hasShadowBg(true)
+            .enableDrag(false)
+            .popupAnimation(PopupAnimation.TranslateFromBottom)
+            .asCustom(sKuSelectView)
+            .show()
     }
 
 

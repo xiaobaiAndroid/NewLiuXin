@@ -57,4 +57,5 @@
     <string name="goods_subtotal">小计</string>
     <string name="goods_add_new_address">没有收货地址，去新建收货地址</string>
     <string name="goods_express">快递</string>
+    <string name="goods_money_tag" >￥</string>
 </resources>

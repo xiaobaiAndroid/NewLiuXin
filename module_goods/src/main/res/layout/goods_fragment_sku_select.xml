@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/bgV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_40"
+        android:background="@color/cl_ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/goodsPictureIV" />
+
+    <ImageView
+        android:id="@+id/goodsPictureIV"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/priceTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:textColor="@color/cl_e5004f"
+        android:textSize="@dimen/sp_20"
+        app:layout_constraintLeft_toRightOf="@id/goodsPictureIV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bgV" />
+
+    <TextView
+        android:id="@+id/selectedSkuTV"
+        style="@style/tv_12_313131"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_50"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@id/inventoryTV"
+        app:layout_constraintLeft_toLeftOf="@id/priceTV"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/goods_please_select"
+        app:layout_constraintTop_toBottomOf="@id/priceTV" />
+
+    <TextView
+        android:id="@+id/inventoryTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cl_707070"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@id/goodsPictureIV"
+        app:layout_constraintLeft_toLeftOf="@id/priceTV" />
+
+    <ImageView
+        android:id="@+id/closeIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_8"
+        android:clickable="true"
+        android:src="@drawable/goods_ic_sku_close"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bgV" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/skuRV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/lineV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/dp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/goodsPictureIV" />
+
+    <View
+        android:id="@+id/lineV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginBottom="@dimen/dp_28"
+        android:background="@color/cl_f1f1f1"
+        app:layout_constraintBottom_toTopOf="@id/numberTagTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/numberTagTV"
+        style="@style/tv_14_313131"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_28"
+        android:text="@string/goods_number"
+        app:layout_constraintBottom_toTopOf="@id/confirmTV"
+        app:layout_constraintLeft_toLeftOf="@id/confirmTV" />
+
+    <TextView
+        android:id="@+id/addTV"
+        style="@style/tv_14_313131"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@color/cl_f1f1f1"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="@id/numberTagTV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/numberTagTV" />
+
+    <TextView
+        android:id="@+id/numberTV"
+        style="@style/tv_14_313131"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_16"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="@id/addTV"
+        app:layout_constraintRight_toLeftOf="@id/addTV"
+        app:layout_constraintTop_toTopOf="@id/addTV" />
+
+    <TextView
+        android:id="@+id/minusTV"
+        style="@style/tv_14_313131"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginRight="@dimen/dp_16"
+        android:background="@color/cl_f1f1f1"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="—"
+        app:layout_constraintBottom_toBottomOf="@id/addTV"
+        app:layout_constraintRight_toLeftOf="@id/numberTV"
+        app:layout_constraintTop_toTopOf="@id/addTV" />
+
+    <TextView
+        android:id="@+id/confirmTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:background="@drawable/goods_bg_buy_now"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/goods_confirm"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/addCartTV"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/addCartTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_46"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:background="@drawable/goods_bg_add_cart"
+        android:clickable="true"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/goods_add_shopping_cart"
+        android:textColor="@color/cl_ffffff"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/confirmTV" />
+</androidx.constraintlayout.widget.ConstraintLayout>

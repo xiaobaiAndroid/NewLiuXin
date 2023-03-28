@@ -10,9 +10,10 @@ import module.common.data.DataResult
 import module.common.data.entity.Goods
 import module.common.data.entity.GoodsDetailImage
 import module.common.data.entity.Shop
+import module.common.data.request.AddShoppingCartReq
 import module.common.data.respository.goods.GoodsRepository
 import module.common.data.respository.shop.ShopRepository
-import module.common.type.GoodsImageType
+import module.common.data.respository.shopcart.ShopCartRepository
 
 /**
  *@author: baizf
@@ -33,6 +34,9 @@ class GoodsDetailVModel: BaseViewModel() {
 
     val goodsLD: MutableLiveData<Goods?> by lazy {
         MutableLiveData<Goods?>()
+    }
+    val addShopCartResultLD: MutableLiveData<DataResult<String?>> by lazy {
+        MutableLiveData<DataResult<String?>>()
     }
 
     fun getGoodsDetail(goodsId: String?, actId: String?) = viewModelScope.launch(Dispatchers.IO) {
@@ -76,7 +80,17 @@ class GoodsDetailVModel: BaseViewModel() {
 
     }
 
-    fun addShoppingCart(mGoods: Goods, id: String?, buyNumber: Int) {
+    fun addShoppingCart(goods: Goods, selectedSkuId: String?, buyNumber: Int)  = viewModelScope.launch(Dispatchers.IO){
+        val addShoppingCartReq = AddShoppingCartReq()
+        addShoppingCartReq.goodsId = goods.getGoodsId()
+        addShoppingCartReq.actId = goods.getActId()
+        addShoppingCartReq.buyCount = buyNumber
+        addShoppingCartReq.goodsSkuId = selectedSkuId
+        val dataResult: DataResult<String?> =
+            ShopCartRepository.instance.addShoppingCart(mContext,addShoppingCartReq)
 
+        withContext(Dispatchers.Main){
+            addShopCartResultLD.value = dataResult
+        }
     }
 }
