@@ -1,6 +1,9 @@
 package com.yiguo.shop
 
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowInsets
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.flyco.tablayout.listener.CustomTabEntity
@@ -11,6 +14,7 @@ import module.common.base.BaseActivity
 import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
 import module.common.utils.LogUtils
+import module.common.utils.StatusBarUtils
 
 @Route(path = ARouterHelper.MAIN)
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
@@ -72,10 +76,34 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
         binding.ctl.currentTab = defaultPosition
         binding.viewPager.setCurrentItem(defaultPosition,false)
+
+        binding.root.setOnApplyWindowInsetsListener(object: View.OnApplyWindowInsetsListener{
+
+            var statusBarSize: Int = 0
+
+            override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {
+
+                if(statusBarSize > 0){
+                    binding.root.setOnApplyWindowInsetsListener(null)
+                    return insets
+                }
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                    val inset = insets.getInsets(WindowInsets.Type.statusBars())
+                    statusBarSize = inset.top
+                }else{
+                    statusBarSize = insets.systemWindowInsetTop
+                }
+                viewModel.saveStatusHeight(statusBarSize)
+                return insets
+            }
+
+        })
+
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         wxShareBroker.init(this)
+
     }
 
     override fun disposeMessageEvent(event: MessageEvent?) {

@@ -43,7 +43,7 @@
     <string name="goods_format_shop_sell_number">在售商品%s件</string>
     <string name="goods_to_shop_look">进店逛逛</string>
     <string name="goods_detail_txt1">升级运营商，即得更高收益</string>
-    <string name="goods_detail_txt2" >了解详情></string>
+    <string name="goods_detail_txt2">了解详情></string>
     <string name="goods_number">数量</string>
     <string name="goods_format_inventory">库存 %s</string>
     <string name="goods_add_shopping_cart_success">加入购物车成功</string>

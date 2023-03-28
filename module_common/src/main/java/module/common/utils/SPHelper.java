@@ -18,6 +18,8 @@ public class SPHelper {
     /*是否第一次使用APP*/
     public static final String FIRST_OPEN = "firstOpen";
 
+    public static final String STATUS_HEIGHT = "statusHeight";
+
     /*是否是第一次登录*/
     public static final String FIRST_LOGIN = "first_login";
 

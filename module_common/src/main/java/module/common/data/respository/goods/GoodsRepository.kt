@@ -67,5 +67,18 @@ class GoodsRepository private constructor() {
         return dataResult
     }
 
+    suspend fun getGoodsDetail(context: Context, goodsId: String?, actId: String?): DataResult<Goods?> {
+        val token = UserRepository.instance.getToken(context)
+        var dataResult: DataResult<Goods?> = mRemote.getGoodsDetail(token,goodsId,actId)
+        if (dataResult.status == DataResult.TOKEN_PAST) {
+            UserRepository.instance.refreshToken(context)?.let {
+                dataResult = mRemote.getGoodsDetail(token, goodsId, actId)
+            } ?: kotlin.run {
+                dataResult.status = DataResult.NEED_LOGIN
+            }
+        }
+        return dataResult
+    }
+
 
 }

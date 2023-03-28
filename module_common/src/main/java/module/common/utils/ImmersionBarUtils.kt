@@ -2,6 +2,7 @@ package module.common.utils
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import module.common.R
@@ -13,19 +14,28 @@ import module.common.R
  */
 object ImmersionBarUtils {
     //
-    fun init(activity: Activity?, statusBarResColor: Int = R.color.cl_ffffff, statusBarFontWhite: Boolean = false) {
-        val  flymeOSStatusBarFontColor = if(statusBarFontWhite){
-             R.color.cl_ffffff
-        }else{
+    fun init(
+        activity: FragmentActivity?,
+        statusBarResColor: Int = R.color.cl_ffffff,
+        statusBarFontWhite: Boolean = false,
+        isOverlay: Boolean = false
+    ) {
+        val flymeOSStatusBarFontColor = if (statusBarFontWhite) {
+            R.color.cl_ffffff
+        } else {
             R.color.cl_000000
         }
-        ImmersionBar.with(activity!!)
+        val immersionBar = ImmersionBar.with(activity!!)
             .statusBarDarkFont(!statusBarFontWhite)
             .flymeOSStatusBarFontColor(flymeOSStatusBarFontColor) //修改flyme OS状态栏字体颜色
             .statusBarColor(statusBarResColor)
-            .fitsSystemWindows(true)
             .keyboardEnable(true)
-            .init() //必须调用方可应用以上所配置的参数
+        if (!isOverlay) {
+            immersionBar.fitsSystemWindows(true)
+        }
+
+
+        immersionBar.init() //必须调用方可应用以上所配置的参数
     }
 
 //    fun defaultBuildFragment(fragment: Fragment?,statusBarResColor: Int = R.color.cl_ffffff) {
@@ -36,26 +46,19 @@ object ImmersionBarUtils {
 //            .init() //必须调用方可应用以上所配置的参数
 //    }
 
-//    fun buildBarDark(activity: Activity?) {
-//        ImmersionBar.with(activity!!)
+
+//    fun buildBarDarkFragment(fragment: Fragment?) {
+//        ImmersionBar.with(fragment!!)
 //            .statusBarDarkFont(true) //状态栏字体是深色，不写默认为亮色
 //            .keyboardEnable(true)
 //            .flymeOSStatusBarFontColor(R.color.cl_000000) //修改flyme OS状态栏字体颜色
 //            .init() //必须调用方可应用以上所配置的参数
 //    }
-
-    fun buildBarDarkFragment(fragment: Fragment?) {
-        ImmersionBar.with(fragment!!)
-            .statusBarDarkFont(true) //状态栏字体是深色，不写默认为亮色
-            .keyboardEnable(true)
-            .flymeOSStatusBarFontColor(R.color.cl_000000) //修改flyme OS状态栏字体颜色
-            .init() //必须调用方可应用以上所配置的参数
-    }
-
-    fun fullScreenBuild(activity: Activity?) {
-        ImmersionBar.with(activity!!)
-            .fullScreen(true)
-            .hideBar(BarHide.FLAG_HIDE_BAR)
-            .init() //必须调用方可应用以上所配置的参数
-    }
+//
+//    fun fullScreenBuild(activity: Activity?) {
+//        ImmersionBar.with(activity!!)
+//            .fullScreen(true)
+//            .hideBar(BarHide.FLAG_HIDE_BAR)
+//            .init() //必须调用方可应用以上所配置的参数
+//    }
 }

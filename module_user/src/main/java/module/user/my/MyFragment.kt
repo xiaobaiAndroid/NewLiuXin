@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import module.common.base.BaseFragment
-import module.common.picture.GlideEngine
 import module.common.utils.ARouterHelper
 import module.common.utils.DensityUtil
 import module.common.view.LinearDividerDecoration
@@ -155,22 +151,22 @@ class MyFragment : BaseFragment<UserFragmentMyBinding, MyViewModel>() {
 
         binding.userHeaderV.setOnClickListener {
             //更换背景
-            PictureSelector.create(activity)
-                .openGallery(SelectMimeType.ofImage())
-                .setMaxSelectNum(1)
-                .setImageEngine(GlideEngine.createGlideEngine())
-                .forResult(object: OnResultCallbackListener<LocalMedia>{
-                    override fun onResult(result: ArrayList<LocalMedia>?) {
-                        if (!result.isNullOrEmpty()) {
-                            val localMedia = result[0]
-                            val path = localMedia.path
-                            uploadUserPhoto(path)
-                        }
-                    }
-
-                    override fun onCancel() {
-                    }
-                })
+//            PictureSelector.create(activity)
+//                .openGallery(SelectMimeType.ofImage())
+//                .setMaxSelectNum(1)
+//                .setImageEngine(GlideEngine.createGlideEngine())
+//                .forResult(object: OnResultCallbackListener<LocalMedia>{
+//                    override fun onResult(result: ArrayList<LocalMedia>?) {
+//                        if (!result.isNullOrEmpty()) {
+//                            val localMedia = result[0]
+//                            val path = localMedia.path
+//                            uploadUserPhoto(path)
+//                        }
+//                    }
+//
+//                    override fun onCancel() {
+//                    }
+//                })
         }
     }
 

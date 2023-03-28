@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cl_f1f1f1"
+    android:orientation="vertical"
+    tools:context=".settle.SettleActivity">
+
+    <module.common.view.ActionBarView
+        android:id="@+id/actionBarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cl_ffffff"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contentRV"
+        android:layout_width="match_parent"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomCL"
+        android:layout_width="match_parent"
+        android:background="@color/cl_ffffff"
+        android:layout_height="@dimen/dp_50">
+
+        <TextView
+            android:id="@+id/totalPriceTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/cl_000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="@dimen/dp_14"
+            android:text="@string/goods_total"
+            />
+
+        <TextView
+            android:id="@+id/totalPriceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/totalPriceTitleTV"
+            android:textColor="@color/cl_e5004f"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintLeft_toRightOf="@id/totalPriceTitleTV"
+            />
+
+
+        <TextView
+            android:id="@+id/submitOrderTV"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_36"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:layout_marginRight="@dimen/dp_14"
+            android:background="@drawable/goods_bg_order_submit"
+            android:textColor="@color/cl_ffffff"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center"
+            android:clickable="true"
+            android:text="@string/goods_submit_order"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

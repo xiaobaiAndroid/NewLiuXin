@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/cl_ffffff"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/skuCL"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_48"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:id="@+id/skuTagTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/tv_14_707070"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:text="@string/goods_select"
+            />
+
+        <TextView
+            android:id="@+id/skuTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/skuTagTV"
+            android:layout_marginLeft="@dimen/dp_12"
+            app:layout_constraintBaseline_toBaselineOf="@id/skuTagTV"
+            style="@style/tv_14_313131"
+            android:layout_marginRight="@dimen/dp_30"
+            app:layout_constraintRight_toRightOf="parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/goods_please_select"
+            />
+
+        <ImageView
+            android:id="@+id/skuArrowIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/dp_12"
+            app:layout_constraintTop_toTopOf="@id/skuTV"
+            app:layout_constraintBottom_toBottomOf="@id/skuTV"
+            android:src="@drawable/goods_ic_synthesize"
+            android:rotation="270"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/lin2V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/cl_f1f1f1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/skuCL"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/specificationCL"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_48"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lin2V"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:id="@+id/specificationTagTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/tv_14_707070"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:text="@string/goods_specification"
+            />
+
+        <TextView
+            android:id="@+id/specificationTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/specificationTagTV"
+            android:layout_marginLeft="@dimen/dp_12"
+            app:layout_constraintBaseline_toBaselineOf="@id/specificationTagTV"
+            style="@style/tv_14_313131"
+            android:layout_marginRight="@dimen/dp_30"
+            app:layout_constraintRight_toRightOf="parent"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="品牌、材质"
+            />
+
+        <ImageView
+            android:id="@+id/specificationArrowTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginRight="@dimen/dp_12"
+            app:layout_constraintTop_toTopOf="@id/specificationTV"
+            app:layout_constraintBottom_toBottomOf="@id/specificationTV"
+            android:src="@drawable/goods_ic_synthesize"
+            android:rotation="270"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/line3V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/specificationCL"
+        android:background="@color/cl_f1f1f1"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

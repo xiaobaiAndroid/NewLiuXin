@@ -65,7 +65,7 @@ class GlideEngine private constructor() : ImageEngine {
             .override(180, 180)
             .sizeMultiplier(0.5f)
             .transform(CenterCrop(), RoundedCorners(8))
-            .placeholder(R.drawable.ic_default_picture)
+            .placeholder(R.drawable.ic_default_photo)
             .into(imageView)
     }
 
@@ -84,7 +84,7 @@ class GlideEngine private constructor() : ImageEngine {
             .load(url)
             .override(200, 200)
             .centerCrop()
-            .placeholder(R.drawable.ic_default_picture)
+            .placeholder(R.drawable.ic_default_photo)
             .into(imageView)
     }
 

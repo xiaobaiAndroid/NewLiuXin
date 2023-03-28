@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cl_ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/shopPictureIV"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/dp_16"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_16"
+        />
+
+    <TextView
+        android:id="@+id/shopNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/shopPictureIV"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toRightOf="@id/shopPictureIV"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:maxWidth="@dimen/dp_120"
+        />
+
+    <TextView
+        android:id="@+id/platformAuthenticationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/shopNameTV"
+        app:layout_constraintBottom_toBottomOf="@id/shopNameTV"
+        app:layout_constraintLeft_toRightOf="@id/shopNameTV"
+        android:background="@drawable/goods_bg_shop_label1"
+        android:text="@string/goods_platform_authentication"
+        android:textColor="@color/cl_13b5b1"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:textSize="@dimen/sp_8"
+        android:paddingLeft="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_4"
+        android:paddingTop="@dimen/dp_2"
+        android:paddingBottom="@dimen/dp_2"
+        />
+
+    <TextView
+        android:id="@+id/haitaoAuthenticationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@id/platformAuthenticationTV"
+        app:layout_constraintLeft_toRightOf="@id/platformAuthenticationTV"
+        android:background="@drawable/goods_bg_shop_label2"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:text="@string/goods_haitao_authentication"
+        android:textColor="@color/cl_3381cd"
+        android:textSize="@dimen/sp_8"
+        android:paddingLeft="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_4"
+        android:paddingTop="@dimen/dp_2"
+        android:paddingBottom="@dimen/dp_2"
+        />
+
+    <TextView
+        android:id="@+id/sellNumberTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/cl_313131"
+        android:layout_marginRight="@dimen/dp_180"
+        app:layout_constraintLeft_toLeftOf="@id/shopNameTV"
+        app:layout_constraintBottom_toBottomOf="@id/shopPictureIV"
+        android:text="@string/goods_format_shop_sell_number"
+        />
+
+    <TextView
+        android:id="@+id/toShopDetailTV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_12"
+        app:layout_constraintTop_toTopOf="@id/shopPictureIV"
+        app:layout_constraintBottom_toBottomOf="@id/shopPictureIV"
+        android:clickable="true"
+        android:background="@drawable/goods_bg_to_shop"
+        android:textColor="@color/cl_13b5b1"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center"
+        android:text="@string/goods_to_shop_look"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

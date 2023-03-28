@@ -221,5 +221,40 @@ internal class GoodsRemote {
         return dataResult
     }
 
+   suspend fun getGoodsDetail(token: String?, goodsId: String?, actId: String?): DataResult<Goods?> {
+       val dataResult = DataResult<Goods?>()
+       try {
+           val goodsDetailReq = GoodsDetailReq()
+           goodsDetailReq.id = goodsId
+           goodsDetailReq.actId = actId
+           val json = RxHttp.postJson(URLUtils.GOODS_DETAIL + token)
+               .addAll(GsonUtils.toJson(goodsDetailReq))
+               .toAwaitString()
+               .await()
+
+           if (json.contains(DataResult.TOKEN_PAST_LABEL)) {
+               dataResult.status = DataResult.TOKEN_PAST
+           } else {
+               val resp = parseObject(
+                   json,
+                   GoodsDetailResp::class.java
+               )
+               dataResult.message = resp.message.info
+               if(resp.message.code == DataResult.SERVICE_SUCCESS){
+                   dataResult.t = resp.data
+                   dataResult.status = DataResult.SUCCESS
+               }
+           }
+       } catch (e: HttpStatusCodeException){
+           e.printStackTrace()
+           if(e.statusCode == 401){
+               dataResult.status = DataResult.TOKEN_PAST
+           }
+       } catch (e: Exception) {
+           e.printStackTrace()
+       }
+       return dataResult
+   }
+
 
 }

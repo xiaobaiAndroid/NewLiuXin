@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cl_ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.youth.banner.Banner
+        android:id="@+id/bannerV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        app:banner_indicator_selected_color="@color/cl_13b5b1"
+        app:banner_indicator_normal_color="@color/cl_ffffff"
+        app:banner_indicator_selected_width="@dimen/dp_8"
+        app:banner_indicator_normal_width="@dimen/dp_8"
+        app:banner_indicator_margin="@dimen/dp_8"
+        app:banner_loop_time="5000"
+        android:layout_height="400dp" />
+
+    <TextView
+        android:id="@+id/retailPriceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/cl_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bannerV"
+        android:text="@string/goods_retail_price_tag"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_24"
+        />
+
+    <TextView
+        android:id="@+id/priceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:maxWidth="@dimen/dp_120"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/cl_e5004f"
+        android:layout_marginLeft="@dimen/dp_4"
+        app:layout_constraintBaseline_toBaselineOf="@id/retailPriceTV"
+        app:layout_constraintLeft_toRightOf="@id/retailPriceTV"
+        />
+
+    <TextView
+        android:id="@+id/shareMoneyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/priceTV"
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/cl_ffffff"
+        android:background="@drawable/goods_bg_share_money"
+        android:paddingLeft="@dimen/dp_6"
+        android:paddingRight="@dimen/dp_6"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintTop_toTopOf="@id/priceTV"
+        app:layout_constraintBottom_toBottomOf="@id/priceTV"
+        />
+
+    <TextView
+        android:id="@+id/goodsNameTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/retailPriceTV"
+        android:layout_marginTop="@dimen/dp_12"
+        style="@style/tv_14_313131"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hintCL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        app:layout_constraintTop_toBottomOf="@id/goodsNameTV"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="#EFC6E1"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
+            android:textColor="#D03478"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/goods_detail_txt1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
+            android:textColor="#D03478"
+           app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/goods_detail_txt2"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/line1V"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hintCL"
+        android:layout_marginTop="@dimen/dp_6"
+        android:background="@color/cl_f1f1f1"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

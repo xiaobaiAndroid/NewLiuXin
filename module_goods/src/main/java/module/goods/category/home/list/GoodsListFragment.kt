@@ -9,6 +9,7 @@ import module.common.base.CommonListFragmentBase
 import module.common.data.DataResult
 import module.common.data.entity.Goods
 import module.common.data.entity.GoodsCategory
+import module.common.utils.ActivityLauncher
 import module.common.utils.ToastUtils
 import module.common.view.LinearSpaceDecoration
 import module.goods.databinding.GoodsFragmentGoodsListBinding
@@ -121,9 +122,8 @@ class GoodsListFragment: CommonListFragmentBase<GoodsFragmentGoodsListBinding, G
         }
 
         goodsAdapter.setOnItemClickListener { _, view, position ->
-//            val goods = goodsAdapter.getItem(position)
-//            ARouterHelper.toGoodsDetail(context,goods.goodsId,goods?.actId)
-
+            val goods = goodsAdapter.getItem(position)
+            ActivityLauncher.launchGoodsDetail(requireActivity(),goods.goodsId,goods.actId)
         }
 
     }

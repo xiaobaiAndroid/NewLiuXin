@@ -1,4 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <application>
+        <activity
+            android:name=".detail.GoodsDetailActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|locale|keyboardHidden"
+            android:screenOrientation="portrait"
+            >
+
+            <intent-filter>
+                <action android:name="goods.detail.GoodsDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.yiguo.shop"
+                    android:path="/GoodsDetailActivity"
+                    android:port="8888"
+                    android:scheme="liuxin" />
+
+            </intent-filter>
+        </activity>
+
+    </application>
+
 </manifest>

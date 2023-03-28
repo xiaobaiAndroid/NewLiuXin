@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import module.common.data.entity.Dynamic
 import java.util.ArrayList
 
@@ -61,6 +62,21 @@ object ActivityLauncher {
         bundle.putParcelableArrayList("dynamics", dynamics)
         val intent = Intent("dynamic.detail.video.VideoDetailActivity")
         intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/VideoDetailActivity")
+        intent.putExtras(bundle)
+        if (context is Activity) {
+            context.startActivity(intent)
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
+    }
+
+    fun launchGoodsDetail(context: Context, goodsId: String?, actId: String?) {
+        val intent = Intent("goods.detail.GoodsDetailActivity")
+        intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/GoodsDetailActivity")
+        val bundle = Bundle()
+        bundle.putString("goodsId", goodsId)
+        bundle.putString("actId", actId)
         intent.putExtras(bundle)
         if (context is Activity) {
             context.startActivity(intent)

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cl_ffffff"
+    tools:context=".search.result.SearchResultActivity">
+
+    <ImageView
+        android:id="@+id/backIV"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        android:src="@drawable/ic_back"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_36"
+        app:layout_constraintLeft_toRightOf="@id/backIV"
+        android:layout_marginLeft="@dimen/dp_8"
+        app:layout_constraintTop_toTopOf="@id/backIV"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@drawable/goods_bg_search"
+        app:layout_constraintBottom_toBottomOf="@id/backIV"
+        android:drawableLeft="@drawable/goods_ic_search"
+        android:paddingLeft="@dimen/dp_16"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/cl_313131"
+        android:textColorHint="@color/cl_707070"
+        android:hint="@string/goods_input_key"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:inputType="text"
+        android:drawablePadding="@dimen/dp_12"
+        />
+
+    <ImageView
+        android:id="@+id/clearIV"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintRight_toRightOf="@id/searchET"
+        app:layout_constraintTop_toTopOf="@id/searchET"
+        app:layout_constraintBottom_toBottomOf="@id/searchET"
+        android:clickable="true"
+        app:layout_constraintHorizontal_weight="1"
+        android:visibility="gone"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tabCL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backIV"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/synthesizeCL"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_36"
+            android:clickable="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toLeftOf="@id/salesTV"
+            >
+
+            <TextView
+                android:id="@+id/synthesizeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:maxLength="4"
+                android:ellipsize="end"
+                style="@style/tv_14_313131"
+                android:text="@string/goods_synthesize"
+                android:gravity="center"
+                />
+
+            <View
+                android:id="@+id/centerV"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/arrowIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/synthesizeTV"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/goods_ic_synthesize"
+                android:layout_marginLeft="@dimen/dp_6"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/salesTV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_36"
+            app:layout_constraintTop_toTopOf="@id/synthesizeCL"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:text="@string/goods_sales_volume"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/synthesizeCL"
+            app:layout_constraintRight_toLeftOf="@id/brankTV"
+            />
+
+        <TextView
+            android:id="@+id/brankTV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_36"
+            app:layout_constraintTop_toTopOf="@id/synthesizeCL"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:text="@string/goods_brank"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/salesTV"
+            app:layout_constraintRight_toLeftOf="@id/filterTV"
+            />
+
+
+        <TextView
+            android:id="@+id/filterTV"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_36"
+            app:layout_constraintTop_toTopOf="@id/synthesizeCL"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:text="@string/goods_filter"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@id/brankTV"
+            app:layout_constraintRight_toLeftOf="@id/cutShowIV"
+            />
+
+        <ImageView
+            android:id="@+id/cutShowIV"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_36"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/synthesizeCL"
+            app:layout_constraintBottom_toBottomOf="@id/synthesizeCL"
+            android:src="@drawable/goods_ic_two_show"
+            android:clickable="true"
+            android:paddingRight="@dimen/dp_12"
+            android:paddingLeft="@dimen/dp_12"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabCL"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srlEnableOverScrollDrag="false"
+        app:srlEnableOverScrollBounce="false"
+        app:srlEnableAutoLoadMore="false"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contentRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
