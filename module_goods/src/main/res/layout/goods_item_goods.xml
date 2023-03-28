@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="@dimen/dp_6">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/goods_bg_item_gooods"
+        >
+
+        <ImageView
+            android:id="@+id/goodsIV"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintDimensionRatio="h,4:3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_6"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/cl_313131"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/goodsIV" />
+
+        <TextView
+            android:id="@+id/priceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textColor="@color/cl_e5004f"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/titleTV"
+            app:layout_constraintTop_toBottomOf="@id/titleTV" />
+
+        <TextView
+            android:id="@+id/label1TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:background="@drawable/goods_bg_label"
+            android:textColor="@color/cl_e5004f"
+            android:textSize="@dimen/sp_10"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:text="@string/goods_limit"
+            app:layout_constraintBaseline_toBaselineOf="@id/priceTV"
+            app:layout_constraintLeft_toRightOf="@id/priceTV" />
+
+        <TextView
+            android:id="@+id/label2TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:background="@drawable/goods_bg_label"
+            android:textColor="@color/cl_e5004f"
+            android:textSize="@dimen/sp_10"
+            android:text="@string/goods_broken_lot"
+            app:layout_constraintBaseline_toBaselineOf="@id/priceTV"
+            app:layout_constraintLeft_toRightOf="@id/label1TV" />
+
+
+        <TextView
+            android:id="@+id/shareMoneyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/priceTV"
+            app:layout_constraintTop_toBottomOf="@id/priceTV"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textSize="@dimen/sp_10"
+            android:textColor="@color/cl_ffffff"
+            android:background="@drawable/goods_bg_share_money"
+            android:paddingLeft="@dimen/dp_6"
+            android:paddingRight="@dimen/dp_6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/dp_12"
+            />
+
+        <TextView
+            android:id="@+id/sellNumberTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/shareMoneyTV"
+            app:layout_constraintBaseline_toBaselineOf="@id/shareMoneyTV"
+            android:textColor="@color/cl_707070"
+            android:textSize="@dimen/sp_10"
+            android:layout_marginLeft="@dimen/dp_12"
+            />
+
+
+        <TextView
+            android:id="@+id/buyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_12"
+            android:background="@drawable/goods_bg_buy"
+            android:text="@string/goods_buy_now"
+            android:textColor="@color/cl_ffffff"
+            android:paddingLeft="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_2"
+            android:paddingBottom="@dimen/dp_2"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceTV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="goods_home_child_category">
+        <item>团购</item>
+        <item>限量特价</item>
+        <item>今日上新</item>
+        <item>断码清仓</item>
+        <item>畅销店</item>
+        <item>买手专区</item>
+        <item>品牌自营</item>
+        <item>限时折扣</item>
+    </string-array>
+
+    <string-array name="goods_arr_goods_hot_search">
+        <item>连衣裙</item>
+        <item>夹克</item>
+        <item>纸巾</item>
+        <item>清洁剂</item>
+        <item>鞋子</item>
+        <item>礼服</item>
+        <item>书包</item>
+        <item>内衣</item>
+        <item>香水</item>
+    </string-array>
+
+</resources>

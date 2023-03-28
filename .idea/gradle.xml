@@ -21,11 +21,13 @@
             <option value="$PROJECT_DIR$/module_common" />
             <option value="$PROJECT_DIR$/module_dynamic" />
             <option value="$PROJECT_DIR$/module_gift" />
+            <option value="$PROJECT_DIR$/module_goods" />
             <option value="$PROJECT_DIR$/module_im" />
             <option value="$PROJECT_DIR$/module_imageeditor" />
             <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_map" />
             <option value="$PROJECT_DIR$/module_publish" />
+            <option value="$PROJECT_DIR$/module_shop" />
             <option value="$PROJECT_DIR$/module_user" />
             <option value="$PROJECT_DIR$/module_video" />
             <option value="$PROJECT_DIR$/share_lib" />
