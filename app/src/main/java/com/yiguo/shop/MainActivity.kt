@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import androidx.activity.viewModels
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -15,6 +17,7 @@ import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
 import module.common.utils.LogUtils
 import module.common.utils.StatusBarUtils
+import java.util.concurrent.atomic.AtomicReference
 
 @Route(path = ARouterHelper.MAIN)
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
@@ -77,20 +80,29 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
         binding.ctl.currentTab = defaultPosition
         binding.viewPager.setCurrentItem(defaultPosition,false)
 
-        binding.root.setOnApplyWindowInsetsListener(object: View.OnApplyWindowInsetsListener{
+        getStatusBarHeight()
+
+    }
+
+    /*
+    * @describe: 获取状态栏高度的最佳方式
+    * @date: 2023/3/29
+    */
+    private fun getStatusBarHeight() {
+        binding.root.setOnApplyWindowInsetsListener(object : View.OnApplyWindowInsetsListener {
 
             var statusBarSize: Int = 0
 
             override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {
 
-                if(statusBarSize > 0){
+                if (statusBarSize > 0) {
                     binding.root.setOnApplyWindowInsetsListener(null)
                     return insets
                 }
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     val inset = insets.getInsets(WindowInsets.Type.statusBars())
                     statusBarSize = inset.top
-                }else{
+                } else {
                     statusBarSize = insets.systemWindowInsetTop
                 }
                 viewModel.saveStatusHeight(statusBarSize)
@@ -98,7 +110,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
             }
 
         })
-
     }
 
     override fun initData(savedInstanceState: Bundle?) {

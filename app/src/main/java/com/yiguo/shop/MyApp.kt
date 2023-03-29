@@ -12,7 +12,6 @@ import module.common.utils.LogUtils
  */
 class MyApp: Application() {
 
-    val database by lazy { AppDatabase.getDatabase(this) }
 
     override fun onCreate() {
         super.onCreate()

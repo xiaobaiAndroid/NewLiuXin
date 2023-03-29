@@ -1,6 +1,7 @@
 package module.dynamic.home.category
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,18 +11,29 @@ import module.common.data.DataResult
 import module.common.data.entity.DynamicCategory
 import module.common.data.request.CliqueCategoryReq
 import module.common.data.respository.dynamic.DynamicRepository
+import module.common.utils.LogUtils
 import module.dynamic.view.category.CategoryMultiItem
 
 /**
  *@author: baizf
  *@date: 2023/3/19
  */
-class DynamicCategoryHomeViewModel: BaseViewModel() {
+class DynamicCategoryHomeViewModel(private val state: SavedStateHandle): BaseViewModel() {
 
 
     val mediaTypeLD: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+        val mutableLiveData = MutableLiveData<String>()
+        val mediaType = state.get<String>("mediaType")
+        LogUtils.printI("SavedStateHandle---mediaType=$mediaType")
+        mutableLiveData.value  = mediaType
+        mutableLiveData
     }
+
+    fun setMediaType(mediaType: String?){
+        LogUtils.printI("SavedStateHandle---mediaType=$mediaType")
+        state["mediaType"] = mediaType
+    }
+
 
     val cityCodeLD: MutableLiveData<String> by lazy {
         MutableLiveData<String>()

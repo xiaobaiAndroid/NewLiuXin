@@ -45,6 +45,8 @@ class DynamicCategoryHomeFragment: BaseFragment<DynamicFragmentDynamicHomeBindin
 
 
         viewModel.mediaTypeLD.value = arguments?.getString("type")
+        viewModel.setMediaType(viewModel.mediaTypeLD.value)
+
         viewModel.cityCodeLD.value = arguments?.getString("cityCode")
         viewModel.getCategoryData(viewModel.mediaTypeLD.value)
     }

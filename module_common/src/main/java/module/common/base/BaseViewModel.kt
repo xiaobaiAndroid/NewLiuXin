@@ -2,9 +2,11 @@ package module.common.base
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import module.common.data.entity.UserInfo
 import module.common.type.LanguageType
+import module.common.utils.LogUtils
 
 open class BaseViewModel : ViewModel() {
 
@@ -16,5 +18,9 @@ open class BaseViewModel : ViewModel() {
         MutableLiveData<UserInfo>()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+       SavedStateHandle
+    }
 
 }
