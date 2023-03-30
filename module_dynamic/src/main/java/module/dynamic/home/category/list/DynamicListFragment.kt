@@ -2,6 +2,7 @@ package module.dynamic.home.category.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import module.common.base.BaseFragment
+import module.common.base.CommonListFragmentBase
+import module.common.base.ShareLazyViewModelBase
 import module.common.data.DataResult
 import module.common.data.entity.Dynamic
 import module.common.event.MessageEvent
@@ -19,12 +22,14 @@ import module.common.utils.DensityUtil
 import module.common.utils.ToastUtils
 import module.common.view.GridSpaceDecoration
 import module.dynamic.databinding.DynamicFramentListBinding
+import module.dynamic.home.CategoryTabHomeShareVModel
+import module.dynamic.home.category.CategoryHomeShareVModel
 
 /**
  *@author: baizf
  *@date: 2023/3/19
  */
-class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListViewModel>() {
+class DynamicListFragment : CommonListFragmentBase<DynamicFramentListBinding, DynamicListViewModel>() {
 
     var typeId: String? = null
     var mediaType: String? = null
@@ -38,26 +43,35 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
         return viewModels<DynamicListViewModel>().value
     }
 
+    override fun createShareViewModel(): ShareLazyViewModelBase? {
+        return activityViewModels<CategoryHomeShareVModel>().value
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): DynamicFramentListBinding {
-        isAlone = true
+        
         return DynamicFramentListBinding.inflate(inflater, container, false)
     }
 
     override fun initData() {
         viewModel.dynamicDataResultLD.observe(this) { dataResult ->
             val list = dataResult.t
+            cancelLoadingAnimation()
+            binding.srl.setEnableRefresh(true)
             if (dataResult.status == DataResult.SUCCESS) {
                 if (viewModel.getCurrentPage() == 1) {
                     if (binding.srl.isRefreshing)
                         binding.srl.finishRefresh()
                     dynamicAdapter.setList(list)
+
+                    if(dynamicAdapter.data.isEmpty()){
+                        dynamicAdapter.setEmptyView(getEmptyView())
+                    }
                 } else {
                     list?.let { dynamicAdapter.addData(it) }
                 }
-
                 list?.let {
                     if (list.size > viewModel.getPageSize()) {
                         dynamicAdapter.loadMoreModule.loadMoreComplete()
@@ -67,21 +81,24 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
                 } ?: dynamicAdapter.loadMoreModule.loadMoreEnd()
                 viewModel.setNextPage()
             } else {
-                ToastUtils.setMessage(requireContext(), dataResult.message)
                 if (viewModel.getCurrentPage() == 1) {
                     if (binding.srl.isRefreshing)
                         binding.srl.finishRefresh()
+                    dynamicAdapter.setEmptyView(getFailView())
                 } else {
                     dynamicAdapter.loadMoreModule.loadMoreFail()
                 }
-
             }
         }
 
-        binding.srl.autoRefresh(10)
+        viewModel.resetCurrentPage()
+        viewModel.getDynamicData(typeId, mediaType, cityCode)
+
     }
 
     override fun initView() {
+        binding.srl.setEnableRefresh(false)
+
         binding.srl.setRefreshHeader(ClassicsHeader(context))
         binding.srl.setOnRefreshListener {
             if (!dynamicAdapter.loadMoreModule.isLoading) {
@@ -106,6 +123,8 @@ class DynamicListFragment : BaseFragment<DynamicFramentListBinding, DynamicListV
         binding.contentRV.addItemDecoration(decoration)
 
         binding.contentRV.adapter = dynamicAdapter
+
+        dynamicAdapter.setEmptyView(getLoadingView())
 
         lifecycleScope.launch(Dispatchers.IO) {
             val pictureSize =

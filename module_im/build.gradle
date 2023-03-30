@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace 'module.im'
-    compileSdk 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdk 22
-        targetSdk 33
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -38,5 +38,16 @@ android {
 
 dependencies {
 
+    implementation project(path: ':module_common')
 
+    implementation libs.xpopup
+    implementation libs.flycoTabLayout
+
+    implementation libs.smartRefreshLayoutCore
+    implementation libs.smartRefreshLayoutHeader
+    implementation libs.smartRefreshLayoutFooter
+
+    implementation libs.roundedimageview
+
+    kapt libs.lifecycleCompiler
 }

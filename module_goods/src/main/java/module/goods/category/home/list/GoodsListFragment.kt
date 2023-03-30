@@ -2,16 +2,19 @@ package module.goods.category.home.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.scwang.smart.refresh.header.ClassicsHeader
 import module.common.base.CommonListFragmentBase
+import module.common.base.ShareLazyViewModelBase
 import module.common.data.DataResult
 import module.common.data.entity.Goods
 import module.common.data.entity.GoodsCategory
 import module.common.utils.ActivityLauncher
 import module.common.utils.ToastUtils
 import module.common.view.LinearSpaceDecoration
+import module.goods.category.home.CategoryHomeShareVModel
 import module.goods.databinding.GoodsFragmentGoodsListBinding
 
 /**
@@ -28,6 +31,10 @@ class GoodsListFragment: CommonListFragmentBase<GoodsFragmentGoodsListBinding, G
 
     override fun createViewModel(): GoodsListVModel {
         return viewModels<GoodsListVModel>().value
+    }
+
+    override fun createShareViewModel(): ShareLazyViewModelBase? {
+        return activityViewModels<CategoryHomeShareVModel>().value
     }
 
     override fun getViewBinding(

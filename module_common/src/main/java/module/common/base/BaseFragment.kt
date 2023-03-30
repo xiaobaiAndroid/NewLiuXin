@@ -6,54 +6,53 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import module.common.data.entity.UserInfo
 import module.common.event.MessageEvent
+import module.common.utils.LogUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-abstract class BaseFragment<T : ViewBinding,V: BaseViewModel> : Fragment() {
-    protected var isViewInitiated = false
-    protected var isVisibleToUser = false
-    protected var isDataInitiated = false
-    protected var isLogin = false
-    protected var mArguments: Bundle? = null
+abstract class BaseFragment<T : ViewBinding, V : BaseViewModel> : Fragment() {
+    private var isLoaded = false
 
     protected lateinit var binding: T
     protected lateinit var viewModel: V
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (!isAlone) {
-            this.isVisibleToUser = isVisibleToUser
-            prepareFetchData()
-        }
-    }
+    protected var shareVModel: ShareLazyViewModelBase? = null
 
-
-    /*是否一个Activity只有一个Fragment,那就不需要延迟加载*/
-    protected var isAlone: Boolean = false
-
+    private var mPagePosition = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = getViewBinding(layoutInflater,container)
+        binding = getViewBinding(layoutInflater, container)
+
+        mPagePosition = requireArguments().getInt("pagePosition", 0)
+
+        shareVModel = createShareViewModel()
         viewModel = createViewModel()
         viewModel.mContext = requireContext().applicationContext
-        mArguments = arguments
+
         if (needEventBus()) {
             EventBus.getDefault().register(this)
         }
         return binding.root
     }
 
+    protected open fun createShareViewModel(): ShareLazyViewModelBase? {
+        return null
+    }
+
+
+
     protected abstract fun createViewModel(): V
 
-    protected abstract fun getViewBinding(inflater: LayoutInflater,
-    container: ViewGroup?): T
+    protected abstract fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): T
 
     /**
      * @describe: 是否需要EventBus
@@ -64,56 +63,73 @@ abstract class BaseFragment<T : ViewBinding,V: BaseViewModel> : Fragment() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
+        LogUtils.printI("lifecycle----start $this")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LogUtils.printI("lifecycle----onStop $this")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.printI("lifecycle----onResume $this")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LogUtils.printI("lifecycle----onPause $this")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            isLogin = savedInstanceState.getBoolean("isLogin")
+        savedInstanceState?.apply {
+            mPagePosition = getInt("mPagePosition")
         }
+        viewModel.getAccountInfo()
 
-        initView()
-        initData()
-//        if (isAlone) {
-//            initView()
-//            initData()
-//        } else {
-//            isViewInitiated = true
-//            prepareFetchData()
-//        }
+        shareVModel?.let {
+            it.positionLD.observe(viewLifecycleOwner) {
+                if (it == mPagePosition) {
+                    if (!isLoaded) {
+                        LogUtils.printI("fragment= ${this.javaClass.name}   currentPosition=$it, mPagePosition=$mPagePosition")
+                        isLoaded = true
+                        initView()
+                        initData()
+                    }
+                }
+            }
+        } ?: kotlin.run {
+            initView()
+            initData()
+        }
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
         if (MessageEvent.Type.UPDATE_USERINFO === event.type) {
-            val userInfo = event.obj as UserInfo
-            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
+            viewModel.getAccountInfo()
         }
         disposeMessageEvent(event)
     }
 
     open fun disposeMessageEvent(event: MessageEvent?) {}
-    @JvmOverloads
-    fun prepareFetchData(forceUpdate: Boolean = false): Boolean {
-        if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {
-            initView()
-            initData()
-            isDataInitiated = true
-            return true
-        }
-        return false
-    }
 
     protected abstract fun initData()
     override fun onDestroyView() {
         if (needEventBus()) {
             EventBus.getDefault().unregister(this)
         }
+        LogUtils.printI("lifecycle----onViewCreated $this")
         super.onDestroyView()
     }
 
     protected abstract fun initView()
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("isLogin", isLogin)
+        outState.putInt("mPagePosition", mPagePosition)
         super.onSaveInstanceState(outState)
     }
 }

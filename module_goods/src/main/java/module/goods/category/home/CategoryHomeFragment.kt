@@ -2,12 +2,18 @@ package module.goods.category.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import module.common.base.BaseFragment
+import module.common.base.ShareLazyViewModelBase
 import module.common.data.entity.GoodsCategory
 import module.common.utils.ARouterHelper
 import module.common.utils.StatusBarUtils
+import module.common.viewmodel.MainTabShareVModel
 import module.goods.R
 import module.goods.databinding.GoodsFragmentCategoryHomeBinding
 
@@ -20,12 +26,18 @@ const val GOODS_CATEGORY_HOME_ID = "0"
 class CategoryHomeFragment: BaseFragment<GoodsFragmentCategoryHomeBinding, CategoryHomeVModel>() {
 
 
+    lateinit var lazyLoadViewModel: CategoryHomeShareVModel
+
     private val fragmentAdapter: CategoryHomeFragmentAdapter by lazy{
         CategoryHomeFragmentAdapter(requireActivity(), mutableListOf())
     }
 
     override fun createViewModel(): CategoryHomeVModel {
         return viewModels<CategoryHomeVModel>().value
+    }
+
+    override fun createShareViewModel(): ShareLazyViewModelBase? {
+        return activityViewModels<MainTabShareVModel>().value
     }
 
     override fun getViewBinding(
@@ -41,9 +53,13 @@ class CategoryHomeFragment: BaseFragment<GoodsFragmentCategoryHomeBinding, Categ
         goodsCategory.id = GOODS_CATEGORY_HOME_ID
         fragmentAdapter.addData(goodsCategory)
         viewModel.getCategories()
+
+
     }
 
     override fun initView() {
+
+        lazyLoadViewModel = activityViewModels<CategoryHomeShareVModel>().value
 
         binding.allCategoryTV.setOnClickListener {
             ARouterHelper.openBottomToTop(activity, ARouterHelper.GOODS_CATEGORIES)
@@ -61,6 +77,16 @@ class CategoryHomeFragment: BaseFragment<GoodsFragmentCategoryHomeBinding, Categ
                 tab.text = fragmentAdapter.list[position].cateName
             }
         tabLayoutMediator.attach()
+
+
+        binding.contentVP.registerOnPageChangeCallback(object: OnPageChangeCallback(){
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                lazyLoadViewModel.positionLD.value = position
+            }
+
+        })
 
         setObserver()
     }

@@ -5,30 +5,30 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import androidx.activity.viewModels
-import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.flyco.tablayout.listener.CustomTabEntity
-import com.flyco.tablayout.listener.OnTabSelectListener
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 import com.yiguo.shop.databinding.ActivityMainBinding
 import lib.share.WxShareBroker
 import module.common.base.BaseActivity
 import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
-import module.common.utils.LogUtils
-import module.common.utils.StatusBarUtils
-import java.util.concurrent.atomic.AtomicReference
+import module.common.viewmodel.MainTabShareVModel
 
 @Route(path = ARouterHelper.MAIN)
-class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     val defaultPosition = 2
 
+    private lateinit var  shareVModel: MainTabShareVModel
+
     override fun createViewModel(): MainViewModel {
+        shareVModel = viewModels<MainTabShareVModel>().value
         return viewModels<MainViewModel>().value
     }
 
-    companion object{
+    companion object {
         val wxShareBroker: WxShareBroker by lazy {
             WxShareBroker.instance
         }
@@ -39,46 +39,79 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
     override fun initView(savedInstanceState: Bundle?) {
 
         val titles = resources.getStringArray(R.array.main_app_home)
-        val arr = arrayListOf<CustomTabEntity>(MainEntity(R.drawable.ic_home_tab_im_select, R.drawable.ic_home_tab_im_select, titles.get(0))
-            ,MainEntity(R.drawable.ic_home_tab_clique, R.drawable.ic_home_tab_clique_select, titles[1])
-            ,MainEntity(R.drawable.ic_home_tab_goods, R.drawable.ic_home_tab_goods_select, titles[2])
-            ,MainEntity(R.drawable.ic_home_tab_nearby, R.drawable.ic_home_tab_nearby_select, titles[3])
-            ,MainEntity(R.drawable.ic_home_tab_my, R.drawable.ic_home_tab_my_select, titles[4])
+
+        val arr = arrayListOf<MainEntity>(
+            MainEntity(
+                R.drawable.ic_home_tab_im_select,
+                R.drawable.ic_home_tab_im_select,
+                titles.get(0)
+            ),
+            MainEntity(
+                R.drawable.ic_home_tab_clique,
+                R.drawable.ic_home_tab_clique_select,
+                titles[1]
+            ),
+            MainEntity(
+                R.drawable.ic_home_tab_goods,
+                R.drawable.ic_home_tab_goods_select,
+                titles[2]
+            ),
+            MainEntity(
+                R.drawable.ic_home_tab_nearby,
+                R.drawable.ic_home_tab_nearby_select,
+                titles[3]
+            ),
+            MainEntity(R.drawable.ic_home_tab_my, R.drawable.ic_home_tab_my_select, titles[4])
         )
-        binding.ctl.setTabData(arr)
 
 
-        binding.ctl.setOnTabSelectListener(object: OnTabSelectListener {
+        val mainAdapter = MainAdapter(this, titles.size)
 
-            var lastPosition = defaultPosition
 
-            override fun onTabSelect(position: Int) {
-                if(isLogin){
-                    binding.viewPager.setCurrentItem(position,false)
-                    lastPosition = position
-                }else{
-                    if (position==0 || position==4){
-                        binding.ctl.currentTab = lastPosition
+        binding.viewPager.isUserInputEnabled = false
+        binding.viewPager.adapter = mainAdapter
+        binding.viewPager.offscreenPageLimit = titles.size
+        binding.viewPager.setCurrentItem(defaultPosition,false)
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager, false, false) { tab, position ->
+            tab.customView = MainTabView(this, arr[position])
+            if(position == defaultPosition){
+                val mainTabView = tab.customView as MainTabView
+                shareVModel.positionLD.value = position
+                mainTabView.setTabSelectedStatus(true)
+            }
+        }.attach()
+
+
+
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val mainTabView = tab!!.customView as MainTabView
+                if (viewModel.isLogin()) {
+                    shareVModel.positionLD.value = tab!!.position
+                    mainTabView.setTabSelectedStatus(true)
+                } else {
+                    if (tab!!.position == 0 || tab.position == 4) {
                         ARouterHelper.openBottomToTop(this@MainActivity, ARouterHelper.LOGIN_PSW)
-                    }else{
-                        binding.viewPager.setCurrentItem(position,false)
-                        lastPosition = position
+                    } else {
+                        shareVModel.positionLD.value = tab!!.position
+                        mainTabView.setTabSelectedStatus(true)
                     }
 
                 }
             }
 
-            override fun onTabReselect(position: Int) {
-                LogUtils.printI("onTabReselect---position="+position)
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                val mainTabView = tab!!.customView as MainTabView
+                mainTabView.setTabSelectedStatus(false)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
             }
 
         })
-
-        binding.viewPager.adapter = MainAdapter(supportFragmentManager, titles.size)
-        binding.viewPager.offscreenPageLimit= titles.size
-
-        binding.ctl.currentTab = defaultPosition
-        binding.viewPager.setCurrentItem(defaultPosition,false)
 
         getStatusBarHeight()
 
@@ -119,9 +152,8 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
     override fun disposeMessageEvent(event: MessageEvent?) {
         super.disposeMessageEvent(event)
-        if(event?.type == MessageEvent.Type.MAIN_GOODS_PAGE){
-            binding.ctl.currentTab = defaultPosition
-            binding.viewPager.setCurrentItem(defaultPosition,false)
+        if (event?.type == MessageEvent.Type.MAIN_GOODS_PAGE) {
+            binding.viewPager.setCurrentItem(defaultPosition, false)
         }
     }
 

@@ -81,7 +81,6 @@ class LabelAddressSelectFragment :
         inflater: LayoutInflater,
         container: ViewGroup?
     ): ImgFragmentLabelSelectBinding {
-        isAlone = true
         return ImgFragmentLabelSelectBinding.inflate(inflater, container, false)
     }
 

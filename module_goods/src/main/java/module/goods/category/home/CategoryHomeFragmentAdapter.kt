@@ -20,7 +20,7 @@ class CategoryHomeFragmentAdapter(fragmentActivity: FragmentActivity, val list: 
         val fragment = GoodsListFragment()
         val bundle = Bundle()
         bundle.putParcelable("category", list[position])
-
+        bundle.putInt("pagePosition",position)
         fragment.arguments = bundle
 
         return fragment

@@ -27,6 +27,7 @@ class DynamicTabHomeAdapter(activity: FragmentActivity, private val cityCode: St
             bundle.putString("type", MediaType.MULTI_CONTENT)
         }
         bundle.putString("cityCode", cityCode)
+        bundle.putInt("pagePosition",position)
         homeFragment.arguments = bundle
         return homeFragment
     }

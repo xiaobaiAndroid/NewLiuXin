@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yiguo.base.activity.MainActivity">
+    tools:context=".MainActivity">
 
-    <module.common.view.NoScrollViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lineV"
         />
 
     <View
+        android:id="@+id/lineV"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/cl_cccccc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout"
         />
 
 
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/ctl"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        app:tl_textsize="@dimen/sp_13"
-        app:tl_textSelectColor="@color/cl_13b5b1"
-        app:tl_textUnselectColor="@color/cl_313131"
-        app:tl_iconGravity="TOP"
-        app:tl_indicator_height="0dp"
-        app:tl_tab_space_equal="true"
-        android:background="@color/cl_ffffff"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorFullWidth="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
+
         />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

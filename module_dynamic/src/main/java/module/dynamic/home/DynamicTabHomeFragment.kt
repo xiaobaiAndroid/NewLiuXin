@@ -5,16 +5,18 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import module.common.base.BaseFragment
+import module.common.base.ShareLazyViewModelBase
 import module.common.event.MessageEvent
 import module.common.utils.ARouterHelper
 import module.common.utils.ActivityLauncher
 import module.common.utils.StatusBarUtils
-import module.dynamic.R
+import module.common.viewmodel.MainTabShareVModel
 import module.dynamic.databinding.DynamicFramentTabHomeBinding
 import module.dynamic.search.DynamicSearchActivity
-import org.greenrobot.eventbus.EventBus
 
 /**
  *@author: baizf
@@ -27,7 +29,7 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
 
     var fragmentAdapter: DynamicTabHomeAdapter? = null
 
-
+    lateinit var lazyLoadViewModel: ShareLazyViewModelBase
     override fun createViewModel(): DynamicTabHomeViewModel {
         return viewModels<DynamicTabHomeViewModel>().value
     }
@@ -39,11 +41,15 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         }
     }
 
+    override fun createShareViewModel(): ShareLazyViewModelBase? {
+        return activityViewModels<MainTabShareVModel>().value
+    }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): DynamicFramentTabHomeBinding {
-        isAlone = true
+
         return DynamicFramentTabHomeBinding.inflate(inflater,container,false)
     }
 
@@ -51,15 +57,17 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
 
     override fun initData() {
 
-
     }
 
     override fun initView() {
+
+        lazyLoadViewModel = activityViewModels<CategoryTabHomeShareVModel>().value
+
         binding.categoryVP.isUserInputEnabled = false
 
         binding.inVideoTV.typeface = Typeface.DEFAULT_BOLD
 
-        StatusBarUtils.setMarginStatusBarHeight(activity,binding.actionBarCL)
+//        StatusBarUtils.setMarginStatusBarHeight(activity,binding.actionBarCL)
 
         binding.inVideoTV.setOnClickListener {
             binding.inVideoTV.typeface = Typeface.DEFAULT_BOLD
@@ -73,9 +81,6 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         }
 
 
-        val function: (View) -> Unit = {
-            ARouterHelper.openBottomToTop(activity, ARouterHelper.PUBLISH_HOME)
-        }
         binding.cameraIV.setOnClickListener{
             ARouterHelper.openPath(requireActivity(),ARouterHelper.PUBLISH_ENTRANCE)
         }
@@ -90,6 +95,14 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
         fragmentAdapter = DynamicTabHomeAdapter(requireActivity(),viewModel.cityCodeLD.value)
         binding.categoryVP.adapter = fragmentAdapter
         binding.categoryVP.isSaveEnabled = false
+
+        binding.categoryVP.registerOnPageChangeCallback(object: OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                lazyLoadViewModel.positionLD.value = position
+            }
+        })
+
     }
 
 

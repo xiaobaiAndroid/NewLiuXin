@@ -54,13 +54,7 @@ dependencies {
     implementation libs.roundedimageview
 
     implementation libs.banner
-    implementation project(path: ':audioplayer_lib')
-    implementation project(path: ':share_lib')
-    implementation project(path: ':module_comment')
-    implementation project(path: ':module_gift')
-    implementation project(path: ':svga_lib')
-    implementation project(path: ':videoplayer_lib')
-    implementation project(path: ':flowlayout_lib')
+
 
     kapt libs.lifecycleCompiler
 

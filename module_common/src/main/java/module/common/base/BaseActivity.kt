@@ -5,19 +5,14 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewbinding.ViewBinding
-import module.common.data.entity.UserInfo
 import module.common.event.MessageEvent
 import module.common.utils.ImmersionBarUtils
-import module.common.utils.LogUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivity() {
-    protected var isLogin = false
 
-    /*Activity是否初始化*/
-    private var activityInit = false
     protected lateinit var  binding: T
     protected lateinit var viewModel: V
 
@@ -33,28 +28,14 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
         if (needEventBus()) {
             EventBus.getDefault().register(this)
         }
+
+        viewModel.getAccountInfo()
         initData(savedInstanceState)
     }
 
     abstract fun createViewModel(): V
 
     abstract fun getBindingView(): T
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (!activityInit) {
-            activityInit = true
-            activityStartVisible()
-        }
-    }
-
-    /**
-     * @describe: Activity是完全对用户可见的(只是可见，还一片黑呼呼的，有待draw..)
-     * @date: 2020/2/7
-     */
-    protected fun activityStartVisible() {
-        LogUtils.printI("activityStartVisible-----")
-    }
 
 
     protected open fun initStatusBar() {
@@ -79,8 +60,7 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
         if (MessageEvent.Type.UPDATE_USERINFO === event.type) {
-            val userInfo = event.obj as UserInfo
-//            isLogin = userInfo.isLogin != UserInfo.LoginStatus.LOGOUT
+            viewModel.getAccountInfo()
         } else if (MessageEvent.Type.EXIT_APP === event.type) {
             finish()
         }
@@ -111,19 +91,6 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
 
     protected abstract fun initView(savedInstanceState: Bundle?)
     protected abstract fun initData(savedInstanceState: Bundle?)
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("isLogin", isLogin)
-        outState.putBoolean("activityInit", activityInit)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState != null) {
-            isLogin = savedInstanceState.getBoolean("isLogin")
-            activityInit = savedInstanceState.getBoolean("activityInit")
-        }
-    }
 
     companion object {
         init {

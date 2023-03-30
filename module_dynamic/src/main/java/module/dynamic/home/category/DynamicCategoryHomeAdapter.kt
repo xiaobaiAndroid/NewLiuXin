@@ -24,7 +24,7 @@ class DynamicCategoryHomeAdapter(activity: FragmentActivity, private val list: M
         bundle.putString("typeId", list[position].cliqueCategory.id)
         bundle.putString("mediaType", mediaType)
         bundle.putString("cityCode", cityCode)
-
+        bundle.putInt("pagePosition",position)
         homeFragment.arguments = bundle
         return homeFragment
     }
