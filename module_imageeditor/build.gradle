@@ -74,4 +74,8 @@ dependencies {
     //https://github.com/vinc3m1/RoundedImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
+
 }

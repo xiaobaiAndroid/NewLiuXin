@@ -35,7 +35,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField("boolean", "isOpenLog", "false")
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField("boolean", "isOpenLog", "true")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -132,5 +137,9 @@ dependencies {
 //    // For App Authentication API testing
 //    androidTestImplementation "androidx.security:security-app-authenticator:1.0.0-alpha02"
 
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 
 }

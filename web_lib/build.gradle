@@ -42,4 +42,7 @@ dependencies {
 //https://x5.tencent.com/docs/access.html
     api 'com.tencent.tbs:tbssdk:44286'
 
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

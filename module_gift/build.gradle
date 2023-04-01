@@ -41,4 +41,8 @@ dependencies {
     implementation project(path: ':module_common')
 
     kapt libs.lifecycleCompiler
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

@@ -77,4 +77,8 @@ dependencies {
 //    https://github.com/google/oboe/blob/main/docs/GettingStarted.md
     implementation 'com.google.oboe:oboe:1.7.0'
 
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
+
 }

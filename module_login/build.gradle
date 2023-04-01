@@ -72,4 +72,8 @@ dependencies {
 
     implementation libs.arouter
     kapt libs.arouterCompiler
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

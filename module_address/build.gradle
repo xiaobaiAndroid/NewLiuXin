@@ -49,4 +49,8 @@ dependencies {
     implementation project(path: ':module_map')
 
 
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
+
 }

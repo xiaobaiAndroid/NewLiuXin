@@ -62,4 +62,8 @@ dependencies {
     implementation libs.glide
     annotationProcessor libs.glideCompiler
 
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

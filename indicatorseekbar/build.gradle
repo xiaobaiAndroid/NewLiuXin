@@ -18,6 +18,10 @@ android {
 
 dependencies {
     implementation libs.appcompat
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }
 
 

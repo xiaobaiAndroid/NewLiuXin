@@ -55,4 +55,5 @@ dependencies {
         exclude group: 'com.tencent.qcloud', module: 'beacon-android-release'
     }
 
+
 }

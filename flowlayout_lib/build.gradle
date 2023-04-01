@@ -35,4 +35,8 @@ dependencies {
     implementation libs.appcompat
     implementation libs.coreKtx
     implementation libs.material
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

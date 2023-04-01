@@ -56,4 +56,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.+'
 
     kapt libs.lifecycleCompiler
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

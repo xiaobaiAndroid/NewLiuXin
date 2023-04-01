@@ -1,10 +1,11 @@
 package module.common.utils
 
 import android.util.Log
+import module.common.BuildConfig
 
 object LogUtils {
     /*是否打印日志*/
-    var isIsOpen = true
+    var isIsOpen = BuildConfig.isOpenLog
         private set
 
     private const val TAG = "LogUtils"

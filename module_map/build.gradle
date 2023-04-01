@@ -71,4 +71,8 @@ dependencies {
 
     implementation libs.fragmentKtx
     implementation libs.activityKtx
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
 }

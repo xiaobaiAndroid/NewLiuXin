@@ -63,5 +63,9 @@ dependencies {
     implementation project(path: ':flowlayout_lib')
 
     kapt libs.lifecycleCompiler
+
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
     
 }

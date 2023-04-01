@@ -58,4 +58,8 @@ dependencies {
 
     kapt libs.lifecycleCompiler
 
+    testImplementation libs.testextjunit
+    androidTestImplementation libs.testextjunit
+    androidTestImplementation libs.espressoCore
+
 }
