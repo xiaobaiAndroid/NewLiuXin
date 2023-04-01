@@ -4,17 +4,16 @@ import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
-import android.view.View.*
+import android.view.View.OnLayoutChangeListener
+import androidx.appcompat.app.AppCompatActivity
 import com.yiguo.shop.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_HIDE_NAVIGATION
+
         val binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -32,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
             ) {
                 binding.nameLogoIV.removeOnLayoutChangeListener(this)
                 val objectAnimator = ObjectAnimator.ofFloat(binding.nameLogoIV, "alpha", 0.0f, 1.0f)
-                objectAnimator.duration = 1500
+                objectAnimator.duration = 500
                 objectAnimator.repeatCount = 0
                 objectAnimator.addListener(object: AnimatorListener{
                     override fun onAnimationStart(animation: Animator) {

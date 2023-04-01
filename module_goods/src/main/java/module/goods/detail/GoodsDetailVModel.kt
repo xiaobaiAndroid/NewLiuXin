@@ -61,9 +61,10 @@ class GoodsDetailVModel: BaseViewModel() {
             }
         }
         withContext(Dispatchers.Main){
-            goodsLD.value = dataResult.t
-            goodsDetailLD.value = detailImageList
             bannersLD.value = bannerList
+            goodsDetailLD.value = detailImageList
+            goodsLD.value = dataResult.t
+
 
             getShopInfo(dataResult.t?.storeId)
         }

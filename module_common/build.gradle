@@ -118,4 +118,19 @@ dependencies {
 
     api libs.pickerview
 
+    implementation libs.sqlcipher
+    implementation libs.sqlite
+
+
+//    安全地管理密钥并对文件和 sharedpreferences 进行加密。
+//    https://developer.android.com/jetpack/androidx/releases/security?hl=zh-cn#version_110_2
+//    implementation "androidx.security:security-crypto:1.1.0-alpha05"
+//    // For Identity Credential APIs
+//    implementation "androidx.security:security-identity-credential:1.0.0-alpha03"
+//    // For App Authentication APIs
+//    implementation "androidx.security:security-app-authenticator:1.0.0-alpha02"
+//    // For App Authentication API testing
+//    androidTestImplementation "androidx.security:security-app-authenticator:1.0.0-alpha02"
+
+
 }

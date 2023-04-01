@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tencent.bugly.crashreport.CrashReport
 import com.yiguo.shop.databinding.ActivityMainBinding
 import lib.share.WxShareBroker
 import module.common.base.BaseActivity
@@ -147,7 +148,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         wxShareBroker.init(this)
-
     }
 
     override fun disposeMessageEvent(event: MessageEvent?) {

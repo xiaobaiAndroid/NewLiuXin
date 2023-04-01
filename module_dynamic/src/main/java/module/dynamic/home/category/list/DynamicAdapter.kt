@@ -9,6 +9,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 import module.common.data.entity.Dynamic
 import module.common.utils.DateUtils
 import module.common.utils.ImageLoadHelper
+import module.common.utils.LogUtils
 import module.common.utils.StringUtils
 import module.dynamic.R
 import java.util.*
@@ -44,6 +45,8 @@ class DynamicAdapter(data: MutableList<DynamicMultiEntity>?) :
             DynamicMultiEntity.SINGLE_TWO_IMAGE_TXT -> setTwoPictureData(helper, item)
             DynamicMultiEntity.SINGLE_MORE_IMAGE_TXT -> setMorePictureData(helper, item)
         }
+
+
     }
 
     private fun setTwoRowImgTxtData(

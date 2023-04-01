@@ -60,7 +60,6 @@ class GoodsListFragment: CommonListFragmentBase<GoodsFragmentGoodsListBinding, G
         goodsAdapter.setEmptyView(getLoadingView())
         indexHeaderView = context?.let { IndexHeaderView(it,viewLifecycleOwner) }
 
-        indexHeaderView?.let { goodsAdapter.addHeaderView(it) }
 
         val linearSpaceDecoration = LinearSpaceDecoration(goodsAdapter, resources.getDimension(module.common.R.dimen.dp_12).toInt())
         binding.contentRV.addItemDecoration(linearSpaceDecoration)

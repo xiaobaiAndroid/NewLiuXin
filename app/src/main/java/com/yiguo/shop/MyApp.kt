@@ -3,8 +3,12 @@ package com.yiguo.shop
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
-import module.common.data.db.AppDatabase
+import com.tencent.bugly.crashreport.CrashReport
+import com.tencent.bugly.crashreport.CrashReport.UserStrategy
+import module.common.utils.DeviceUtils
 import module.common.utils.LogUtils
+import java.util.*
+
 
 /**
  *@author: baizf
@@ -21,7 +25,12 @@ class MyApp: Application() {
     private fun init() {
         initIM()
 
-//        BuglyUtils.init(this)
+
+//        DoKit.Builder(this)
+//            .productId("559111ec6e3a19c543fa91a4011e6330")
+//            .build()
+
+        initBugly()
 
 //        OkGoHelper.getInstance().init(this)
 //        LitePal.initialize(this)
@@ -32,6 +41,22 @@ class MyApp: Application() {
         // 尽可能早,推荐在Application中初始化
         ARouter.init(this)
 //        EmojiHelper.init(this)
+    }
+
+    private fun initBugly() {
+        val strategy = UserStrategy(applicationContext)
+
+
+
+        // 通过UserStrategy设置
+//        strategy.deviceID = UUID.randomUUID().toString()
+        strategy.deviceModel = DeviceUtils.getDeviceModel()
+
+
+        //请务必确保您已经将Bugly SDK升级到满足监管新规的最新版本
+        //请务必在用户授权《隐私政策》后再初始化Bugly SDK
+        CrashReport.initCrashReport(applicationContext, "36dec04860", false,strategy)
+        //        CrashReport.setIsDevelopmentDevice(applicationContext, true)
     }
 
     override fun attachBaseContext(base: Context?) {

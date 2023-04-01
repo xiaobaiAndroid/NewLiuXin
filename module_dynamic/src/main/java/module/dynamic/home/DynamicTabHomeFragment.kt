@@ -62,7 +62,6 @@ class DynamicTabHomeFragment: BaseFragment<DynamicFramentTabHomeBinding, Dynamic
     override fun initView() {
 
         lazyLoadViewModel = activityViewModels<CategoryTabHomeShareVModel>().value
-
         binding.categoryVP.isUserInputEnabled = false
 
         binding.inVideoTV.typeface = Typeface.DEFAULT_BOLD

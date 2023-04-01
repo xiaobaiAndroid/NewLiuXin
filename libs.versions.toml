@@ -89,4 +89,8 @@ banner ='io.github.youth5201314:banner:2.2.2'
 #https://github.com/LuckyCodeer/Android-PickerView
 pickerview = 'com.github.LuckyCodeer.Android-PickerView:pickerview:4.2.5'
 
+#https://github.com/sqlcipher/android-database-sqlcipher
+sqlcipher = "net.zetetic:android-database-sqlcipher:4.5.3"
+sqlite = "androidx.sqlite:sqlite:2.3.1"
+
 [plugins]
