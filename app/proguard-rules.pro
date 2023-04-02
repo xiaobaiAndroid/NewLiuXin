@@ -23,7 +23,61 @@
 
 # 启用某种优化级别
 -optimizationpasses 5
--optimizations !code/simplification/cast,!field/*,!class/merging/*
+
+#混淆时采用的算法
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+
+# Parcelable
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+# Serializable
+-keepnames class * implements java.io.Serializable
+-keepclassmembers class * implements java.io.Serializable {
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+# 保留R下面的资源
+-keep class **.R$* {*;}
+
+
+# 保留枚举类不被混淆
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# 保留本地native方法不被混淆
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
+# 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
+-keepclassmembers class * {
+    void *(**On*Event);
+    void *(**On*Listener);
+}
+
+
+# androidx 混淆
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+-printconfiguration
+-keep,allowobfuscation @interface androidx.annotation.Keep
+
+-keep @androidx.annotation.Keep class *
+-keepclassmembers class * {
+    @androidx.annotation.Keep *;
+}
+
 
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
@@ -71,7 +125,6 @@
 }
 
 
-
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep public class com.alibaba.android.arouter.facade.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
@@ -87,4 +140,30 @@
 #保留泛型
 -keepattributes Signature
 
+
+# glide 的混淆代码
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+# banner 的混淆代码
+-keep class com.youth.banner.** {
+    *;
+ }
+
+
+# 微信
+ -keep class com.tencent.mm.opensdk.** {*;}
+ -keep class com.tencent.wxop.** { *;}
+ -keep class com.tencent.mm.sdk.** { *; }
+
+
 -keep class module.common.data.api.BaseResp$MessageStatus { *; }
+-keep class module.common.utils.GsonConvert { *; }
+-keep class module.common.utils.GsonUtils { *; }
+-keep class module.common.data.request.**{*;}
+-keep class module.common.data.api.**{*;}
+-keep class module.common.data.entity.**{*;}
+-keep class module.common.data.response.**{*;}
+

@@ -130,10 +130,8 @@ class LoginCodeActivity : BaseActivity<LoginActivityLoginCodeBinding, LoginCodeV
                 withContext(Dispatchers.Main){
                     hideLoadingUI()
                     if(dataResult.status == DataResult.SUCCESS){
-                        val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
-                        messageEvent.obj = dataResult.t
+                        val messageEvent = MessageEvent(MessageEvent.Type.LOGIN_SUCCESS)
                         EventBus.getDefault().post(messageEvent)
-
                         ARouterHelper.openPath(this@LoginCodeActivity, ARouterHelper.MAIN)
                         onBackPressed()
                     }else{
@@ -208,8 +206,11 @@ class LoginCodeActivity : BaseActivity<LoginActivityLoginCodeBinding, LoginCodeV
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         KeyBoardUtils.closeKeybord(binding.codeET,this)
+        val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
+        EventBus.getDefault().post(messageEvent)
+        super.onBackPressed()
+
     }
 
 

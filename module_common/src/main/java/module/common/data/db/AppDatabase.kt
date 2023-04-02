@@ -20,7 +20,7 @@ import javax.crypto.SecretKey
 
 @Database(
     version = 1,
-    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class, DynamicCategoryTable::class, DynamicSearchHistoryTable::class],
+    entities = [VideoTable::class, ConfigTable::class, UserInfoTable::class, MusicTable::class, DynamicCategoryTable::class, DynamicSearchHistoryTable::class, GoodsSearchHistoryTable::class],
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -33,6 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun musicDao(): MusicDao
     abstract fun dynamicCategoryDao(): DynamicCategoryDao
     abstract fun dynamicSearchHistoryDao(): DynamicSearchHistoryDao
+    abstract fun goodsSearchHistoryDao(): GoodsSearchHistoryDao
 
 
     companion object {

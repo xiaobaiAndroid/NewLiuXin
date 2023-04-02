@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/cl_ffffff"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filtrateRV"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/resetTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/resetTV"
+        style="@style/tv_14_313131"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/goods_bg_reset"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/goods_reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/confirmTV"
+        />
+
+    <TextView
+        android:id="@+id/confirmTV"
+        style="@style/tv_14_ffffff"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/goods_bg_filtrate_confirm"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/goods_confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@id/resetTV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/resetTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -3,12 +3,44 @@
 
     <application>
         <activity
-            android:name=".detail.GoodsDetailActivity"
-            android:exported="false"
+            android:name=".search.result.SearchResultActivity"
             android:configChanges="orientation|screenSize|locale|keyboardHidden"
-            android:screenOrientation="portrait"
-            >
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="goods.search.result.SearchResultActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.yiguo.shop"
+                    android:path="/SearchResultActivity"
+                    android:port="8888"
+                    android:scheme="liuxin" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".search.GoodsSearchActivity"
+            android:configChanges="orientation|screenSize|locale|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="goods.search.GoodsSearchActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.yiguo.shop"
+                    android:path="/GoodsSearchActivity"
+                    android:port="8888"
+                    android:scheme="liuxin" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".detail.GoodsDetailActivity"
+            android:configChanges="orientation|screenSize|locale|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="goods.detail.GoodsDetailActivity" />
 
@@ -19,10 +51,8 @@
                     android:path="/GoodsDetailActivity"
                     android:port="8888"
                     android:scheme="liuxin" />
-
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

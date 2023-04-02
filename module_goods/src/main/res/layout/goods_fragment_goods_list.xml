@@ -9,6 +9,7 @@
         android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
         app:srlEnableAutoLoadMore="false"
         app:srlEnableOverScrollBounce="false"
         app:srlEnableOverScrollDrag="false">

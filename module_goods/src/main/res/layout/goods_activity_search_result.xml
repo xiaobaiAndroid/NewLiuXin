@@ -44,13 +44,14 @@
 
     <ImageView
         android:id="@+id/clearIV"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         android:src="@drawable/ic_clear"
         app:layout_constraintRight_toRightOf="@id/searchET"
         app:layout_constraintTop_toTopOf="@id/searchET"
         app:layout_constraintBottom_toBottomOf="@id/searchET"
         android:clickable="true"
+        android:layout_marginEnd="@dimen/dp_10"
         app:layout_constraintHorizontal_weight="1"
         android:visibility="gone"
         />
@@ -173,6 +174,16 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/lineV"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabCL"
+        android:background="@color/cl_f1f1f1"
+        />
+
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/smartRefreshLayout"
@@ -180,7 +191,7 @@
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabCL"
+        app:layout_constraintTop_toBottomOf="@id/lineV"
         app:layout_constraintBottom_toBottomOf="parent"
         app:srlEnableOverScrollDrag="false"
         app:srlEnableOverScrollBounce="false"

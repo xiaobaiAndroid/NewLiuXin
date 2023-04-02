@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/contentTV"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/tv_14_707070"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/goods_ic_history"
+        android:drawablePadding="@dimen/dp_12"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_marginRight="@dimen/dp_30"
+        android:layout_marginLeft="@dimen/dp_12"
+        />
+
+    <ImageView
+        android:id="@+id/deleteIV"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="@id/contentTV"
+        app:layout_constraintBottom_toBottomOf="@id/contentTV"
+        app:layout_constraintRight_toRightOf="@id/contentTV"
+        android:layout_marginRight="@dimen/dp_12"
+        android:src="@drawable/goods_ic_delete"
+        android:clickable="true"
+        android:padding="@dimen/dp_4"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

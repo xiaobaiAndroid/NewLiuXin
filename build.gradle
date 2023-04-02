@@ -2,8 +2,7 @@
 
 buildscript {
     dependencies {
-        //https://github.com/Leon406/AndResGuard
-        classpath 'io.github.leon406:AndResGuard-gradle-plugin:1.2.23'
+
     }
 }
 

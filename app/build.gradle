@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
 }
-apply plugin: 'AndResGuard'
 
 android {
 
@@ -26,6 +25,14 @@ android {
             // 设置支持的SO库架构
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     kapt {
@@ -51,8 +58,8 @@ android {
         release {
             buildConfigField("boolean", "isOpenLog", "false")
             signingConfig signingConfigs.release
-            //启用R8资源混淆和
-            shrinkResources true
+
+//            shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -60,8 +67,8 @@ android {
         debug {
             buildConfigField("boolean", "isOpenLog", "true")
             signingConfig signingConfigs.release
-            shrinkResources true
-            minifyEnabled true
+//            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -111,54 +118,3 @@ dependencies {
 
 }
 
-
-andResGuard {
-    // mappingFile = file("./resource_mapping.txt")
-    mappingFile = null
-//    对于发布于Google Play的APP，建议不要使用7Zip压缩，因为这个会导致Google Play的优化Patch算法失效
-    //当时在使用7zip压缩的APK时，调用AssetManager#list(String path)返回结果的首个元素为空字符串
-    use7zip = false
-    useSign = true
-    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
-    keepRoot = false
-    // 设置这个值，会把arsc name列混淆成相同的名字，减少string常量池的大小
-    fixedResName = "arg"
-    // 打开这个开关会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源
-    mergeDuplicatedRes = true
-    whiteList = [
-            // for your icon
-            "R.drawable.icon",
-            // for fabric
-            "R.string.com.crashlytics.*",
-            // for google-services
-            "R.string.google_app_id",
-            "R.string.gcm_defaultSenderId",
-            "R.string.default_web_client_id",
-            "R.string.ga_trackingId",
-            "R.string.firebase_database_url",
-            "R.string.google_api_key",
-            "R.string.google_crash_reporting_api_key",
-            "R.id.constraint*",
-            "R.font.*"
-    ]
-    compressFilePattern = [
-            "*.png",
-            "*.jpg",
-            "*.jpeg",
-            "*.gif",
-    ]
-    sevenzip {
-//        path = "/Users/bzf/Downloads/7z2107-mac/7zz"
-    }
-
-    /**
-     * 可选： 如果不设置则会默认覆盖assemble输出的apk
-     **/
-    // finalApkBackupPath = "${project.rootDir}/final.apk"
-
-    /**
-     * 可选: 指定v1签名时生成jar文件的摘要算法
-     * 默认值为“SHA-1”
-     **/
-    // digestalg = "SHA-256"
-}

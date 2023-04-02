@@ -39,7 +39,9 @@ class MessageEvent(var type: Type) {
        SEND_COMMENT,
        RESET_SELECT_GIFT,
        SHOW_GIFT_NUMBER_POPUP,
-       UPDATE_DYNAMIC_DATA
+       UPDATE_DYNAMIC_DATA,
+       LOGIN_SUCCESS,
+       SELCTC_BRANDS
    }
 
 }

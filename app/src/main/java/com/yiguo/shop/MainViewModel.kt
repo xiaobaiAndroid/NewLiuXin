@@ -14,9 +14,10 @@ import module.common.utils.SPHelper
  */
 class MainViewModel(): BaseViewModel() {
     fun saveStatusHeight(statusHeight: Int)  = viewModelScope.launch(Dispatchers.IO){
-        if(!SPHelper.contains(mContext,SPHelper.STATUS_HEIGHT)){
-            SPHelper.put(mContext,SPHelper.STATUS_HEIGHT, statusHeight)
+        if(SPHelper.contains(mContext,SPHelper.STATUS_HEIGHT)){
+            SPHelper.remove(mContext,SPHelper.STATUS_HEIGHT)
         }
+        SPHelper.put(mContext,SPHelper.STATUS_HEIGHT, statusHeight)
     }
 
 

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resproguard>
+  <!--defaut property to set  -->
+  <issue id="property">
+    <!--whether use 7zip to repackage the signed apk, you must install the 7z command line version in window -->
+    <!--sudo apt-get install p7zip-full in linux -->
+    <!--and you must write the sign data fist, and i found that if we use linux, we can get a better result -->
+    <seventzip value="false"/>
+    <!--the sign data file name in your apk, default must be META-INF-->
+    <!--generally, you do not need to change it if you dont change the meta file name in your apk-->
+    <metaname value="META-INF"/>
+<!-- keeproot, 是否将res/drawable混淆成r/s-->
+    <keeproot value="false"/>
+	<!--filter duplicate resource files-->
+	<mergeDuplicatedRes value="true"/>
+  </issue>
+
+<!--Whitelist主要是用来设置白名单，由于我们代码中某些资源会通过getIdentifier(需要全局搜索所有用法并添加到白名单)或动态加载等方式，我们并不希望混淆这部分的资源ID：
+  isactive, 是否打开白名单功能；
+  path, 是白名单的项，格式为package_name.R.type.specname,由于一个resources.arsc中可能会有多个包，所以这里要求写全包名。同时支持*，？通配符，例如: com.tencent.mm.R.drawable.emoji_*、com.tencent.mm.R.drawable.emoji_？；
+注意:1.不能写成com.tencent.mm.R.drawable.emoji.png，即带文件后缀名；2. 通配符代表.+,即a,不能匹配到a；-->
+  <issue id="whitelist" isactive="true">
+    <!--you must write the full package name, such as com.tencent.mm.R -->
+    <!--for some reason, we should keep our icon better-->
+    <!--and it support *, ?, such as com.tencent.mm.R.drawable.emoji_*, com.tencent.mm.R.drawable.emoji_?-->
+    <path value="com.yiguo.shop.R.drawable.ic_logo"/>
+    <path value="com.yiguo.shop.R.id.constraint*"/>
+    <path value="com.yiguo.shop.R.font.*"/>
+  </issue>
+
+  <!--keepmapping, sometimes if we need to support incremental upgrade, we should keep the old mapping-->
+  <!--isactive, whether to use keepmapping, you can set false to close it simply-->
+  <!--if you use -mapping to set keepmapping property in cammand line, these setting will be overlayed-->
+  <issue id="keepmapping" isactive="false">
+    <!--the old mapping path, in window use \, in linux use /, and the default path is the running location-->
+    <path value="{your_mapping_path}"/>
+  </issue>
+
+
+<!--  < !——compress，如果要压缩文件，文件名是相对路径，例如resources。arsc res / drawable-hdpi / welcome.png——>
+< !你能压缩什么?一般来说，如果你的资源。Arsc小于1m时，可以压缩。我认为压缩。png。jpg就可以了，>
+< !——isactive，是否使用compress，可以设置false关闭它——>-->
+  <issue id="compress" isactive="false">
+    <!--you must use / separation, and it support *, ?, such as *.png, *.jpg, res/drawable-hdpi/welcome_?.png-->
+    <path value="*.png"/>
+    <path value="*.jpg"/>
+    <path value="*.jpeg"/>
+    <path value="*.gif"/>
+    <path value="resources.arsc"/>
+  </issue>
+
+  <!-- ——sign，如果你想对apk签名，如果你想使用7zip，你必须填写以下数据 -->
+  <!-- isactive，是否使用sign，可以设置false来关闭它 -->
+  <!-- 如果在命令行中使用-signature设置sign属性，这些设置将被覆盖-->
+  <issue id="sign" isactive="true">
+    <!--the signature file path, in window use \, in linux use /, and the default path is the running location-->
+    <path value="../liuxinapp.jks"/>
+    <!--storepass-->
+    <storepass value="Hello123"/>
+    <!--keypass-->
+    <keypass value="Hello123"/>
+    <!--alias-->
+    <alias value="liuxin"/>
+  </issue>
+
+</resproguard>

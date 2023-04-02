@@ -21,6 +21,7 @@ import module.common.viewmodel.MainTabShareVModel
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     val defaultPosition = 2
+    var lastPosition = defaultPosition
 
     private lateinit var  shareVModel: MainTabShareVModel
 
@@ -93,7 +94,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                     shareVModel.positionLD.value = tab!!.position
                     mainTabView.setTabSelectedStatus(true)
                 } else {
-                    if (tab!!.position == 0 || tab.position == 4) {
+                    if (tab!!.position != 2) {
                         ARouterHelper.openBottomToTop(this@MainActivity, ARouterHelper.LOGIN_PSW)
                     } else {
                         shareVModel.positionLD.value = tab!!.position
@@ -106,6 +107,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 val mainTabView = tab!!.customView as MainTabView
                 mainTabView.setTabSelectedStatus(false)
+                lastPosition = tab!!.position
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -116,6 +118,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
         getStatusBarHeight()
 
+        setObserver()
+    }
+
+    private fun setObserver() {
+        viewModel.userInfoLiveData.observe(this){
+            if(!viewModel.isLogin()){
+                binding.viewPager.setCurrentItem(lastPosition,false)
+            }
+        }
     }
 
     /*
@@ -128,18 +139,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             var statusBarSize: Int = 0
 
             override fun onApplyWindowInsets(v: View, insets: WindowInsets): WindowInsets {
-
                 if (statusBarSize > 0) {
                     binding.root.setOnApplyWindowInsetsListener(null)
-                    return insets
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        val inset = insets.getInsets(WindowInsets.Type.statusBars())
+                        statusBarSize = inset.top
+                    } else {
+                        statusBarSize = insets.systemWindowInsetTop
+                    }
+                    viewModel.saveStatusHeight(statusBarSize)
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    val inset = insets.getInsets(WindowInsets.Type.statusBars())
-                    statusBarSize = inset.top
-                } else {
-                    statusBarSize = insets.systemWindowInsetTop
-                }
-                viewModel.saveStatusHeight(statusBarSize)
                 return insets
             }
 
@@ -152,10 +161,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun disposeMessageEvent(event: MessageEvent?) {
         super.disposeMessageEvent(event)
-        if (event?.type == MessageEvent.Type.MAIN_GOODS_PAGE) {
+        if (event?.type === MessageEvent.Type.MAIN_GOODS_PAGE) {
             binding.viewPager.setCurrentItem(defaultPosition, false)
         }
     }
+
 
     override fun onDestroy() {
         wxShareBroker.destroy()

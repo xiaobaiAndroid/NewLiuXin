@@ -45,7 +45,7 @@ class LoginPswActivity : BaseActivity<LoginActivityLoginBinding, LoginPswViewMod
     override fun initView(savedInstanceState: Bundle?) {
         StatusBarUtils.setMarginStatusBarHeight(this,binding.closeIV)
         binding.closeIV.setOnClickListener {
-            supportFinishAfterTransition()
+            onBackPressed()
         }
 
         binding.layoutInputPhone.phoneET.addTextChangedListener(object : TextWatcher {
@@ -100,8 +100,7 @@ class LoginPswActivity : BaseActivity<LoginActivityLoginBinding, LoginPswViewMod
                     withContext(Dispatchers.Main){
                         hideLoadingUI()
                         if(dataResult.status == DataResult.SUCCESS){
-                            val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
-                            messageEvent.obj = dataResult.t
+                            val messageEvent = MessageEvent(MessageEvent.Type.LOGIN_SUCCESS)
                             EventBus.getDefault().post(messageEvent)
                             onBackPressed()
                         }else{
@@ -144,6 +143,9 @@ class LoginPswActivity : BaseActivity<LoginActivityLoginBinding, LoginPswViewMod
     }
 
     override fun onBackPressed() {
+        val messageEvent = MessageEvent(MessageEvent.Type.UPDATE_USERINFO)
+        EventBus.getDefault().post(messageEvent)
+
         KeyBoardUtils.closeKeybord(binding.layoutInputPhone.phoneET,this)
         super.onBackPressed()
     }

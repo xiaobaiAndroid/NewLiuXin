@@ -86,4 +86,35 @@ object ActivityLauncher {
         }
     }
 
+    fun launchGoodsSearch(context: Context) {
+        val intent = Intent("goods.search.GoodsSearchActivity")
+        intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/GoodsSearchActivity")
+        if (context is Activity) {
+            context.startActivity(intent)
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
+    }
+
+    fun launchGoodsSearchResult(
+        context: Context,
+        keyword: String,
+        cateId: String?
+    ) {
+        val intent = Intent("goods.search.result.SearchResultActivity")
+        intent.data = Uri.parse("liuxin://com.yiguo.shop:8888/SearchResultActivity")
+
+        val bundle = Bundle()
+        bundle.putString("keyword", keyword)
+        bundle.putString("cateId", cateId)
+        intent.putExtras(bundle)
+        if (context is Activity) {
+            context.startActivity(intent)
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
+    }
+
 }

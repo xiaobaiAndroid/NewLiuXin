@@ -12,4 +12,8 @@ open class ShareLazyViewModelBase: ViewModel() {
     val positionLD: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
     }
+
+    init {
+        positionLD.value = 0
+    }
 }

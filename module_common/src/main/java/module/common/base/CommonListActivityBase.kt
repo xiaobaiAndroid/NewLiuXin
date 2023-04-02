@@ -32,17 +32,7 @@ abstract class CommonListActivityBase<T : ViewBinding, V: BaseViewModel>: BaseAc
             ) {
                 loadingView.removeOnLayoutChangeListener(this)
 
-                val centerX: Float = loadingIV!!.width/2.0f
-                val centerY: Float = loadingIV!!.height/2.0f
-               val rotateAnimation =
-                    RotateAnimation(0f, 360f, centerX, centerY).apply {
-                        repeatMode = Animation.RESTART
-                        repeatCount = Animation.INFINITE
-                        duration = 2000
-                        fillAfter = true
-                        interpolator = LinearInterpolator()
-                    }
-                loadingIV?.startAnimation(rotateAnimation)
+                startLoadingAnimation()
             }
         })
         return  loadingView
@@ -58,6 +48,20 @@ abstract class CommonListActivityBase<T : ViewBinding, V: BaseViewModel>: BaseAc
 
     fun cancelLoadingAnimation(){
         loadingIV?.clearAnimation()
+    }
+
+    fun startLoadingAnimation(){
+        val centerX: Float = loadingIV!!.width/2.0f
+        val centerY: Float = loadingIV!!.height/2.0f
+        val rotateAnimation =
+            RotateAnimation(0f, 360f, centerX, centerY).apply {
+                repeatMode = Animation.RESTART
+                repeatCount = Animation.INFINITE
+                duration = 2000
+                fillAfter = true
+                interpolator = LinearInterpolator()
+            }
+        loadingIV?.startAnimation(rotateAnimation)
     }
 
     override fun onDestroy() {

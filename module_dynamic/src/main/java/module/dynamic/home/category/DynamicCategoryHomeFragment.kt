@@ -12,6 +12,7 @@ import com.lxj.xpopup.enums.PopupAnimation
 import com.lxj.xpopup.enums.PopupPosition
 import module.common.base.BaseFragment
 import module.common.base.ShareLazyViewModelBase
+import module.common.event.MessageEvent
 import module.dynamic.view.category.CategorySelectView
 import module.dynamic.databinding.DynamicFragmentDynamicHomeBinding
 import module.dynamic.home.CategoryTabHomeShareVModel
@@ -85,6 +86,15 @@ class DynamicCategoryHomeFragment: BaseFragment<DynamicFragmentDynamicHomeBindin
         lazyLoadViewModel = activityViewModels<CategoryHomeShareVModel>().value
 
         binding.categoryVP.isSaveEnabled = false
+    }
+
+    override fun disposeMessageEvent(event: MessageEvent?) {
+        super.disposeMessageEvent(event)
+        if(MessageEvent.Type.LOGIN_SUCCESS === event?.type){
+            if(isLoaded){
+                viewModel.getCategoryData(viewModel.mediaTypeLD.value)
+            }
+        }
     }
 
 }

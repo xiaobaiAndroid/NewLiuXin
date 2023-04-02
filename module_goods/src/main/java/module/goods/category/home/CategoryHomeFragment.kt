@@ -12,6 +12,7 @@ import module.common.base.BaseFragment
 import module.common.base.ShareLazyViewModelBase
 import module.common.data.entity.GoodsCategory
 import module.common.utils.ARouterHelper
+import module.common.utils.ActivityLauncher
 import module.common.utils.StatusBarUtils
 import module.common.viewmodel.MainTabShareVModel
 import module.goods.R
@@ -65,7 +66,7 @@ class CategoryHomeFragment: BaseFragment<GoodsFragmentCategoryHomeBinding, Categ
             ARouterHelper.openBottomToTop(activity, ARouterHelper.GOODS_CATEGORIES)
         }
         binding.searchCL.setOnClickListener {
-            ARouterHelper.openBottomToTop(activity, ARouterHelper.GOODS_SEARCH)
+            ActivityLauncher.launchGoodsSearch(requireActivity())
         }
         binding.shoppingCartIV.setOnClickListener {
             ARouterHelper.openPath(activity, ARouterHelper.SHOPPING_CART)

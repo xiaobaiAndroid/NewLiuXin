@@ -2,7 +2,6 @@ package module.goods.category.home.list
 
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.youth.banner.adapter.BannerAdapter
 import module.common.data.entity.Banner

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/pictureIV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/goodsNameTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/tv_14_313131"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@id/pictureIV"
+        android:layout_marginTop="@dimen/dp_6"
+        />
+
+    <TextView
+        android:id="@+id/priceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/goodsNameTV"
+        app:layout_constraintTop_toBottomOf="@id/goodsNameTV"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@color/cl_e5004f"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/saleNumberTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@id/priceTV"
+        android:textColor="@color/cl_707070"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintLeft_toRightOf="@id/priceTV"
+        android:layout_marginLeft="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/shareMoneyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/priceTV"
+        app:layout_constraintTop_toBottomOf="@id/priceTV"
+        android:layout_marginTop="@dimen/dp_6"
+        android:textSize="@dimen/sp_8"
+        android:textColor="@color/cl_ffffff"
+        android:background="@drawable/goods_bg_share_money"
+        android:paddingLeft="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dp_12"
+        />
+
+    <TextView
+        android:id="@+id/label1TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:background="@drawable/goods_bg_label"
+        android:textColor="@color/cl_e5004f"
+        android:textSize="@dimen/sp_8"
+        android:paddingLeft="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_8"
+        android:text="@string/goods_limit"
+        app:layout_constraintBaseline_toBaselineOf="@id/shareMoneyTV"
+        app:layout_constraintLeft_toRightOf="@id/shareMoneyTV" />
+
+    <TextView
+        android:id="@+id/label2TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_6"
+        android:paddingLeft="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_8"
+        android:background="@drawable/goods_bg_label"
+        android:textColor="@color/cl_e5004f"
+        android:textSize="@dimen/sp_8"
+        android:text="@string/goods_broken_lot"
+        app:layout_constraintBaseline_toBaselineOf="@id/shareMoneyTV"
+        app:layout_constraintLeft_toRightOf="@id/label1TV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

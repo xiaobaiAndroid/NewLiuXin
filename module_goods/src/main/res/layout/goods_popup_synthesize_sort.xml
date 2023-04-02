@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cl_ffffff"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/synthesizeTV"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:paddingLeft="@dimen/dp_12"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:gravity="center_vertical"
+            android:text="@string/goods_synthesize_sort"
+            />
+
+        <TextView
+            android:id="@+id/priceHighLowTV"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:paddingLeft="@dimen/dp_12"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:gravity="center_vertical"
+            android:text="@string/goods_ssort_high_low"
+            />
+
+        <TextView
+            android:id="@+id/priceLowHighTV"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:paddingLeft="@dimen/dp_12"
+            android:clickable="true"
+            style="@style/tv_14_313131"
+            android:gravity="center_vertical"
+            android:text="@string/goods_ssort_low_high"
+            />
+
+    </LinearLayout>
+</FrameLayout>

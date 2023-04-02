@@ -46,27 +46,29 @@ class GoodsDetailVModel: BaseViewModel() {
             GoodsRepository.instance.getGoodsDetail(mContext,goodsId, actId)
 
         dataResult.t?.let {
-            it.goodsImages?.let { goodsImages->
-                for (goodsImage in goodsImages) {
-                    bannerList.add(goodsImage)
+            withContext(Dispatchers.Main){
+                goodsLD.value = dataResult.t
+            }
+            withContext(Dispatchers.Default){
+                it.goodsImages?.let { goodsImages->
+                    for (goodsImage in goodsImages) {
+                        bannerList.add(goodsImage)
+                    }
+                }
+                it.descImages?.let { descImages->
+                    for (detailImage in descImages) {
+                        val entity =
+                            DetailMultiEntity(DetailMultiEntity.Type.DETAIL.ordinal)
+                        entity.detailImage = detailImage
+                        detailImageList.add(entity)
+                    }
+                }
+                withContext(Dispatchers.Main){
+                    bannersLD.value = bannerList
+                    goodsDetailLD.value = detailImageList
+                    getShopInfo(dataResult.t?.storeId)
                 }
             }
-            it.descImages?.let { descImages->
-                for (detailImage in descImages) {
-                    val entity =
-                        DetailMultiEntity(DetailMultiEntity.Type.DETAIL.ordinal)
-                    entity.detailImage = detailImage
-                    detailImageList.add(entity)
-                }
-            }
-        }
-        withContext(Dispatchers.Main){
-            bannersLD.value = bannerList
-            goodsDetailLD.value = detailImageList
-            goodsLD.value = dataResult.t
-
-
-            getShopInfo(dataResult.t?.storeId)
         }
     }
 

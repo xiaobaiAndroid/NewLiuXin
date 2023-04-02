@@ -46,7 +46,6 @@ class GoodsListFragment: CommonListFragmentBase<GoodsFragmentGoodsListBinding, G
 
     override fun initData() {
         viewModel.getBannerData(goodsCategory?.id)
-        viewModel.getChildCategory(goodsCategory?.id)
     }
 
     override fun initView() {
@@ -71,11 +70,19 @@ class GoodsListFragment: CommonListFragmentBase<GoodsFragmentGoodsListBinding, G
 
     private fun setObserver() {
         viewModel.bannerLD.observe(this){
+            indexHeaderView?.let { headerView->
+                if(!goodsAdapter.hasHeaderLayout()){
+                    goodsAdapter.addHeaderView(headerView,0)
+                }
+            }
             indexHeaderView?.setBannerData(it)
+            viewModel.getChildCategory(goodsCategory?.id)
         }
         viewModel.categoriesLD.observe(this){
             cancelLoadingAnimation()
             indexHeaderView?.setCategories(it)
+
+            binding.contentRV.scrollToPosition(0)
             if(!it.isNullOrEmpty()){
                 viewModel.getGoodsList()
             }

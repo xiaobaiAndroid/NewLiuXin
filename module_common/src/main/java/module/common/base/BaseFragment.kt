@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseFragment<T : ViewBinding, V : BaseViewModel> : Fragment() {
-    private var isLoaded = false
+    protected var isLoaded = false
 
     protected lateinit var binding: T
     protected lateinit var viewModel: V
